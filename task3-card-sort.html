@@ -28,49 +28,8 @@
       align-items: center;
     }
 
-    /* Header */
-    .header {
-      width: 100%;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--orange);
-      letter-spacing: -0.5px;
-    }
-
-    .progress {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .progress-step {
-      width: 28px;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--border);
-      transition: background 0.3s;
-    }
-
-    .progress-step.active { background: var(--orange); }
-
-    .progress-label {
-      font-size: 13px;
-      color: var(--mid);
-      margin-left: 4px;
-    }
-
-    /* Page */
     .page {
-      display: none;
+      display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
@@ -78,36 +37,6 @@
       padding: 40px 24px 80px;
     }
 
-    .page.visible { display: flex; }
-
-    .page-eyebrow {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 12px;
-    }
-
-    .page-title {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--dark);
-      text-align: center;
-      line-height: 1.3;
-      margin-bottom: 10px;
-    }
-
-    .page-subtitle {
-      font-size: 15px;
-      color: var(--mid);
-      text-align: center;
-      line-height: 1.6;
-      margin-bottom: 36px;
-      max-width: 480px;
-    }
-
-    /* Card list */
     .card-list {
       width: 100%;
       display: flex;
@@ -115,7 +44,6 @@
       gap: 8px;
     }
 
-    /* Card */
     .card {
       background: var(--white);
       border: 1.5px solid var(--border);
@@ -155,7 +83,6 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: background 0.2s, color 0.2s;
     }
 
     .card:first-child .card-rank {
@@ -203,47 +130,6 @@
       border-radius: 2px;
     }
 
-    /* Image card variant (page 2) */
-    .card.card-image {
-      padding: 14px 16px 14px 12px;
-      align-items: center;
-    }
-
-    .card-image-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 64px;
-      overflow: hidden;
-    }
-
-    .card-image-wrap img {
-      max-width: 100%;
-      height: 160px;
-      object-fit: contain;
-      pointer-events: none;
-    }
-
-    /* Hint bar */
-    .hint {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 4px;
-      margin-bottom: 4px;
-    }
-
-    .hint-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--mid);
-      opacity: 0.7;
-    }
-
-    /* Submit */
     .submit-wrap {
       width: 100%;
       margin-top: 32px;
@@ -264,43 +150,13 @@
 
     .btn-submit:hover { background: #c73215; }
     .btn-submit:active { transform: scale(0.98); }
-
-    /* Thank you */
-    .thankyou {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-      text-align: center;
-      padding: 40px 24px;
-    }
-
-    .thankyou.visible { display: flex; }
-
-    .thankyou-icon { font-size: 56px; margin-bottom: 20px; }
-
-    .thankyou-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--dark);
-      margin-bottom: 12px;
-    }
-
-    .thankyou-text {
-      font-size: 16px;
-      color: var(--mid);
-      line-height: 1.6;
-      max-width: 380px;
-    }
   </style>
 </head>
 <body>
 
   <a href="index.html" style="position:fixed;top:16px;left:16px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--mid);text-decoration:none;background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;box-shadow:var(--shadow);z-index:100;">&#8592; Back</a>
 
-  <!-- PAGE 1 -->
-  <div class="page visible" id="page1">
+  <div class="page">
     <div class="card-list" id="list1">
       <div class="card" draggable="true">
         <div class="card-rank">1</div>
@@ -374,149 +230,66 @@
         </div>
         <div class="card-handle"><span></span><span></span><span></span></div>
       </div>
-    </div>
-
-    <div class="submit-wrap">
-      <button class="btn-submit" onclick="goToPage2()">Submit &rarr;</button>
-    </div>
-  </div>
-
-  <!-- PAGE 2 -->
-  <div class="page" id="page2">
-    <div class="card-list" id="list2">
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">1</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-1.png" alt="carsales checkout">
+      <div class="card" draggable="true">
+        <div class="card-rank">9</div>
+        <div class="card-icon">🚗</div>
+        <div class="card-body">
+          <div class="card-title">Help with the inspection and test drive</div>
+          <div class="card-desc">Guidance on what to check, plus safe meeting locations for the test drive</div>
         </div>
         <div class="card-handle"><span></span><span></span><span></span></div>
       </div>
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">2</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-2.png" alt="carsales pay">
-        </div>
-        <div class="card-handle"><span></span><span></span><span></span></div>
-      </div>
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">3</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-3.png" alt="secure checkout by carsales">
-        </div>
-        <div class="card-handle"><span></span><span></span><span></span></div>
-      </div>
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">4</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-4.png" alt="greenlight by carsales">
-        </div>
-        <div class="card-handle"><span></span><span></span><span></span></div>
-      </div>
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">5</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-5.png" alt="autoflow by carsales">
-        </div>
-        <div class="card-handle"><span></span><span></span><span></span></div>
-      </div>
-      <div class="card card-image" draggable="true">
-        <div class="card-rank">6</div>
-        <div class="card-image-wrap">
-          <img src="assets/frame-6.png" alt="pay through carsales">
+      <div class="card" draggable="true">
+        <div class="card-rank">10</div>
+        <div class="card-icon">🤝</div>
+        <div class="card-body">
+          <div class="card-title">Help with negotiation</div>
+          <div class="card-desc">Guidance and tools to help you agree on a fair price with confidence</div>
         </div>
         <div class="card-handle"><span></span><span></span><span></span></div>
       </div>
     </div>
 
     <div class="submit-wrap">
-      <button class="btn-submit" onclick="finish()">Submit</button>
+      <button class="btn-submit" onclick="window.location.href='index.html'">Submit</button>
     </div>
-  </div>
-
-  <!-- THANK YOU -->
-  <div class="thankyou" id="thankyou">
-    <div class="thankyou-icon">✅</div>
-    <div class="thankyou-title">Thanks for your input</div>
-    <div class="thankyou-text">Your rankings have been recorded. This helps us understand what matters most when buying a car privately.</div>
   </div>
 
   <script>
     let dragSrc = null;
 
-    function initList(listId) {
-      const list = document.getElementById(listId);
-      list.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('dragstart', onDragStart);
-        card.addEventListener('dragend', onDragEnd);
-        card.addEventListener('dragover', onDragOver);
-        card.addEventListener('dragleave', onDragLeave);
-        card.addEventListener('drop', onDrop);
+    document.getElementById('list1').querySelectorAll('.card').forEach(card => {
+      card.addEventListener('dragstart', function(e) {
+        dragSrc = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
       });
-    }
-
-    function onDragStart(e) {
-      dragSrc = this;
-      this.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    }
-
-    function onDragEnd() {
-      dragSrc.classList.remove('dragging');
-      document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
-      dragSrc = null;
-    }
-
-    function onDragOver(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      if (this !== dragSrc) this.classList.add('drag-over');
-      return false;
-    }
-
-    function onDragLeave() {
-      this.classList.remove('drag-over');
-    }
-
-    function onDrop(e) {
-      e.stopPropagation();
-      if (this === dragSrc) return;
-      this.classList.remove('drag-over');
-
-      const list = this.closest('.card-list');
-      const cards = [...list.querySelectorAll('.card')];
-      const srcIdx = cards.indexOf(dragSrc);
-      const tgtIdx = cards.indexOf(this);
-
-      if (srcIdx < tgtIdx) {
-        list.insertBefore(dragSrc, this.nextSibling);
-      } else {
-        list.insertBefore(dragSrc, this);
-      }
-
-      updateRanks(list);
-      return false;
-    }
-
-    function updateRanks(list) {
-      list.querySelectorAll('.card').forEach((card, i) => {
-        card.querySelector('.card-rank').textContent = i + 1;
+      card.addEventListener('dragend', function() {
+        dragSrc.classList.remove('dragging');
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+        dragSrc = null;
       });
-    }
-
-    function goToPage2() {
-      document.getElementById('page1').classList.remove('visible');
-      document.getElementById('page2').classList.add('visible');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function finish() {
-      document.getElementById('page2').classList.remove('visible');
-      document.getElementById('thankyou').classList.add('visible');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    initList('list1');
-    initList('list2');
+      card.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        if (this !== dragSrc) this.classList.add('drag-over');
+        return false;
+      });
+      card.addEventListener('dragleave', function() {
+        this.classList.remove('drag-over');
+      });
+      card.addEventListener('drop', function(e) {
+        e.stopPropagation();
+        if (this === dragSrc) return;
+        this.classList.remove('drag-over');
+        const list = this.closest('.card-list');
+        const cards = [...list.querySelectorAll('.card')];
+        const srcIdx = cards.indexOf(dragSrc);
+        const tgtIdx = cards.indexOf(this);
+        list.insertBefore(dragSrc, srcIdx < tgtIdx ? this.nextSibling : this);
+        list.querySelectorAll('.card').forEach((c, i) => c.querySelector('.card-rank').textContent = i + 1);
+        return false;
+      });
+    });
   </script>
 </body>
 </html>
