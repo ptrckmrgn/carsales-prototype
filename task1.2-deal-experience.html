@@ -3,277 +3,792 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Task 2 — Deal experience · Deal Guide Prototype</title>
+<title>Bello Deal Flow — User Testing Prototype</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F0F0F0; display: flex; min-height: 100vh; }
-  :root {
-    --cs-orange: #E85A00; --cs-orange-light: #FFF0E8; --cs-dark: #1A1A1A; --cs-mid: #4A4A4A;
-    --cs-grey: #767676; --cs-border: #E0E0E0; --cs-bg: #F5F5F5; --cs-white: #FFFFFF;
-    --cs-green: #2E7D32; --cs-green-light: #E8F5E9; --cs-blue: #1565C0; --cs-blue-light: #E3F0FF;
-  }
-  .sidebar { width: 260px; min-width: 260px; background: var(--cs-dark); color: #fff; display: flex; flex-direction: column; padding: 24px 0; }
-  .sidebar-logo { padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .sidebar-logo span { font-size: 13px; opacity: 0.5; display: block; margin-bottom: 4px; }
-  .sidebar-logo strong { font-size: 15px; color: var(--cs-orange); }
-  .sidebar-section { padding: 20px 20px 0; }
-  .sidebar-section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.4; margin-bottom: 12px; }
-  .task-label-block { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(232,90,0,0.15); border: 1px solid rgba(232,90,0,0.4); border-radius: 8px; color: #fff; font-size: 13px; margin-bottom: 4px; }
-  .task-num { width: 22px; height: 22px; border-radius: 50%; background: var(--cs-orange); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
-  .task-nav { display: flex; gap: 8px; padding: 12px 20px 0; }
-  .task-nav a { flex: 1; text-align: center; padding: 8px 6px; border-radius: 6px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); font-size: 11px; text-decoration: none; border: 1px solid rgba(255,255,255,0.08); }
-  .task-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
-  .facilitator-box { margin: 16px 20px 0; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; }
-  .facilitator-box h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.4; margin-bottom: 8px; }
-  .facilitator-box p { font-size: 12px; line-height: 1.6; opacity: 0.7; }
-  .screen-dots { display: flex; gap: 5px; padding: 16px 20px 0; align-items: center; }
-  .screen-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
-  .screen-dot.active { background: var(--cs-orange); width: 20px; border-radius: 4px; }
-  .screen-label { font-size: 10px; opacity: 0.4; margin-left: 4px; }
-  .stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px; gap: 24px; flex-direction: column; }
-  .phone-frame { width: 375px; height: 750px; background: var(--cs-dark); border-radius: 44px; padding: 14px; box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06); position: relative; }
-  .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 34px; background: var(--cs-dark); border-radius: 0 0 20px 20px; z-index: 10; }
-  .phone-screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--cs-white); position: relative; }
-  .screen { display: none; flex-direction: column; height: 100%; }
-  .screen.active { display: flex; }
-  .status-bar { height: 44px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 20px 8px; flex-shrink: 0; }
-  .status-bar .time { font-size: 15px; font-weight: 600; color: var(--cs-dark); }
-  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
-  .status-bar .icons svg { width: 16px; height: 16px; fill: var(--cs-dark); opacity: 0.8; }
-  .app-header { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; flex-shrink: 0; }
-  .app-header .back { color: var(--cs-orange); font-size: 15px; }
-  .app-header .title { font-size: 17px; font-weight: 600; color: var(--cs-dark); }
-  .content { flex: 1; overflow-y: auto; padding: 0 16px; }
-  .content::-webkit-scrollbar { display: none; }
-  .subheading { font-size: 15px; font-weight: 600; color: var(--cs-dark); }
-  .body-text { font-size: 14px; color: var(--cs-mid); line-height: 1.5; }
-  .caption { font-size: 12px; color: var(--cs-grey); line-height: 1.4; }
-  .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--cs-grey); margin-bottom: 8px; }
-  .card { background: var(--cs-white); border: 1px solid var(--cs-border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
-  .card-green { background: var(--cs-green-light); border-color: rgba(46,125,50,0.2); }
-  .btn-primary { display: block; width: 100%; padding: 14px; background: var(--cs-orange); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; margin-bottom: 8px; }
-  .btn-ghost { display: block; width: 100%; padding: 12px; background: transparent; color: var(--cs-grey); border: none; font-size: 14px; text-align: center; cursor: pointer; }
-  .step-list { display: flex; flex-direction: column; gap: 6px; }
-  .step-item { display: flex; align-items: center; gap: 14px; padding: 14px 12px; border: 1px solid var(--cs-border); border-radius: 10px; background: var(--cs-white); }
-  .step-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
-  .step-icon.done { background: var(--cs-green); }
-  .step-icon.current { background: var(--cs-orange); }
-  .step-icon.pending { background: var(--cs-border); }
-  .step-body { flex: 1; }
-  .step-body .name { font-size: 15px; font-weight: 600; color: var(--cs-dark); }
-  .step-body .desc { font-size: 12px; color: var(--cs-grey); margin-top: 2px; }
-  .step-badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
-  .step-badge.done { background: var(--cs-green-light); color: var(--cs-green); }
-  .step-badge.current { background: var(--cs-orange-light); color: var(--cs-orange); }
-  .step-badge.pending { background: var(--cs-bg); color: var(--cs-grey); }
-  .profile-row { display: flex; align-items: center; gap: 12px; }
-  .avatar { width: 48px; height: 48px; border-radius: 50%; background: #C8D8E8; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: var(--cs-blue); flex-shrink: 0; }
-  .verified-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--cs-blue); background: var(--cs-blue-light); padding: 3px 8px; border-radius: 20px; }
-  .pay-option { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1.5px solid var(--cs-border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
-  .pay-option.selected { border-color: var(--cs-orange); background: var(--cs-orange-light); }
-  .pay-option .radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--cs-border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .pay-option.selected .radio { border-color: var(--cs-orange); background: var(--cs-orange); }
-  .pay-option.selected .radio::after { content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; }
-  .pay-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-  .car-strip { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--cs-bg); border-radius: 10px; margin-bottom: 12px; }
-  .car-thumb-placeholder { width: 52px; height: 40px; border-radius: 6px; background: linear-gradient(135deg, #B0B8C0, #8A9099); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .input-field { width: 100%; padding: 12px 14px; border: 1.5px solid var(--cs-border); border-radius: 10px; font-size: 15px; color: var(--cs-dark); margin-bottom: 12px; background: var(--cs-white); }
-  .hint { font-size: 11px; color: var(--cs-grey); font-style: italic; background: rgba(0,0,0,0.04); border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; }
-  .spacer { height: 12px; } .spacer-lg { height: 20px; }
-  .controls { display: flex; gap: 10px; margin-top: 12px; }
-  .ctrl-btn { padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
-  .ctrl-prev { background: rgba(255,255,255,0.8); color: var(--cs-mid); flex: 1; }
-  .ctrl-next { background: var(--cs-orange); color: #fff; flex: 2; }
-  .ctrl-prev:disabled, .ctrl-next:disabled { opacity: 0.3; cursor: default; }
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* ─── Torq Design Tokens ──────────────────────────────────────── */
+:root {
+  --dodger-blue:   #1E90FF;
+  --dark-dodger:   #0073E3;
+  --royal-blue:    #01295F;
+  --jasmine:       #F8DE7E;
+  --tomato:        #FF6E52;
+  --white-smoke:   #F2F5F7;
+  --grey:          #596169;
+  --jet:           #33373D;
+  --bg-canvas:     #FFFFFF;
+  --bg-surface:    #F2F5F7;
+  --fg-default:    #33373D;
+  --fg-subtle:     #596169;
+  --fg-emphasis:   #16191C;
+  --fg-link:       #0067CC;
+  --border-default:#E5E5E5;
+  --chat-sent-bg:  #33373D;
+  --chat-meta:     #757C82;
+  --r-default:     12px;
+  --r-open:        24px;
+  --r-tight:       6px;
+  --r-full:        9999px;
+  --font: 'Manrope', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: #CDD5DE;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 24px;
+}
+
+/* ─── Hidden radio inputs (CSS-only navigation) ───────────────── */
+input[name="screen"] { display: none; }
+
+/* ─── Phone Frame ─────────────────────────────────────────────── */
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-canvas);
+}
+
+/* ─── Screens — slide transition ──────────────────────────────── */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-canvas);
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  will-change: transform;
+  overflow: hidden;
+}
+
+/* Show the selected screen */
+#tab1:checked ~ .iphone .phone #s1 { transform: translateX(0); pointer-events: all; }
+#tab2:checked ~ .iphone .phone #s2 { transform: translateX(0); pointer-events: all; }
+#tab3:checked ~ .iphone .phone #s3 { transform: translateX(0); pointer-events: all; }
+#tab5:checked ~ .iphone .phone #s5 { transform: translateX(0); pointer-events: all; }
+#tab6:checked ~ .iphone .phone #s6 { transform: translateX(0); pointer-events: all; }
+
+/* ─── Status Bar ──────────────────────────────────────────────── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 6px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.status-bar.dark { background: var(--dark-dodger); }
+.status-time { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); letter-spacing: -0.3px; }
+.status-bar.dark .status-time { color: #fff; }
+.status-icons { display: flex; align-items: center; gap: 5px; }
+
+/* ─── Nav Bar ─────────────────────────────────────────────────── */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px 10px;
+  background: rgba(242,245,247,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(0,0,0,0.18);
+  flex-shrink: 0;
+}
+.nav-back {
+  color: var(--dark-dodger);
+  font-size: 15px;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 60px;
+  font-family: var(--font);
+}
+.nav-center { flex: 1; text-align: center; }
+.nav-name { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); line-height: 20px; }
+.nav-meta { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 1px; }
+.nav-phone { font-size: 11px; color: var(--fg-default); font-weight: 500; }
+.nav-verified { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--fg-default); font-weight: 500; }
+
+/* ─── Car Listing Strip ───────────────────────────────────────── */
+.car-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-canvas);
+  flex-shrink: 0;
+}
+.car-thumb {
+  width: 60px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #B8CBDB 0%, #8FA8BE 100%);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.car-strip-info { flex: 1; min-width: 0; }
+.car-strip-title { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 18px; }
+.car-strip-price { font-size: 11px; color: var(--fg-default); font-weight: 500; margin-top: 1px; }
+.view-ad-btn { color: var(--fg-link); font-size: 13px; font-weight: 600; background: none; border: none; cursor: pointer; padding: 0 4px; flex-shrink: 0; font-family: var(--font); }
+
+/* ─── Chat ────────────────────────────────────────────────────── */
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-canvas);
+}
+.chat-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 10px 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--chat-meta);
+}
+.msg-sent { display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 10px; }
+.msg-sent .bubble {
+  background: var(--chat-sent-bg);
+  color: #fff;
+  padding: 9px 14px;
+  border-radius: 16px 16px 4px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  max-width: 280px;
+}
+.msg-sent .meta { font-size: 11px; font-weight: 500; color: var(--chat-meta); margin-bottom: 4px; display: flex; gap: 4px; }
+.msg-sent .read-status { font-size: 11px; color: var(--chat-meta); margin-top: 3px; }
+
+.msg-rx { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 10px; }
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--dark-dodger);
+  border: 1.5px solid #D0E8FF;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.msg-rx-content { display: flex; flex-direction: column; gap: 3px; }
+.msg-rx .meta { font-size: 11px; font-weight: 500; color: var(--chat-meta); display: flex; gap: 4px; }
+.msg-rx .bubble {
+  background: var(--bg-surface);
+  color: var(--fg-default);
+  padding: 9px 14px;
+  border-radius: 16px 16px 16px 4px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  max-width: 270px;
+}
+
+/* Deal prompt card */
+.deal-card {
+  background: #EDF6FF;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 292px;
+  border: 1.5px solid rgba(0,115,227,0.12);
+}
+.deal-card-text { font-size: 15px; font-weight: 500; color: #16191C; line-height: 20px; }
+.deal-card-tcs { font-size: 11px; color: var(--fg-subtle); line-height: 15px; }
+.deal-card-tcs span { color: var(--fg-link); }
+.deal-card-actions { display: flex; flex-direction: column; gap: 4px; }
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0,115,227,0.4); }
+  60%  { box-shadow: 0 0 0 10px rgba(0,115,227,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,115,227,0); }
+}
+.deal-card.pulse { animation: pulse 1.8s ease-out 0.5s; }
+
+/* ─── Chat Input Bar ──────────────────────────────────────────── */
+.chat-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 32px;
+  border-top: 0.5px solid var(--border-default);
+  background: var(--bg-canvas);
+  flex-shrink: 0;
+}
+.attach-icon { color: var(--grey); flex-shrink: 0; }
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #919191;
+  border-radius: var(--r-full);
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--fg-subtle);
+  outline: none;
+  background: var(--bg-canvas);
+  cursor: pointer;
+}
+.chat-input::placeholder { color: var(--fg-subtle); }
+
+/* ─── Buttons ─────────────────────────────────────────────────── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--dark-dodger);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: var(--r-default);
+  cursor: pointer;
+  line-height: 18px;
+  transition: background 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.btn-primary:hover { background: #005BB5; }
+.btn-primary.navy { background: var(--royal-blue); }
+.btn-primary.navy:hover { background: #011E47; }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  color: var(--dark-dodger);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  border: 1.5px solid var(--dark-dodger);
+  border-radius: var(--r-default);
+  cursor: pointer;
+  line-height: 18px;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { background: #EDF6FF; }
+
+.btn-ghost {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--dark-dodger);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  line-height: 18px;
+}
+
+/* ─── Deal Screens ────────────────────────────────────────────── */
+.deal-screen-inner { flex: 1; overflow-y: auto; padding-bottom: 24px; }
+.deal-header { padding: 10px 16px 0; }
+.deal-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--dark-dodger);
+  font-size: 15px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 14px;
+  font-family: var(--font);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.deal-title { font-size: 24px; font-weight: 800; color: var(--fg-emphasis); line-height: 30px; margin-bottom: 4px; letter-spacing: -0.5px; }
+.deal-subtitle { font-size: 13px; color: var(--grey); line-height: 18px; font-weight: 500; }
+
+.car-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 16px;
+  padding: 12px;
+  background: var(--bg-surface);
+  border-radius: var(--r-default);
+}
+.car-summary-img {
+  width: 64px;
+  height: 44px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #B8CBDB 0%, #8FA8BE 100%);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.car-summary-info { flex: 1; }
+.car-summary-name { font-size: 13px; font-weight: 700; color: var(--fg-emphasis); line-height: 18px; }
+.car-summary-price { font-size: 16px; font-weight: 800; color: var(--dark-dodger); margin-top: 2px; letter-spacing: -0.3px; }
+
+.progress-wrap { padding: 0 16px; margin-bottom: 20px; }
+.progress-labels { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.progress-labels span { font-size: 11px; font-weight: 600; color: var(--grey); }
+.progress-labels span.pct { color: var(--dark-dodger); }
+.progress-track { height: 4px; background: var(--border-default); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--dark-dodger); border-radius: 2px; transition: width 0.4s ease; }
+
+/* ─── Stepper ─────────────────────────────────────────────────── */
+.stepper { padding: 0 16px; }
+.step { display: flex; gap: 14px; }
+.step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 32px; }
+.step-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--font);
+  z-index: 1;
+}
+.step-btn.done   { background: var(--dark-dodger); color: #fff; }
+.step-btn.active { background: var(--dark-dodger); color: #fff; box-shadow: 0 0 0 5px rgba(0,115,227,0.18); }
+.step-btn.idle   { background: var(--bg-surface); color: var(--grey); border: 2px solid #C8D0D8; }
+.step-connector { width: 2px; flex: 1; min-height: 16px; margin: 4px 0; }
+.step-connector.done { background: var(--dark-dodger); }
+.step-connector.idle { background: #C8D0D8; }
+.step-body { padding-bottom: 22px; flex: 1; padding-top: 3px; }
+.step:last-child .step-body { padding-bottom: 0; }
+.step-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-full);
+  margin-bottom: 3px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.step-badge.active { background: #EDF6FF; color: var(--dark-dodger); }
+.step-badge.final  { background: #FFF3EE; color: #C2400B; }
+.step-label { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); line-height: 22px; }
+.step-label.idle { color: var(--grey); font-weight: 500; }
+.step-sub { font-size: 12px; color: var(--grey); line-height: 17px; margin-top: 1px; }
+.step-action { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+
+.step-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.step-tag { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--bg-surface); color: var(--grey); border: 1px solid var(--border-default); white-space: nowrap; }
+.step-tag.hi { background: #EDF6FF; color: var(--dark-dodger); border-color: rgba(0,115,227,0.2); }
+.step-tag.cta { background: #FFF3EE; color: #C2400B; border-color: rgba(255,110,82,0.25); }
+
+/* ─── Torq RichList ───────────────────────────────────────────── */
+.rich-list { background: var(--bg-surface); border-radius: var(--r-default); overflow: hidden; margin: 0 16px; }
+.rich-list-item { background: var(--bg-canvas); border-bottom: 1px solid var(--border-default); overflow: hidden; }
+.rich-list-item:last-child { border-bottom: none; }
+.rich-list-item.rli-active { background: #F7FBFF; }
+
+/* Hidden checkbox for accordion — no JS needed */
+.rli-toggle { display: none; }
+
+/* Clickable row (label) */
+.rli-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 14px; cursor: pointer; user-select: none; -webkit-user-select: none; width: 100%; }
+.rli-leading { flex-shrink: 0; padding-top: 2px; }
+.rli-content { flex: 1; min-width: 0; }
+.rli-title { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); line-height: 22px; }
+.rli-title.idle { color: var(--grey); font-weight: 500; }
+.rli-trailing { flex-shrink: 0; display: flex; align-items: center; align-self: center; padding-left: 4px; }
+.rli-chevron { display: flex; align-items: center; transition: transform 0.3s ease; }
+.rli-toggle:checked ~ .rli-row .rli-chevron { transform: rotate(90deg); }
+
+/* Expandable panel */
+.rli-panel { max-height: 0; overflow: hidden; transition: max-height 0.38s cubic-bezier(0.4, 0, 0.2, 1); background: var(--bg-surface); }
+.rli-toggle:checked ~ .rli-panel { max-height: 600px; }
+.rli-preview { font-size: 13px; color: var(--fg-subtle); line-height: 18px; padding: 12px 14px 10px; border-top: 1px solid var(--border-default); }
+.rli-panel-items { padding: 4px 14px 4px; display: flex; flex-direction: column; }
+.rli-panel-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.rli-panel-item:last-child { border-bottom: none; }
+.rli-panel-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-canvas); border: 1px solid var(--border-default); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rli-panel-label { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); line-height: 18px; }
+.rli-panel-desc { font-size: 11px; color: var(--grey); line-height: 16px; margin-top: 2px; }
+.rli-panel-cta { padding: 8px 14px 14px; background: var(--bg-surface); display: flex; flex-direction: column; gap: 6px; }
+
+/* ─── Payment method cards (Figma: Pay screen) ────────────────── */
+.pay-cards { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 10px; background: var(--bg-surface); }
+.pay-card { border-radius: 8px; padding: 14px; border: 2px solid; display: flex; flex-direction: column; }
+.pay-card.selected { background: #EBF5FF; border-color: var(--dark-dodger); }
+.pay-card.unselected { background: var(--bg-canvas); border-color: #DFE4E8; }
+.pay-card-row { display: flex; gap: 10px; align-items: flex-start; }
+.pay-cb { width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; }
+.pay-cb.checked { background: #DFE4E8; border: 2px solid #DFE4E8; }
+.pay-cb.unchecked { background: white; border: 2px solid #8F969C; }
+.pay-card-title { font-size: 15px; font-weight: 600; color: #212121; line-height: 20px; margin-bottom: 8px; }
+.pay-card-sub { font-size: 13px; font-weight: 500; color: var(--fg-default); line-height: 18px; }
+.pay-list { display: flex; flex-direction: column; gap: 6px; }
+.pay-list-item { display: flex; gap: 4px; align-items: flex-start; font-size: 13px; font-weight: 500; color: var(--fg-default); line-height: 18px; }
+.pay-list-icon { flex-shrink: 0; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+
+.section-sep { height: 8px; background: var(--bg-surface); margin: 16px 0; }
+.section-label { font-size: 11px; font-weight: 700; color: var(--grey); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 16px; margin-bottom: 10px; }
+
+/* ─── Payment ─────────────────────────────────────────────────── */
+.amount-box { margin: 14px 16px; background: #EDF6FF; border-radius: var(--r-default); padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+.amount-big { font-size: 30px; font-weight: 800; color: var(--dark-dodger); letter-spacing: -1px; }
+.amount-label { font-size: 12px; color: var(--grey); font-weight: 500; margin-bottom: 2px; }
+.amount-detail { font-size: 11px; color: var(--grey); text-align: right; }
+
+.method-option { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-radius: var(--r-default); cursor: pointer; border: 2px solid transparent; margin-bottom: 8px; }
+.method-option.selected { border-color: var(--dark-dodger); background: #EDF6FF; }
+.method-option.unselected { border-color: var(--border-default); background: var(--bg-canvas); }
+.method-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--bg-canvas); display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border-default); }
+.method-name { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); }
+.method-detail { font-size: 11px; color: var(--grey); margin-top: 1px; }
+.radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; }
+.radio.on  { border-color: var(--dark-dodger); }
+.radio.off { border-color: #C8D0D8; }
+.radio.on::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--dark-dodger); }
+
+.form-section { padding: 0 16px; }
+.form-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.form-label { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); }
+.form-input { width: 100%; padding: 12px 14px; border: 1.5px solid #919191; border-radius: var(--r-default); font-family: var(--font); font-size: 15px; color: var(--fg-emphasis); outline: none; background: var(--bg-canvas); transition: border-color 0.15s, box-shadow 0.15s; }
+.form-input:focus { border-color: var(--dark-dodger); box-shadow: 0 0 0 3px rgba(0,115,227,0.14); }
+.form-input::placeholder { color: var(--fg-subtle); }
+
+.info-box { display: flex; gap: 10px; align-items: flex-start; background: #FFFBEA; border: 1px solid var(--jasmine); border-radius: var(--r-default); padding: 12px 14px; font-size: 13px; color: var(--fg-emphasis); line-height: 18px; margin: 14px 16px 0; }
+.info-icon { flex-shrink: 0; margin-top: 1px; }
+
+/* ─── Congratulations ─────────────────────────────────────────── */
+.congrats-hero { background: var(--bg-canvas); padding: 20px 24px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.congrats-illustration { width: 120px; height: auto; display: block; }
+.congrats-title { font-size: 26px; font-weight: 800; color: var(--fg-emphasis); letter-spacing: -0.5px; }
+.congrats-sub { font-size: 14px; color: var(--fg-subtle); line-height: 20px; font-weight: 500; }
+.congrats-body { flex: 1; overflow-y: auto; padding: 20px 16px 32px; display: flex; flex-direction: column; gap: 16px; }
+.deal-summary-card { background: var(--bg-surface); border-radius: var(--r-default); padding: 14px; display: flex; gap: 12px; align-items: center; }
+.deal-summary-img { width: 58px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #B8CBDB 0%, #8FA8BE 100%); flex-shrink: 0; overflow: hidden; }
+.deal-summary-name { font-size: 13px; font-weight: 700; color: var(--fg-emphasis); }
+.deal-summary-sub { font-size: 12px; color: var(--grey); margin-top: 1px; }
+.badge-complete { display: inline-flex; align-items: center; gap: 4px; background: #E6F7EC; color: #1A7F37; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--r-full); }
+.doc-item { display: flex; align-items: center; gap: 12px; padding: 13px 14px; background: var(--bg-canvas); border: 1.5px solid var(--border-default); border-radius: var(--r-default); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.doc-item:hover { border-color: var(--dark-dodger); background: #F7FBFF; }
+.doc-icon { width: 40px; height: 40px; border-radius: 8px; background: #EDF6FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.doc-title { font-size: 14px; font-weight: 600; color: var(--fg-emphasis); }
+.doc-sub { font-size: 11px; color: var(--grey); margin-top: 1px; }
+.next-step-item { display: flex; gap: 10px; align-items: flex-start; }
+.next-step-icon { width: 28px; height: 28px; border-radius: 50%; background: #EDF6FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.next-step-title { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); }
+.next-step-detail { font-size: 12px; color: var(--grey); margin-top: 1px; }
+
+/* ─── iPhone Frame ───────────────────────────────────────────── */
+.iphone {
+  position: relative;
+  background: linear-gradient(160deg, #3A3A3C 0%, #1C1C1E 40%, #1C1C1E 60%, #2C2C2E 100%);
+  border-radius: 54px;
+  padding: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.12),
+    inset 0 0 0 0.5px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(0,0,0,0.7),
+    0 50px 120px rgba(0,0,0,0.55),
+    0 20px 50px rgba(0,0,0,0.3);
+  zoom: 0.88;
+}
+
+/* Left side buttons: silent switch, vol up, vol down */
+.iphone-btn {
+  position: absolute;
+  background: linear-gradient(to right, #2A2A2C, #3A3A3C);
+  border-radius: 2px 0 0 2px;
+  box-shadow: -1px 0 2px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.iphone-silent { left: -3px; top: 108px; width: 3px; height: 28px; }
+.iphone-vol-up { left: -3px; top: 160px; width: 3px; height: 58px; }
+.iphone-vol-down { left: -3px; top: 232px; width: 3px; height: 58px; }
+
+/* Right side button: power */
+.iphone-power {
+  position: absolute;
+  right: -3px;
+  top: 185px;
+  width: 3px;
+  height: 82px;
+  background: linear-gradient(to left, #2A2A2C, #3A3A3C);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 1px 0 2px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Dynamic Island */
+.dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 122px;
+  height: 34px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+/* ─── Toast ───────────────────────────────────────────────────── */
+.toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(22,25,28,0.88); color: #fff; font-family: var(--font); font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: var(--r-full); display: none; z-index: 9999; white-space: nowrap; backdrop-filter: blur(8px); }
+.toast.show { display: block; }
+
+/* ─── carsales App Header ─────────────────────────────────────────── */
+.cs-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: #fff;
+  flex-shrink: 0;
+  border-bottom: 1px solid #F0F2F4;
+}
+.cs-header-back {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+}
+.cs-header-back svg { width: 10px; height: 18px; flex-shrink: 0; overflow: visible; }
+.cs-header-logo { display: flex; align-items: center; justify-content: center; }
+.cs-header-logo svg { width: 76px; height: 28px; display: block; }
 </style>
 </head>
 <body>
 
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <span>Design Sprint · May 2026</span>
-    <strong>Deal Guide Prototype</strong>
-  </div>
-  <div class="sidebar-section">
-    <h3>Task</h3>
-    <div class="task-label-block">
-      <span class="task-num">2</span>
-      <span>Deal experience<br><span style="font-size:11px;opacity:0.6">Checklist · agreement · payment</span></span>
+
+<!-- Hidden radio inputs — CSS-only screen navigation, no JS needed -->
+<input type="radio" name="screen" id="tab3" checked>
+
+
+
+<div class="iphone">
+  <div class="iphone-btn iphone-silent"></div>
+  <div class="iphone-btn iphone-vol-up"></div>
+  <div class="iphone-btn iphone-vol-down"></div>
+  <div class="iphone-power"></div>
+<div class="phone" id="phone">
+  <div class="dynamic-island"></div>
+
+
+  <!-- ══ SCREEN 3 — DEAL: INITIAL ══════════════════════════════ -->
+  <div id="s3" class="screen">
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="9" width="3" height="3" rx="0.5" fill="#33373D"/><rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="#33373D"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="#33373D"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#33373D"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#33373D"/><path d="M4.5 8C5.67 6.77 6.75 6 8 6s2.33.77 3.5 2" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/><path d="M1.5 5C3.5 2.7 5.6 1.5 8 1.5s4.5 1.2 6.5 3.5" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="#33373D" stroke-opacity="0.35"/><rect x="2" y="2" width="18" height="8" rx="2" fill="#33373D"/><path d="M24 4v4a2 2 0 000-4z" fill="#33373D" opacity="0.4"/></svg>
+      </div>
     </div>
-  </div>
-  <div class="task-nav">
-    <a href="task1.1-chat-experience.html">← Task 1</a>
-    <a href="task1.3-deal-complete.html">Task 3 →</a>
-  </div>
-  <div class="facilitator-box" id="facilitator-prompt"></div>
-  <div class="screen-dots" id="screen-dots"></div>
-</aside>
+    <div class="cs-header">
+      <a href="task1.1-chat-experience.html" class="cs-header-back"><svg viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Style" fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893C8.06759 0.653377 8.09532 1.22061 7.7903 1.6129L7.70711 1.70711L2.415 7L7.70711 12.2929C8.06759 12.6534 8.09532 13.2206 7.7903 13.6129L7.70711 13.7071C7.34662 14.0676 6.77939 14.0953 6.3871 13.7903L6.29289 13.7071L0.292893 7.70711C-0.0675907 7.34662 -0.0953203 6.77939 0.209705 6.3871L0.292893 6.29289L6.29289 0.292893Z" fill="var(--fill-0, #0073E3)"/>
+</svg></a>
+      <div class="cs-header-logo"><svg viewBox="0 0 76 27.8912" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Style">
+<path d="M32.4316 20.0552C32.4316 19.486 32.9812 19.1922 33.6559 19.1922C34.4373 19.1922 35.0286 19.5924 35.3462 20.2657L37.6696 19.0025C36.8464 17.5496 35.3671 16.7699 33.6559 16.7699C31.481 16.7699 29.6422 17.9706 29.6422 20.1176C29.6422 23.8239 35.0912 22.9818 35.0912 24.518C35.0912 25.1288 34.4999 25.4226 33.6327 25.4226C32.5777 25.4226 31.8589 24.9183 31.5621 24.053L29.1971 25.3786C29.9576 27.0004 31.5204 27.8842 33.6327 27.8842C35.8935 27.8842 37.8783 26.7899 37.8783 24.5157C37.8783 20.6405 32.4293 21.6099 32.4293 20.0505L32.4316 20.0552Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M53.4205 11.0577H50.9812V27.8033H53.4205V11.0577Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M20.5135 16.8555H18.0743V17.7277C17.1816 17.1216 16.1057 16.7676 14.944 16.7676C11.8671 16.7676 9.37218 19.257 9.37218 22.3271C9.37218 25.3972 11.8671 27.8865 14.944 27.8865C16.1034 27.8865 17.1816 27.5326 18.0743 26.9264V27.7986H20.5135C20.5135 27.7986 20.5135 20.5032 20.5135 16.8555ZM14.944 25.4527C13.2166 25.4527 11.8138 24.0553 11.8138 22.3294C11.8138 20.6035 13.2143 19.2061 14.944 19.2061C16.6738 19.2061 18.0743 20.6035 18.0743 22.3294C18.0743 24.0553 16.6738 25.4527 14.944 25.4527Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M5.57183 25.4527C3.8444 25.4527 2.44391 24.0553 2.44391 22.3317C2.44391 20.6081 3.8444 19.2084 5.57183 19.2084C6.62221 19.2084 7.54968 19.7243 8.11777 20.5156L9.47884 18.3686C8.47253 17.3807 7.0929 16.7722 5.57183 16.7722C2.49492 16.7722 0 19.2616 0 22.3317C0 25.4018 2.49492 27.8912 5.57183 27.8912C7.09522 27.8912 8.47253 27.2827 9.47884 26.2948L8.11777 24.1478C7.552 24.9391 6.62221 25.455 5.57183 25.455V25.4527Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M27.3537 16.7722C26.192 16.7722 25.1161 17.1262 24.2234 17.7323V16.8532H21.7842V27.8009H24.2234V22.3641C24.2234 22.3641 24.2258 22.341 24.2258 22.3317C24.2258 20.6081 25.6263 19.2084 27.3537 19.2084C27.7548 19.2084 28.1374 19.2847 28.4899 19.4212L29.6654 17.272C28.9606 16.9504 28.1792 16.7699 27.3537 16.7699V16.7722Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M60.11 16.7699C57.033 16.7699 54.5381 19.2593 54.5381 22.3294C54.5381 25.3995 57.033 27.8889 60.11 27.8889C61.7423 27.8889 63.2101 27.1878 64.228 26.0727L61.9626 24.8396C61.4432 25.2213 60.8033 25.4504 60.1076 25.4504C58.8022 25.4504 57.6823 24.6522 57.2139 23.5162H65.5519C65.6354 23.1322 65.6818 22.7366 65.6818 22.3271C65.6818 19.257 63.1869 16.7676 60.11 16.7676V16.7699ZM57.2394 21.0824C57.7217 19.9788 58.8254 19.2084 60.1076 19.2084C61.3899 19.2084 62.4936 19.9811 62.9759 21.0824H57.2394Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M10.5941 13.3065L11.0857 12.8253C11.139 12.7744 16.4419 7.63137 24.8565 4.78338C29.7512 3.12687 34.7364 2.55774 39.6753 3.08986C45.8616 3.75847 52.0154 6.17382 57.9628 10.2665L58.3269 10.5141L58.7651 10.521C58.8486 10.521 67.226 10.7176 74.152 16.4275L76 14.1972C69.1436 8.54522 61.2438 7.7563 59.2613 7.64525C52.9915 3.40219 46.483 0.898919 39.9094 0.202539C34.5347 -0.366596 29.1159 0.265005 23.8084 2.08115C16.2564 4.66307 11.1553 8.85986 9.56695 10.2827L0.530982 9.28324L0.211002 12.159L9.90548 13.2302L10.5918 13.3042L10.5941 13.3065Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M49.5065 16.8555H47.0673V17.7277C46.1746 17.1216 45.0987 16.7676 43.937 16.7676C40.8601 16.7676 38.3652 19.257 38.3652 22.3271C38.3652 25.3972 40.8601 27.8865 43.937 27.8865C45.0964 27.8865 46.1746 27.5326 47.0673 26.9264V27.7986H49.5065C49.5065 24.1509 49.5065 20.5032 49.5065 16.8555ZM43.937 25.4527C42.2096 25.4527 40.8068 24.0553 40.8068 22.3294C40.8068 20.6035 42.2073 19.2061 43.937 19.2061C45.6668 19.2061 47.0673 20.6035 47.0673 22.3294C47.0673 24.0553 45.6668 25.4527 43.937 25.4527Z" fill="var(--fill-0, #1E90FF)"/>
+<path d="M68.9372 20.0552C68.9372 19.486 69.4868 19.1922 70.1615 19.1922C70.9429 19.1922 71.5342 19.5924 71.8518 20.2657L74.1752 19.0025C73.352 17.5496 71.8727 16.7699 70.1615 16.7699C67.9866 16.7699 66.1478 17.9706 66.1478 20.1176C66.1478 23.8239 71.5968 22.9818 71.5968 24.5203C71.5968 25.1311 71.0055 25.4249 70.1383 25.4249C69.0833 25.4249 68.3645 24.9206 68.0677 24.0553L65.7027 25.381C66.4632 27.0028 68.026 27.8865 70.1383 27.8865C72.3991 27.8865 74.3839 26.7922 74.3839 24.5157C74.3839 20.6405 68.9349 21.6099 68.9349 20.0505L68.9372 20.0552Z" fill="var(--fill-0, #1E90FF)"/>
+</g>
+</svg></div>
+    </div>
+    <div class="deal-screen-inner">
+      <div class="deal-header">
+        <div class="deal-title">Almost yours.</div>
+        <div class="deal-subtitle">Here's what's left to make it official.</div>
+      </div>
+      <div class="car-summary">
+        <div class="car-summary-img"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="car-summary-info"><div class="car-summary-name">2019 Mazda 3</div><div class="car-summary-price">$26,000</div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-labels"><span>Step 2 of 4</span><span class="pct">25% complete</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+      </div>
+      <div class="rich-list">
 
-<main class="stage">
-  <div style="position:relative">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
+        <!-- 1 — Verification (done, taps to detail sub-page) -->
+        <div class="rich-list-item">
+          <a href="task1.2a-verification.html" class="rli-row" style="text-decoration:none">
+            <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="rli-content">
+              <div class="rli-title">Verified</div>
+              <div class="step-tags"><span class="step-tag hi">Car &amp; seller confirmed</span><span class="step-tag cta">Your ID needed</span></div>
+            </div>
+            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </a>
+        </div>
 
-        <!-- Screen 1: Deal checklist -->
-        <div class="screen active" id="s1">
-          <div class="status-bar">
-            <span class="time">9:41</span>
-            <span class="icons">
-              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
-            </span>
-          </div>
-          <div class="app-header"><span class="back">← Bello</span><span class="title">Deal checklist</span><span></span></div>
-          <div class="content">
-            <div class="car-strip">
-              <div class="car-thumb-placeholder">🚗</div>
-              <div><div class="subheading" style="font-size:14px">2019 Mazda CX-5 GT</div><div class="caption">With Jordan R. · Started today</div></div>
+        <!-- 2 — Formalise the deal (active, open by default) -->
+        <div class="rich-list-item rli-active">
+          <input type="checkbox" id="s3-fd" class="rli-toggle" checked>
+          <label for="s3-fd" class="rli-row">
+            <div class="rli-leading"><div class="step-btn active">2</div></div>
+            <div class="rli-content">
+              <span class="step-badge active">Current step</span>
+              <div class="rli-title">Formalise the deal</div>
+              <div class="step-tags"><span class="step-tag hi">Draft a deal</span><span class="step-tag hi">Pay deposit</span></div>
             </div>
-            <p class="section-title">Your progress</p>
-            <div class="step-list">
-              <div class="step-item">
-                <div class="step-icon done" style="color:white;font-size:16px">✓</div>
-                <div class="step-body"><div class="name">Vehicle check</div><div class="desc">PPSR clear — no issues found</div></div>
-                <span class="step-badge done">Done</span>
+            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </label>
+          <div class="rli-panel">
+            <div class="rli-preview">Set the agreed price and hold the car with a deposit. Harry gets notified and you both get a carsales-verified record of sale.</div>
+            <div class="rli-panel-items">
+              <div class="rli-panel-item">
+                <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M8 1H2a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4L8 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1v3h3M3 7h6M3 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                <div><div class="rli-panel-label">Draft a deal</div><div class="rli-panel-desc">Agree the sale price and send a formal offer to Harry. No surprises for either side.</div></div>
               </div>
-              <div class="step-item">
-                <div class="step-icon current" style="color:white;font-size:13px;font-weight:700">2</div>
-                <div class="step-body"><div class="name">Inspection</div><div class="desc">Saturday 10am · Doncaster</div></div>
-                <span class="step-badge current">Up next</span>
-              </div>
-              <div class="step-item">
-                <div class="step-icon pending" style="color:#999;font-size:13px;font-weight:700">3</div>
-                <div class="step-body"><div class="name">Sale agreement</div><div class="desc">Sign to confirm your deal</div></div>
-                <span class="step-badge pending">Pending</span>
-              </div>
-              <div class="step-item">
-                <div class="step-icon pending" style="color:#999;font-size:13px;font-weight:700">4</div>
-                <div class="step-body"><div class="name">Payment</div><div class="desc">Pay securely or confirm transfer</div></div>
-                <span class="step-badge pending">Pending</span>
-              </div>
-              <div class="step-item">
-                <div class="step-icon pending" style="color:#999;font-size:13px;font-weight:700">5</div>
-                <div class="step-body"><div class="name">Transfer of rego</div><div class="desc">We'll generate your paperwork</div></div>
-                <span class="step-badge pending">Pending</span>
+              <div class="rli-panel-item">
+                <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><rect x="3" y="6" width="6" height="7" rx="1" stroke="#596169" stroke-width="1.4"/><path d="M4 6V4.5a2 2 0 014 0V6" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="9.5" r="0.75" fill="#596169"/></svg></div>
+                <div><div class="rli-panel-label">Pay a deposit</div><div class="rli-panel-desc">A deposit takes the car off the market while you arrange full payment.</div></div>
               </div>
             </div>
-            <div class="spacer"></div>
-            <button class="btn-primary">Mark inspection done</button>
-            <button class="btn-ghost">Back to messages</button>
-            <div class="spacer-lg"></div>
+            <div class="rli-panel-cta">
+              <a href="task1.2b-formalise.html" class="btn-primary" style="text-decoration:none">Formalise the deal</a>
+            </div>
           </div>
         </div>
 
-        <!-- Screen 2: Sale agreement -->
-        <div class="screen" id="s2">
-          <div class="status-bar">
-            <span class="time">9:41</span>
-            <span class="icons">
-              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
-            </span>
-          </div>
-          <div class="app-header"><span class="back">← Checklist</span><span class="title">Sale agreement</span><span></span></div>
-          <div class="content">
-            <div class="hint">Confirm the details below and both parties will sign digitally.</div>
-            <div class="card" style="border-style:dashed;border-color:var(--cs-orange);background:var(--cs-orange-light)">
-              <p class="section-title" style="color:var(--cs-orange)">Agreement details</p>
-              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="body-text">Vehicle</span><span class="body-text" style="font-weight:600">2019 Mazda CX-5 GT</span></div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="body-text">VIN</span><span class="body-text" style="font-weight:600">JM3KE4DY…</span></div>
-              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="body-text">Agreed price</span><span class="body-text" style="font-weight:600;color:var(--cs-orange)">$28,500</span></div>
-              <div style="display:flex;justify-content:space-between"><span class="body-text">As-is condition</span><span class="body-text" style="font-weight:600">Yes</span></div>
+        <!-- 3 — Arrange payment (idle, expandable) -->
+        <div class="rich-list-item">
+          <input type="checkbox" id="s3-ap" class="rli-toggle">
+          <label for="s3-ap" class="rli-row">
+            <div class="rli-leading"><div class="step-btn idle">3</div></div>
+            <div class="rli-content">
+              <div class="rli-title idle">Arrange payment</div>
+              <div class="step-tags"><span class="step-tag hi">Pay through carsales</span><span class="step-tag">Pay outside platform</span></div>
             </div>
-            <p class="section-title">Seller</p>
-            <div class="profile-row" style="margin-bottom:14px">
-              <div class="avatar">JR</div>
-              <div><div class="subheading">Jordan R.</div><div class="verified-badge">✓ ID verified</div></div>
+            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </label>
+          <div class="rli-panel">
+            <div class="rli-preview">Select how you would like to pay. Get a record of the sale only when you use pay through carsales.</div>
+            <div class="pay-cards">
+
+              <!-- Option 1: pre-selected -->
+              <div class="pay-card selected">
+                <div class="pay-card-row">
+                  <div class="pay-cb checked"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div style="flex:1">
+                    <div class="pay-card-title">Secure payment managed by carsales</div>
+                    <div class="pay-list">
+                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>100% free. Cancel anytime*</span></div>
+                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Instant payout at handover</span></div>
+                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Over $250M safely transacted. Safer payments with ID verification.¹</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Option 2: unchecked -->
+              <div class="pay-card unselected">
+                <div class="pay-card-row">
+                  <div class="pay-cb unchecked"></div>
+                  <div style="flex:1">
+                    <div class="pay-card-title">Accept payment methods not managed by carsales</div>
+                    <div class="pay-card-sub">We cannot manage payment types made outside of the platform.</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <p class="section-title">Buyer</p>
-            <div class="profile-row" style="margin-bottom:16px">
-              <div class="avatar" style="background:#D4E8D4;color:var(--cs-green)">ME</div>
-              <div><div class="subheading">You</div><div class="verified-badge">✓ ID verified</div></div>
-            </div>
-            <button class="btn-primary">✍️ Sign agreement</button>
-            <button class="btn-ghost">Review full document</button>
-            <div class="spacer-lg"></div>
           </div>
         </div>
 
-        <!-- Screen 3: Payment method -->
-        <div class="screen" id="s3">
-          <div class="status-bar">
-            <span class="time">9:41</span>
-            <span class="icons">
-              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
-            </span>
-          </div>
-          <div class="app-header"><span class="back">← Checklist</span><span class="title">Payment</span><span></span></div>
-          <div class="content">
-            <div class="subheading" style="font-size:17px;margin-bottom:4px">How are you paying?</div>
-            <p class="body-text" style="margin-bottom:16px">We'll keep track of where things are at — whichever way you choose.</p>
-            <div class="pay-option">
-              <div class="radio"></div>
-              <div class="pay-icon" style="background:#E8F0FE">💳</div>
-              <div><div class="subheading">Pay with carsales</div><div class="caption">Secure · instant · buyer protected</div></div>
+        <!-- 4 — Complete the deal (idle) -->
+        <div class="rich-list-item">
+          <input type="checkbox" id="s3-pk" class="rli-toggle">
+          <label for="s3-pk" class="rli-row">
+            <div class="rli-leading"><div class="step-btn idle">4</div></div>
+            <div class="rli-content">
+              <div class="rli-title idle">Complete the deal</div>
+              <div class="step-tags"><span class="step-tag">View agreement</span><span class="step-tag cta">Sign &amp; complete</span></div>
             </div>
-            <div class="pay-option selected">
-              <div class="radio"></div>
-              <div class="pay-icon" style="background:#F0F0F0">🏦</div>
-              <div><div class="subheading">Bank transfer</div><div class="caption">Between you and the seller</div></div>
+            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </label>
+          <div class="rli-panel">
+            <div class="rli-preview">Review and sign the purchase agreement. Harry gets paid instantly and you drive away.</div>
+            <div class="rli-panel-items">
+              <div class="rli-panel-item">
+                <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M8 1H2a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4L8 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1v3h3M3 7h6M3 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                <div><div class="rli-panel-label">View purchase agreement</div><div class="rli-panel-desc">Carsales-generated agreement with the agreed price and car details.</div></div>
+              </div>
+              <div class="rli-panel-item">
+                <div class="rli-panel-icon"><svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M1 10.5l2-2L9 2.5l1 1-6 6-2 2-2-1z" stroke="#596169" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 4l1 1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+                <div><div class="rli-panel-label">Sign &amp; complete</div><div class="rli-panel-desc">Your signature releases the funds to Harry and completes the transfer.</div></div>
+              </div>
             </div>
-            <div class="pay-option">
-              <div class="radio"></div>
-              <div class="pay-icon" style="background:#E8F5E9">💵</div>
-              <div><div class="subheading">Cash</div><div class="caption">In person at handover</div></div>
+            <div class="rli-panel-cta">
+              <a href="task1.3-deal-complete.html" class="btn-primary" style="text-decoration:none">Complete the deal</a>
             </div>
-            <div class="spacer"></div>
-            <div class="card" style="background:var(--cs-bg);border:none">
-              <p class="body-text" style="font-size:13px"><strong>Paying by transfer?</strong> Come back here once it's done and we'll help you finalise the rego transfer and paperwork. 📄</p>
-            </div>
-            <div class="spacer"></div>
-            <button class="btn-primary">Continue with bank transfer</button>
-            <div class="spacer-lg"></div>
           </div>
         </div>
 
       </div>
+      <div class="section-sep" style="margin-top:24px"></div>
+      <div class="section-label">While you wait</div>
+      <div style="padding:0 16px 8px"><button class="btn-secondary" onclick="nip()">Browse similar Mazda 3s</button></div>
     </div>
   </div>
 
-  <div class="controls" style="width:375px">
-    <button class="ctrl-btn ctrl-prev" id="btn-prev" onclick="navigate(-1)">← Prev</button>
-    <button class="ctrl-btn ctrl-next" id="btn-next" onclick="navigate(1)">Next →</button>
-  </div>
-</main>
+
+</div><!-- /phone -->
+</div><!-- /iphone -->
+
+<div class="toast" id="toast">Not in this prototype</div>
 
 <script>
-  const screens = ['s1','s2','s3'];
-  const labels  = ['Deal checklist','Sale agreement','Payment method'];
-  const prompts = [
-    'Say: <em>"You\'ve come back to carsales after the inspection. You want to lock in the deal. Show me what you\'d do."</em> Watch for unprompted step interaction.',
-    'Probe: <em>"What does signing this feel like compared to just agreeing verbally? Does it change anything for you?"</em>',
-    'Watch which option they hover on. Probe: <em>"You\'ve decided to do a bank transfer. What happens now? Would you expect to come back to carsales?"</em>'
-  ];
-  let current = 0;
-  function navigate(dir) { current = Math.max(0, Math.min(screens.length - 1, current + dir)); update(); }
-  function update() {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screens[current]).classList.add('active');
-    document.getElementById('facilitator-prompt').innerHTML = '<h4>Facilitator — Task 2</h4><p>' + prompts[current] + '</p>';
-    const dotsEl = document.getElementById('screen-dots');
-    dotsEl.innerHTML = '';
-    screens.forEach((_, i) => {
-      const d = document.createElement('div'); d.className = 'screen-dot' + (i === current ? ' active' : '');
-      d.onclick = () => { current = i; update(); }; dotsEl.appendChild(d);
-    });
-    const lbl = document.createElement('span'); lbl.className = 'screen-label'; lbl.textContent = labels[current]; dotsEl.appendChild(lbl);
-    document.getElementById('btn-prev').disabled = current === 0;
-    document.getElementById('btn-next').disabled = current === screens.length - 1;
-    document.getElementById('btn-next').textContent = current === screens.length - 1 ? 'End of task' : 'Next →';
-  }
-  update();
+function nip() {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.classList.add('show');
+  clearTimeout(nip._t);
+  nip._t = setTimeout(function() { t.classList.remove('show'); }, 2000);
+}
 </script>
+
 </body>
 </html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrange Payment — Bello Deal Flow</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+:root {
+  --dodger-blue:#1E90FF; --dark-dodger:#0073E3; --royal-blue:#01295F; --jasmine:#F8DE7E;
+  --tomato:#FF6E52; --white-smoke:#F2F5F7; --grey:#596169; --jet:#33373D;
+  --bg-canvas:#FFFFFF; --bg-surface:#F2F5F7; --fg-default:#33373D; --fg-subtle:#596169;
+  --fg-emphasis:#16191C; --fg-link:#0067CC; --border-default:#E5E5E5;
+  --r-default:12px; --r-open:24px; --r-tight:6px; --r-full:9999px;
+  --font:'Manrope',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:#CDD5DE;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px 12px 24px;}
+input[name="screen"]{display:none;}
+.phone{width:390px;height:844px;border-radius:44px;overflow:hidden;position:relative;background:var(--bg-canvas);}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg-canvas);transform:translateX(0);pointer-events:all;overflow:hidden;}
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px 6px;flex-shrink:0;}
+.status-time{font-size:15px;font-weight:600;color:var(--fg-emphasis);letter-spacing:-0.3px;}
+.status-icons{display:flex;align-items:center;gap:5px;}
+.cs-header{position:relative;display:flex;align-items:center;justify-content:center;height:48px;background:#fff;flex-shrink:0;border-bottom:1px solid #F0F2F4;}
+.cs-header-back{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:none;border:none;padding:0;text-decoration:none;}
+.cs-header-back svg{width:10px;height:18px;flex-shrink:0;overflow:visible;}
+.cs-header-logo svg{width:76px;height:28px;display:block;}
+.deal-screen-inner{flex:1;overflow-y:auto;padding-bottom:24px;}
+.deal-header{padding:10px 16px 0;}
+.deal-title{font-size:24px;font-weight:800;color:var(--fg-emphasis);line-height:30px;margin-bottom:4px;letter-spacing:-0.5px;}
+.deal-subtitle{font-size:13px;color:var(--grey);line-height:18px;font-weight:500;}
+.car-summary{display:flex;align-items:center;gap:12px;margin:10px 16px;padding:10px 12px;background:var(--bg-surface);border-radius:var(--r-default);}
+.car-summary-img{width:64px;height:44px;border-radius:8px;background:linear-gradient(135deg,#B8CBDB 0%,#8FA8BE 100%);flex-shrink:0;overflow:hidden;}
+.car-summary-name{font-size:13px;font-weight:700;color:var(--fg-emphasis);}
+.car-summary-price{font-size:16px;font-weight:800;color:var(--dark-dodger);margin-top:2px;letter-spacing:-0.3px;}
+.progress-wrap{padding:0 16px;margin-bottom:16px;}
+.progress-labels{display:flex;justify-content:space-between;margin-bottom:6px;}
+.progress-labels span{font-size:11px;font-weight:600;color:var(--grey);}
+.progress-labels span.pct{color:var(--dark-dodger);}
+.progress-track{height:4px;background:var(--border-default);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--dark-dodger);border-radius:2px;}
+.rich-list{background:var(--bg-surface);border-radius:var(--r-default);overflow:hidden;margin:0 16px;}
+.rich-list-item{background:var(--bg-canvas);border-bottom:1px solid var(--border-default);overflow:hidden;}
+.rich-list-item:last-child{border-bottom:none;}
+.rich-list-item.rli-active{background:#F7FBFF;}
+.rli-toggle{display:none;}
+.rli-row{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;cursor:pointer;user-select:none;-webkit-user-select:none;width:100%;}
+.rli-leading{flex-shrink:0;padding-top:2px;}
+.rli-content{flex:1;min-width:0;}
+.rli-title{font-size:15px;font-weight:600;color:var(--fg-emphasis);line-height:22px;}
+.rli-title.idle{color:var(--grey);font-weight:500;}
+.rli-trailing{flex-shrink:0;display:flex;align-items:center;align-self:center;padding-left:4px;}
+.rli-chevron{display:flex;align-items:center;transition:transform 0.3s ease;}
+.rli-toggle:checked~.rli-row .rli-chevron{transform:rotate(90deg);}
+.rli-panel{max-height:0;overflow:hidden;transition:max-height 0.38s cubic-bezier(0.4,0,0.2,1);background:var(--bg-surface);}
+.rli-toggle:checked~.rli-panel{max-height:900px;}
+.rli-preview{font-size:13px;color:var(--fg-subtle);line-height:18px;padding:12px 14px 10px;border-top:1px solid var(--border-default);}
+.rli-panel-items{padding:4px 14px 4px;display:flex;flex-direction:column;}
+.rli-panel-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);}
+.rli-panel-item:last-child{border-bottom:none;}
+.rli-panel-icon{width:32px;height:32px;border-radius:8px;background:var(--bg-canvas);border:1px solid var(--border-default);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rli-panel-label{font-size:13px;font-weight:600;color:var(--fg-emphasis);line-height:18px;}
+.rli-panel-desc{font-size:11px;color:var(--grey);line-height:16px;margin-top:2px;}
+.rli-panel-cta{padding:8px 14px 14px;background:var(--bg-surface);display:flex;flex-direction:column;gap:6px;}
+.step-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--font);}
+.step-btn.done{background:var(--dark-dodger);color:#fff;}
+.step-btn.active{background:var(--dark-dodger);color:#fff;box-shadow:0 0 0 5px rgba(0,115,227,0.18);}
+.step-btn.idle{background:var(--bg-surface);color:var(--grey);border:2px solid #C8D0D8;}
+.step-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r-full);margin-bottom:3px;letter-spacing:0.3px;text-transform:uppercase;}
+.step-badge.active{background:#EDF6FF;color:var(--dark-dodger);}
+.step-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.step-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg-surface);color:var(--grey);border:1px solid var(--border-default);white-space:nowrap;}
+.step-tag.hi{background:#EDF6FF;color:var(--dark-dodger);border-color:rgba(0,115,227,0.2);}
+.step-tag.cta{background:#FFF3EE;color:#C2400B;border-color:rgba(255,110,82,0.25);}
+.btn-primary{display:block;width:100%;padding:12px 16px;background:var(--dark-dodger);color:#fff;font-family:var(--font);font-size:13px;font-weight:600;text-align:center;border:none;border-radius:var(--r-default);cursor:pointer;line-height:18px;transition:background 0.15s;user-select:none;-webkit-user-select:none;}
+.btn-primary:hover{background:#005BB5;}
+.btn-secondary{display:block;width:100%;padding:12px 16px;background:transparent;color:var(--dark-dodger);font-family:var(--font);font-size:13px;font-weight:600;text-align:center;border:1.5px solid var(--dark-dodger);border-radius:var(--r-default);cursor:pointer;line-height:18px;}
+.section-sep{height:8px;background:var(--bg-surface);margin:16px 0;}
+.section-label{font-size:11px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:0.8px;padding:0 16px;margin-bottom:10px;}
+.warn-box{display:flex;gap:10px;align-items:flex-start;background:#FFF8F5;border-top:1px solid rgba(194,64,11,0.15);padding:11px 14px;font-size:12px;color:#C2400B;line-height:17px;font-weight:500;}
+.iphone{position:relative;background:linear-gradient(160deg,#3A3A3C 0%,#1C1C1E 40%,#1C1C1E 60%,#2C2C2E 100%);border-radius:54px;padding:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12),inset 0 0 0 0.5px rgba(0,0,0,0.8),0 0 0 1px rgba(0,0,0,0.7),0 50px 120px rgba(0,0,0,0.55),0 20px 50px rgba(0,0,0,0.3);zoom:0.88;}
+.iphone-btn{position:absolute;background:linear-gradient(to right,#2A2A2C,#3A3A3C);border-radius:2px 0 0 2px;box-shadow:-1px 0 2px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.06);}
+.iphone-silent{left:-3px;top:108px;width:3px;height:28px;}
+.iphone-vol-up{left:-3px;top:160px;width:3px;height:58px;}
+.iphone-vol-down{left:-3px;top:232px;width:3px;height:58px;}
+.iphone-power{position:absolute;right:-3px;top:185px;width:3px;height:82px;background:linear-gradient(to left,#2A2A2C,#3A3A3C);border-radius:0 2px 2px 0;box-shadow:1px 0 2px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.06);}
+.dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:122px;height:34px;background:#000;border-radius:20px;z-index:200;pointer-events:none;}
+.toast{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(22,25,28,0.88);color:#fff;font-family:var(--font);font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--r-full);display:none;z-index:9999;white-space:nowrap;backdrop-filter:blur(8px);}
+.toast.show{display:block;}
+</style>
+</head>
+<body>
+<div class="iphone">
+  <div class="iphone-btn iphone-silent"></div>
+  <div class="iphone-btn iphone-vol-up"></div>
+  <div class="iphone-btn iphone-vol-down"></div>
+  <div class="iphone-power"></div>
+  <div class="phone">
+    <div class="dynamic-island"></div>
+    <div class="screen">
+
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="9" width="3" height="3" rx="0.5" fill="#33373D"/><rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="#33373D"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="#33373D"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#33373D"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#33373D"/><path d="M4.5 8C5.67 6.77 6.75 6 8 6s2.33.77 3.5 2" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/><path d="M1.5 5C3.5 2.7 5.6 1.5 8 1.5s4.5 1.2 6.5 3.5" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="#33373D" stroke-opacity="0.35"/><rect x="2" y="2" width="18" height="8" rx="2" fill="#33373D"/><path d="M24 4v4a2 2 0 000-4z" fill="#33373D" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <div class="cs-header">
+        <button class="cs-header-back" onclick="nip()"><svg viewBox="0 0 8 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893C8.06759 0.653377 8.09532 1.22061 7.7903 1.6129L7.70711 1.70711L2.415 7L7.70711 12.2929C8.06759 12.6534 8.09532 13.2206 7.7903 13.6129L7.70711 13.7071C7.34662 14.0676 6.77939 14.0953 6.3871 13.7903L6.29289 13.7071L0.292893 7.70711C-0.0675907 7.34662 -0.0953203 6.77939 0.209705 6.3871L0.292893 6.29289L6.29289 0.292893Z" fill="#0073E3"/></svg></button>
+        <div class="cs-header-logo"><svg viewBox="0 0 76 27.8912" fill="none"><g><path d="M32.4316 20.0552C32.4316 19.486 32.9812 19.1922 33.6559 19.1922C34.4373 19.1922 35.0286 19.5924 35.3462 20.2657L37.6696 19.0025C36.8464 17.5496 35.3671 16.7699 33.6559 16.7699C31.481 16.7699 29.6422 17.9706 29.6422 20.1176C29.6422 23.8239 35.0912 22.9818 35.0912 24.518C35.0912 25.1288 34.4999 25.4226 33.6327 25.4226C32.5777 25.4226 31.8589 24.9183 31.5621 24.053L29.1971 25.3786C29.9576 27.0004 31.5204 27.8842 33.6327 27.8842C35.8935 27.8842 37.8783 26.7899 37.8783 24.5157C37.8783 20.6405 32.4293 21.6099 32.4293 20.0505L32.4316 20.0552Z" fill="#1E90FF"/><path d="M53.4205 11.0577H50.9812V27.8033H53.4205V11.0577Z" fill="#1E90FF"/><path d="M20.5135 16.8555H18.0743V17.7277C17.1816 17.1216 16.1057 16.7676 14.944 16.7676C11.8671 16.7676 9.37218 19.257 9.37218 22.3271C9.37218 25.3972 11.8671 27.8865 14.944 27.8865C16.1034 27.8865 17.1816 27.5326 18.0743 26.9264V27.7986H20.5135C20.5135 27.7986 20.5135 20.5032 20.5135 16.8555ZM14.944 25.4527C13.2166 25.4527 11.8138 24.0553 11.8138 22.3294C11.8138 20.6035 13.2143 19.2061 14.944 19.2061C16.6738 19.2061 18.0743 20.6035 18.0743 22.3294C18.0743 24.0553 16.6738 25.4527 14.944 25.4527Z" fill="#1E90FF"/><path d="M5.57183 25.4527C3.8444 25.4527 2.44391 24.0553 2.44391 22.3317C2.44391 20.6081 3.8444 19.2084 5.57183 19.2084C6.62221 19.2084 7.54968 19.7243 8.11777 20.5156L9.47884 18.3686C8.47253 17.3807 7.0929 16.7722 5.57183 16.7722C2.49492 16.7722 0 19.2616 0 22.3317C0 25.4018 2.49492 27.8912 5.57183 27.8912C7.09522 27.8912 8.47253 27.2827 9.47884 26.2948L8.11777 24.1478C7.552 24.9391 6.62221 25.455 5.57183 25.455V25.4527Z" fill="#1E90FF"/><path d="M60.11 16.7699C57.033 16.7699 54.5381 19.2593 54.5381 22.3294C54.5381 25.3995 57.033 27.8889 60.11 27.8889C61.7423 27.8889 63.2101 27.1878 64.228 26.0727L61.9626 24.8396C61.4432 25.2213 60.8033 25.4504 60.1076 25.4504C58.8022 25.4504 57.6823 24.6522 57.2139 23.5162H65.5519C65.6354 23.1322 65.6818 22.7366 65.6818 22.3271C65.6818 19.257 63.1869 16.7676 60.11 16.7676V16.7699ZM57.2394 21.0824C57.7217 19.9788 58.8254 19.2084 60.1076 19.2084C61.3899 19.2084 62.4936 19.9811 62.9759 21.0824H57.2394Z" fill="#1E90FF"/><path d="M49.5065 16.8555H47.0673V17.7277C46.1746 17.1216 45.0987 16.7676 43.937 16.7676C40.8601 16.7676 38.3652 19.257 38.3652 22.3271C38.3652 25.3972 40.8601 27.8865 43.937 27.8865C45.0964 27.8865 46.1746 27.5326 47.0673 26.9264V27.7986H49.5065C49.5065 24.1509 49.5065 20.5032 49.5065 16.8555ZM43.937 25.4527C42.2096 25.4527 40.8068 24.0553 40.8068 22.3294C40.8068 20.6035 42.2073 19.2061 43.937 19.2061C45.6668 19.2061 47.0673 20.6035 47.0673 22.3294C47.0673 24.0553 45.6668 25.4527 43.937 25.4527Z" fill="#1E90FF"/><path d="M68.9372 20.0552C68.9372 19.486 69.4868 19.1922 70.1615 19.1922C70.9429 19.1922 71.5342 19.5924 71.8518 20.2657L74.1752 19.0025C73.352 17.5496 71.8727 16.7699 70.1615 16.7699C67.9866 16.7699 66.1478 17.9706 66.1478 20.1176C66.1478 23.8239 71.5968 22.9818 71.5968 24.5203C71.5968 25.1311 71.0055 25.4249 70.1383 25.4249C69.0833 25.4249 68.3645 24.9206 68.0677 24.0553L65.7027 25.381C66.4632 27.0028 68.026 27.8865 70.1383 27.8865C72.3991 27.8865 74.3839 26.7922 74.3839 24.5157C74.3839 20.6405 68.9349 21.6099 68.9349 20.0505L68.9372 20.0552Z" fill="#1E90FF"/><path d="M10.5941 13.3065L11.0857 12.8253C16.4419 7.63137 24.8565 4.78338 39.6753 3.08986C45.8616 3.75847 52.0154 6.17382 57.9628 10.2665L58.7651 10.521C67.226 10.7176 74.152 16.4275L76 14.1972C61.2438 7.7563 59.2613 7.64525C46.483 0.898919 39.9094 0.202539C34.5347 -0.366596 23.8084 2.08115C16.2564 4.66307 9.56695 10.2827L0.530982 9.28324L0.211002 12.159L9.90548 13.2302L10.5941 13.3065Z" fill="#1E90FF"/></g></svg></div>
+      </div>
+
+      <div class="deal-screen-inner">
+        <div class="deal-header">
+          <div class="deal-title">Almost yours.</div>
+          <div class="deal-subtitle">Here's what's left to make it official.</div>
+        </div>
+        <div class="car-summary">
+          <div class="car-summary-img"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="car-summary-info"><div class="car-summary-name">2019 Mazda 3</div><div class="car-summary-price">$26,000</div></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-labels"><span>Step 3 of 4</span><span class="pct">50% complete</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
+        </div>
+
+        <div class="rich-list">
+
+          <!-- 1 — Verified (done, taps to detail) -->
+          <div class="rich-list-item">
+            <a href="task1.2a-verification.html" class="rli-row" style="text-decoration:none">
+              <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+              <div class="rli-content">
+                <div class="rli-title">Verified</div>
+                <div class="step-tags"><span class="step-tag hi">Car &amp; seller confirmed</span><span class="step-tag cta">Your ID needed</span></div>
+              </div>
+              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            </a>
+          </div>
+
+          <!-- 2 — Formalise the deal (done) -->
+          <div class="rich-list-item">
+            <a href="task1.2-deal-experience.html" class="rli-row" style="text-decoration:none">
+              <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+              <div class="rli-content">
+                <div class="rli-title">Deal sent to Harry</div>
+                <div class="step-tags"><span class="step-tag hi">$26,000 agreed</span><span class="step-tag hi">$500 deposit</span></div>
+              </div>
+              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            </a>
+          </div>
+
+          <!-- 3 — Arrange payment (active, open) -->
+          <div class="rich-list-item rli-active">
+            <input type="checkbox" id="ap" class="rli-toggle" checked>
+            <label for="ap" class="rli-row">
+              <div class="rli-leading"><div class="step-btn active">3</div></div>
+              <div class="rli-content">
+                <span class="step-badge active">Current step</span>
+                <div class="rli-title">Arrange payment</div>
+                <div class="step-tags"><span class="step-tag hi">Bank transfer</span><span class="step-tag hi">carsales escrow</span></div>
+              </div>
+              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            </label>
+            <div class="rli-panel">
+              <div class="rli-preview">Harry accepted your deal. Transfer funds to the carsales escrow account below — your money is held safely until you confirm pick up.</div>
+              <div class="rli-panel-items">
+                <div class="rli-panel-item">
+                  <div class="rli-panel-icon"><svg width="16" height="13" viewBox="0 0 16 13" fill="none"><rect x="1" y="3" width="14" height="9" rx="1.5" stroke="#596169" stroke-width="1.4"/><path d="M1 6h14" stroke="#596169" stroke-width="1.4"/><path d="M3 9.5h4M12 9.5h1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M2 1l12 2" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                  <div>
+                    <div class="rli-panel-label">Transfer to</div>
+                    <div class="rli-panel-desc" style="line-height:18px">carsales Escrow Account<br>BSB: 082-123 &nbsp;|&nbsp; Acc: 7291 8834<br>Reference: <strong style="color:var(--fg-emphasis)">CS-2019-84921</strong></div>
+                  </div>
+                </div>
+                <div class="rli-panel-item">
+                  <div class="rli-panel-icon"><svg width="13" height="14" viewBox="0 0 13 14" fill="none"><circle cx="6.5" cy="7" r="5.5" stroke="#596169" stroke-width="1.4"/><path d="M6.5 4.5C5.4 4.5 4.5 5.2 4.5 6.2s1 1.5 2 1.5 2 .7 2 1.5-1 1.7-2 1.7" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M6.5 3.5v1M6.5 11v-1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+                  <div>
+                    <div class="rli-panel-label">Amount</div>
+                    <div class="rli-panel-desc">$26,000 sale + $500 deposit = <strong style="color:var(--fg-emphasis)">$26,500</strong></div>
+                  </div>
+                </div>
+              </div>
+              <div class="warn-box">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:1px"><path d="M7 1L1 12h12L7 1z" stroke="#C2400B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 6v3M7 10.5v.5" stroke="#C2400B" stroke-width="1.4" stroke-linecap="round"/></svg>
+                <span>Only transfer to this carsales escrow account. Never send funds directly to the seller.</span>
+              </div>
+              <div class="rli-panel-cta">
+                <a href="task1.2d-deal-experience.html" class="btn-primary" style="text-decoration:none">I'm ready for pick up</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 — Complete the deal (idle) -->
+          <div class="rich-list-item">
+            <input type="checkbox" id="cd" class="rli-toggle">
+            <label for="cd" class="rli-row">
+              <div class="rli-leading"><div class="step-btn idle">4</div></div>
+              <div class="rli-content">
+                <div class="rli-title idle">Complete the deal</div>
+                <div class="step-tags"><span class="step-tag">View agreement</span><span class="step-tag cta">Sign &amp; complete</span></div>
+              </div>
+              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+            </label>
+            <div class="rli-panel">
+              <div class="rli-preview">Review and sign the purchase agreement. Harry gets paid instantly and you drive away.</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="section-sep" style="margin-top:24px"></div>
+        <div class="section-label">While you wait</div>
+        <div style="padding:0 16px 8px"><button class="btn-secondary" onclick="nip()">Browse similar Mazda 3s</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Not in this prototype</div>
+<script>
+function nip(){var t=document.getElementById('toast');if(!t)return;t.classList.add('show');clearTimeout(nip._t);nip._t=setTimeout(function(){t.classList.remove('show');},2000);}
+</script>
+</body>
+</html>

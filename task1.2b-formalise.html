@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formalise the deal — Bello Deal Flow</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --dark-dodger:   #0073E3;
+  --royal-blue:    #01295F;
+  --jasmine:       #F8DE7E;
+  --grey:          #596169;
+  --bg-canvas:     #FFFFFF;
+  --bg-surface:    #F2F5F7;
+  --fg-default:    #33373D;
+  --fg-subtle:     #596169;
+  --fg-emphasis:   #16191C;
+  --fg-link:       #0067CC;
+  --border-default:#E5E5E5;
+  --r-default:     12px;
+  --r-full:        9999px;
+  --font: 'Manrope', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: #CDD5DE;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 24px;
+}
+
+input[name="wiz"] { display: none; }
+
+/* ─── Phone & Screen ─────────────────────────────────────────── */
+.phone {
+  width: 390px;
+  height: 844px;
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-canvas);
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-canvas);
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  will-change: transform;
+  overflow: hidden;
+}
+#wiz1:checked ~ .iphone .phone #ws1 { transform: translateX(0); pointer-events: all; }
+#wiz2:checked ~ .iphone .phone #ws2 { transform: translateX(0); pointer-events: all; }
+
+/* ─── Status Bar ─────────────────────────────────────────────── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 6px;
+  flex-shrink: 0;
+}
+.status-time { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); letter-spacing: -0.3px; }
+.status-icons { display: flex; align-items: center; gap: 5px; }
+
+/* ─── carsales Header ────────────────────────────────────────── */
+.cs-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: #fff;
+  flex-shrink: 0;
+  border-bottom: 1px solid #F0F2F4;
+}
+.cs-header-back {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+}
+.cs-header-back svg { width: 10px; height: 18px; flex-shrink: 0; overflow: visible; }
+.cs-header-logo svg { width: 76px; height: 28px; display: block; }
+
+/* ─── Wizard progress strip ──────────────────────────────────── */
+.wiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-surface);
+}
+.wiz-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.wiz-step-dot.done   { background: var(--dark-dodger); }
+.wiz-step-dot.active { background: var(--dark-dodger); box-shadow: 0 0 0 3px rgba(0,115,227,0.2); }
+.wiz-step-dot.idle   { background: #C8D0D8; }
+.wiz-step-line { flex: 1; height: 2px; border-radius: 1px; }
+.wiz-step-line.done { background: var(--dark-dodger); }
+.wiz-step-line.idle { background: #C8D0D8; }
+.wiz-label { font-size: 12px; font-weight: 600; color: var(--dark-dodger); margin-left: 4px; }
+
+/* ─── Page scroll content ────────────────────────────────────── */
+.page-inner { flex: 1; overflow-y: auto; padding-bottom: 32px; }
+
+.page-header { padding: 16px 16px 4px; }
+.page-title   { font-size: 22px; font-weight: 800; color: var(--fg-emphasis); letter-spacing: -0.4px; line-height: 28px; margin-bottom: 4px; }
+.page-subtitle { font-size: 13px; color: var(--fg-subtle); line-height: 18px; font-weight: 500; }
+
+/* ─── Car summary ────────────────────────────────────────────── */
+.car-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 16px;
+  padding: 10px 12px;
+  background: var(--bg-surface);
+  border-radius: var(--r-default);
+}
+.car-thumb {
+  width: 56px;
+  height: 38px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #B8CBDB 0%, #8FA8BE 100%);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.car-name  { font-size: 13px; font-weight: 700; color: var(--fg-emphasis); }
+.car-price { font-size: 12px; color: var(--fg-subtle); font-weight: 500; margin-top: 1px; }
+
+/* ─── Form ───────────────────────────────────────────────────── */
+.form-section  { padding: 0 16px; }
+.form-field    { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.form-label    { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); }
+.form-label-opt { font-size: 11px; font-weight: 500; color: var(--fg-subtle); margin-left: 4px; }
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #919191;
+  border-radius: var(--r-default);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg-emphasis);
+  outline: none;
+  background: var(--bg-canvas);
+}
+.form-input::placeholder { color: var(--fg-subtle); font-weight: 500; font-size: 15px; }
+
+.section-sep   { height: 8px; background: var(--bg-surface); margin: 16px 0; }
+.section-label {
+  font-size: 11px; font-weight: 700; color: var(--grey);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 0 16px; margin-bottom: 10px;
+}
+
+/* ─── Info box ───────────────────────────────────────────────── */
+.info-box {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: #FFFBEA; border: 1px solid var(--jasmine);
+  border-radius: var(--r-default); padding: 12px 14px;
+  font-size: 12px; color: var(--fg-emphasis); line-height: 17px;
+  margin: 0 16px 16px;
+}
+.info-icon { flex-shrink: 0; margin-top: 1px; }
+
+/* ─── Buttons ────────────────────────────────────────────────── */
+.btn-primary {
+  display: block; width: 100%;
+  padding: 13px 16px;
+  background: var(--dark-dodger); color: #fff;
+  font-family: var(--font); font-size: 14px; font-weight: 600;
+  text-align: center; border: none;
+  border-radius: var(--r-default); cursor: pointer; line-height: 18px;
+  transition: background 0.15s;
+  user-select: none; -webkit-user-select: none;
+}
+.btn-primary:hover { background: #005BB5; }
+.btn-wrap { padding: 0 16px 8px; }
+
+/* ─── Payment method options ─────────────────────────────────── */
+.pay-section-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 16px 10px;
+}
+.pay-section-title { font-size: 11px; font-weight: 700; color: var(--grey); text-transform: uppercase; letter-spacing: 0.8px; }
+.badge-rec {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: var(--r-full); background: #EDF6FF; color: var(--dark-dodger);
+  letter-spacing: 0.2px; text-transform: uppercase;
+}
+
+.method-card {
+  margin: 0 16px 10px;
+  padding: 14px;
+  border-radius: var(--r-default);
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.method-card.selected   { border-color: var(--dark-dodger); background: #EDF6FF; }
+.method-card.unselected { border-color: var(--border-default); background: var(--bg-canvas); }
+.method-card.disabled   { border-color: var(--border-default); background: var(--bg-canvas); opacity: 0.55; }
+
+.method-icon {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-default);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.method-card.selected .method-icon { background: #fff; }
+
+.method-name   { font-size: 14px; font-weight: 600; color: var(--fg-emphasis); line-height: 20px; }
+.method-detail { font-size: 11px; color: var(--grey); margin-top: 2px; line-height: 16px; }
+
+.radio-dot {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: auto;
+}
+.radio-dot.on  { border-color: var(--dark-dodger); }
+.radio-dot.off { border-color: #C8D0D8; }
+.radio-dot.on::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--dark-dodger); }
+
+/* ─── iPhone Frame ───────────────────────────────────────────── */
+.iphone {
+  position: relative;
+  background: linear-gradient(160deg, #3A3A3C 0%, #1C1C1E 40%, #1C1C1E 60%, #2C2C2E 100%);
+  border-radius: 54px;
+  padding: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.12),
+    inset 0 0 0 0.5px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(0,0,0,0.7),
+    0 50px 120px rgba(0,0,0,0.55),
+    0 20px 50px rgba(0,0,0,0.3);
+  zoom: 0.88;
+}
+.iphone-btn {
+  position: absolute;
+  background: linear-gradient(to right, #2A2A2C, #3A3A3C);
+  border-radius: 2px 0 0 2px;
+  box-shadow: -1px 0 2px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.iphone-silent  { left: -3px; top: 108px; width: 3px; height: 28px; }
+.iphone-vol-up  { left: -3px; top: 160px; width: 3px; height: 58px; }
+.iphone-vol-down{ left: -3px; top: 232px; width: 3px; height: 58px; }
+.iphone-power {
+  position: absolute; right: -3px; top: 185px;
+  width: 3px; height: 82px;
+  background: linear-gradient(to left, #2A2A2C, #3A3A3C);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 1px 0 2px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.dynamic-island {
+  position: absolute; top: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 122px; height: 34px;
+  background: #000; border-radius: 20px;
+  z-index: 200; pointer-events: none;
+}
+
+.toast {
+  position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+  background: rgba(22,25,28,0.88); color: #fff;
+  font-family: var(--font); font-size: 13px; font-weight: 500;
+  padding: 10px 20px; border-radius: var(--r-full);
+  display: none; z-index: 9999; white-space: nowrap; backdrop-filter: blur(8px);
+}
+.toast.show { display: block; }
+</style>
+</head>
+<body>
+
+<input type="radio" name="wiz" id="wiz1" checked>
+<input type="radio" name="wiz" id="wiz2">
+
+<div class="iphone">
+  <div class="iphone-btn iphone-silent"></div>
+  <div class="iphone-btn iphone-vol-up"></div>
+  <div class="iphone-btn iphone-vol-down"></div>
+  <div class="iphone-power"></div>
+  <div class="phone">
+    <div class="dynamic-island"></div>
+
+
+    <!-- ══ SCREEN 1 — Sale price & deposit ══════════════════════ -->
+    <div id="ws1" class="screen">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="9" width="3" height="3" rx="0.5" fill="#33373D"/><rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="#33373D"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="#33373D"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#33373D"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#33373D"/><path d="M4.5 8C5.67 6.77 6.75 6 8 6s2.33.77 3.5 2" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/><path d="M1.5 5C3.5 2.7 5.6 1.5 8 1.5s4.5 1.2 6.5 3.5" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="#33373D" stroke-opacity="0.35"/><rect x="2" y="2" width="18" height="8" rx="2" fill="#33373D"/><path d="M24 4v4a2 2 0 000-4z" fill="#33373D" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <div class="cs-header">
+        <a href="task1.2-deal-experience.html" class="cs-header-back"><svg viewBox="0 0 8 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893C8.06759 0.653377 8.09532 1.22061 7.7903 1.6129L7.70711 1.70711L2.415 7L7.70711 12.2929C8.06759 12.6534 8.09532 13.2206 7.7903 13.6129L7.70711 13.7071C7.34662 14.0676 6.77939 14.0953 6.3871 13.7903L6.29289 13.7071L0.292893 7.70711C-0.0675907 7.34662 -0.0953203 6.77939 0.209705 6.3871L0.292893 6.29289L6.29289 0.292893Z" fill="#0073E3"/></svg></a>
+        <div class="cs-header-logo"><svg viewBox="0 0 76 27.8912" fill="none"><g><path d="M32.4316 20.0552C32.4316 19.486 32.9812 19.1922 33.6559 19.1922C34.4373 19.1922 35.0286 19.5924 35.3462 20.2657L37.6696 19.0025C36.8464 17.5496 35.3671 16.7699 33.6559 16.7699C31.481 16.7699 29.6422 17.9706 29.6422 20.1176C29.6422 23.8239 35.0912 22.9818 35.0912 24.518C35.0912 25.1288 34.4999 25.4226 33.6327 25.4226C32.5777 25.4226 31.8589 24.9183 31.5621 24.053L29.1971 25.3786C29.9576 27.0004 31.5204 27.8842 33.6327 27.8842C35.8935 27.8842 37.8783 26.7899 37.8783 24.5157C37.8783 20.6405 32.4293 21.6099 32.4293 20.0505L32.4316 20.0552Z" fill="#1E90FF"/><path d="M53.4205 11.0577H50.9812V27.8033H53.4205V11.0577Z" fill="#1E90FF"/><path d="M20.5135 16.8555H18.0743V17.7277C17.1816 17.1216 16.1057 16.7676 14.944 16.7676C11.8671 16.7676 9.37218 19.257 9.37218 22.3271C9.37218 25.3972 11.8671 27.8865 14.944 27.8865C16.1034 27.8865 17.1816 27.5326 18.0743 26.9264V27.7986H20.5135C20.5135 27.7986 20.5135 20.5032 20.5135 16.8555ZM14.944 25.4527C13.2166 25.4527 11.8138 24.0553 11.8138 22.3294C11.8138 20.6035 13.2143 19.2061 14.944 19.2061C16.6738 19.2061 18.0743 20.6035 18.0743 22.3294C18.0743 24.0553 16.6738 25.4527 14.944 25.4527Z" fill="#1E90FF"/><path d="M5.57183 25.4527C3.8444 25.4527 2.44391 24.0553 2.44391 22.3317C2.44391 20.6081 3.8444 19.2084 5.57183 19.2084C6.62221 19.2084 7.54968 19.7243 8.11777 20.5156L9.47884 18.3686C8.47253 17.3807 7.0929 16.7722 5.57183 16.7722C2.49492 16.7722 0 19.2616 0 22.3317C0 25.4018 2.49492 27.8912 5.57183 27.8912C7.09522 27.8912 8.47253 27.2827 9.47884 26.2948L8.11777 24.1478C7.552 24.9391 6.62221 25.455 5.57183 25.455V25.4527Z" fill="#1E90FF"/><path d="M27.3537 16.7722C26.192 16.7722 25.1161 17.1262 24.2234 17.7323V16.8532H21.7842V27.8009H24.2234V22.3641C24.2258 22.3317C24.2258 20.6081 25.6263 19.2084 27.3537 19.2084C27.7548 19.2084 28.1374 19.2847 28.4899 19.4212L29.6654 17.272C28.9606 16.9504 28.1792 16.7699 27.3537 16.7699V16.7722Z" fill="#1E90FF"/><path d="M60.11 16.7699C57.033 16.7699 54.5381 19.2593 54.5381 22.3294C54.5381 25.3995 57.033 27.8889 60.11 27.8889C61.7423 27.8889 63.2101 27.1878 64.228 26.0727L61.9626 24.8396C61.4432 25.2213 60.8033 25.4504 60.1076 25.4504C58.8022 25.4504 57.6823 24.6522 57.2139 23.5162H65.5519C65.6354 23.1322 65.6818 22.7366 65.6818 22.3271C65.6818 19.257 63.1869 16.7676 60.11 16.7676V16.7699ZM57.2394 21.0824C57.7217 19.9788 58.8254 19.2084 60.1076 19.2084C61.3899 19.2084 62.4936 19.9811 62.9759 21.0824H57.2394Z" fill="#1E90FF"/><path d="M10.5941 13.3065L11.0857 12.8253C11.139 12.7744 16.4419 7.63137 24.8565 4.78338C29.7512 3.12687 34.7364 2.55774 39.6753 3.08986C45.8616 3.75847 52.0154 6.17382 57.9628 10.2665L58.3269 10.5141L58.7651 10.521C58.8486 10.521 67.226 10.7176 74.152 16.4275L76 14.1972C69.1436 8.54522 61.2438 7.7563 59.2613 7.64525C52.9915 3.40219 46.483 0.898919 39.9094 0.202539C34.5347 -0.366596 29.1159 0.265005 23.8084 2.08115C16.2564 4.66307 11.1553 8.85986 9.56695 10.2827L0.530982 9.28324L0.211002 12.159L9.90548 13.2302L10.5918 13.3042L10.5941 13.3065Z" fill="#1E90FF"/><path d="M49.5065 16.8555H47.0673V17.7277C46.1746 17.1216 45.0987 16.7676 43.937 16.7676C40.8601 16.7676 38.3652 19.257 38.3652 22.3271C38.3652 25.3972 40.8601 27.8865 43.937 27.8865C45.0964 27.8865 46.1746 27.5326 47.0673 26.9264V27.7986H49.5065C49.5065 24.1509 49.5065 20.5032 49.5065 16.8555ZM43.937 25.4527C42.2096 25.4527 40.8068 24.0553 40.8068 22.3294C40.8068 20.6035 42.2073 19.2061 43.937 19.2061C45.6668 19.2061 47.0673 20.6035 47.0673 22.3294C47.0673 24.0553 45.6668 25.4527 43.937 25.4527Z" fill="#1E90FF"/><path d="M68.9372 20.0552C68.9372 19.486 69.4868 19.1922 70.1615 19.1922C70.9429 19.1922 71.5342 19.5924 71.8518 20.2657L74.1752 19.0025C73.352 17.5496 71.8727 16.7699 70.1615 16.7699C67.9866 16.7699 66.1478 17.9706 66.1478 20.1176C66.1478 23.8239 71.5968 22.9818 71.5968 24.5203C71.5968 25.1311 71.0055 25.4249 70.1383 25.4249C69.0833 25.4249 68.3645 24.9206 68.0677 24.0553L65.7027 25.381C66.4632 27.0028 68.026 27.8865 70.1383 27.8865C72.3991 27.8865 74.3839 26.7922 74.3839 24.5157C74.3839 20.6405 68.9349 21.6099 68.9349 20.0505L68.9372 20.0552Z" fill="#1E90FF"/></g></svg></div>
+      </div>
+
+      <!-- Step progress dots -->
+      <div class="wiz-progress">
+        <div class="wiz-step-dot active"></div>
+        <div class="wiz-step-line idle"></div>
+        <div class="wiz-step-dot idle"></div>
+        <span class="wiz-label">Sale price</span>
+      </div>
+
+      <div class="page-inner">
+        <div class="page-header">
+          <div class="page-title">Name your price</div>
+          <div class="page-subtitle">Agree the sale price with Harry for the 2019 Mazda 3.</div>
+        </div>
+
+        <div class="car-summary">
+          <div class="car-thumb"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div>
+            <div class="car-name">2019 Mazda 3</div>
+            <div class="car-price">Listed at $26,000</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-field">
+            <label class="form-label">Agreed sale price</label>
+            <input type="text" class="form-input" value="$26,000" readonly>
+          </div>
+        </div>
+
+        <div class="section-sep"></div>
+
+        <div class="form-section">
+          <div class="form-field">
+            <label class="form-label">Deposit amount <span class="form-label-opt">(optional)</span></label>
+            <input type="text" class="form-input" placeholder="e.g. $500" readonly style="font-weight:500;font-size:15px;">
+          </div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#B59600" stroke-width="1.4"/><path d="M7 6v4M7 4.5v.5" stroke="#B59600" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <span>Your deposit is held securely by carsales and applied toward the final payment at handover.</span>
+        </div>
+
+        <div class="btn-wrap" style="margin-top:20px">
+          <label for="wiz2" class="btn-primary" style="display:block;cursor:pointer">Next — choose payment method</label>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══ SCREEN 2 — Payment method ════════════════════════════ -->
+    <div id="ws2" class="screen">
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="9" width="3" height="3" rx="0.5" fill="#33373D"/><rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="#33373D"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="#33373D"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#33373D"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><circle cx="8" cy="11" r="1.5" fill="#33373D"/><path d="M4.5 8C5.67 6.77 6.75 6 8 6s2.33.77 3.5 2" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/><path d="M1.5 5C3.5 2.7 5.6 1.5 8 1.5s4.5 1.2 6.5 3.5" stroke="#33373D" stroke-width="1.4" stroke-linecap="round"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="#33373D" stroke-opacity="0.35"/><rect x="2" y="2" width="18" height="8" rx="2" fill="#33373D"/><path d="M24 4v4a2 2 0 000-4z" fill="#33373D" opacity="0.4"/></svg>
+        </div>
+      </div>
+
+      <div class="cs-header">
+        <label for="wiz1" class="cs-header-back" style="cursor:pointer"><svg viewBox="0 0 8 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.29289 0.292893C6.68342 -0.0976311 7.31658 -0.0976311 7.70711 0.292893C8.06759 0.653377 8.09532 1.22061 7.7903 1.6129L7.70711 1.70711L2.415 7L7.70711 12.2929C8.06759 12.6534 8.09532 13.2206 7.7903 13.6129L7.70711 13.7071C7.34662 14.0676 6.77939 14.0953 6.3871 13.7903L6.29289 13.7071L0.292893 7.70711C-0.0675907 7.34662 -0.0953203 6.77939 0.209705 6.3871L0.292893 6.29289L6.29289 0.292893Z" fill="#0073E3"/></svg></label>
+        <div class="cs-header-logo"><svg viewBox="0 0 76 27.8912" fill="none"><g><path d="M32.4316 20.0552C32.4316 19.486 32.9812 19.1922 33.6559 19.1922C34.4373 19.1922 35.0286 19.5924 35.3462 20.2657L37.6696 19.0025C36.8464 17.5496 35.3671 16.7699 33.6559 16.7699C31.481 16.7699 29.6422 17.9706 29.6422 20.1176C29.6422 23.8239 35.0912 22.9818 35.0912 24.518C35.0912 25.1288 34.4999 25.4226 33.6327 25.4226C32.5777 25.4226 31.8589 24.9183 31.5621 24.053L29.1971 25.3786C29.9576 27.0004 31.5204 27.8842 33.6327 27.8842C35.8935 27.8842 37.8783 26.7899 37.8783 24.5157C37.8783 20.6405 32.4293 21.6099 32.4293 20.0505L32.4316 20.0552Z" fill="#1E90FF"/><path d="M53.4205 11.0577H50.9812V27.8033H53.4205V11.0577Z" fill="#1E90FF"/><path d="M20.5135 16.8555H18.0743V17.7277C17.1816 17.1216 16.1057 16.7676 14.944 16.7676C11.8671 16.7676 9.37218 19.257 9.37218 22.3271C9.37218 25.3972 11.8671 27.8865 14.944 27.8865C16.1034 27.8865 17.1816 27.5326 18.0743 26.9264V27.7986H20.5135C20.5135 27.7986 20.5135 20.5032 20.5135 16.8555ZM14.944 25.4527C13.2166 25.4527 11.8138 24.0553 11.8138 22.3294C11.8138 20.6035 13.2143 19.2061 14.944 19.2061C16.6738 19.2061 18.0743 20.6035 18.0743 22.3294C18.0743 24.0553 16.6738 25.4527 14.944 25.4527Z" fill="#1E90FF"/><path d="M5.57183 25.4527C3.8444 25.4527 2.44391 24.0553 2.44391 22.3317C2.44391 20.6081 3.8444 19.2084 5.57183 19.2084C6.62221 19.2084 7.54968 19.7243 8.11777 20.5156L9.47884 18.3686C8.47253 17.3807 7.0929 16.7722 5.57183 16.7722C2.49492 16.7722 0 19.2616 0 22.3317C0 25.4018 2.49492 27.8912 5.57183 27.8912C7.09522 27.8912 8.47253 27.2827 9.47884 26.2948L8.11777 24.1478C7.552 24.9391 6.62221 25.455 5.57183 25.455V25.4527Z" fill="#1E90FF"/><path d="M27.3537 16.7722C26.192 16.7722 25.1161 17.1262 24.2234 17.7323V16.8532H21.7842V27.8009H24.2234V22.3641C24.2258 22.3317C24.2258 20.6081 25.6263 19.2084 27.3537 19.2084C27.7548 19.2084 28.1374 19.2847 28.4899 19.4212L29.6654 17.272C28.9606 16.9504 28.1792 16.7699 27.3537 16.7699V16.7722Z" fill="#1E90FF"/><path d="M60.11 16.7699C57.033 16.7699 54.5381 19.2593 54.5381 22.3294C54.5381 25.3995 57.033 27.8889 60.11 27.8889C61.7423 27.8889 63.2101 27.1878 64.228 26.0727L61.9626 24.8396C61.4432 25.2213 60.8033 25.4504 60.1076 25.4504C58.8022 25.4504 57.6823 24.6522 57.2139 23.5162H65.5519C65.6354 23.1322 65.6818 22.7366 65.6818 22.3271C65.6818 19.257 63.1869 16.7676 60.11 16.7676V16.7699ZM57.2394 21.0824C57.7217 19.9788 58.8254 19.2084 60.1076 19.2084C61.3899 19.2084 62.4936 19.9811 62.9759 21.0824H57.2394Z" fill="#1E90FF"/><path d="M49.5065 16.8555H47.0673V17.7277C46.1746 17.1216 45.0987 16.7676 43.937 16.7676C40.8601 16.7676 38.3652 19.257 38.3652 22.3271C38.3652 25.3972 40.8601 27.8865 43.937 27.8865C45.0964 27.8865 46.1746 27.5326 47.0673 26.9264V27.7986H49.5065C49.5065 24.1509 49.5065 20.5032 49.5065 16.8555ZM43.937 25.4527C42.2096 25.4527 40.8068 24.0553 40.8068 22.3294C40.8068 20.6035 42.2073 19.2061 43.937 19.2061C45.6668 19.2061 47.0673 20.6035 47.0673 22.3294C47.0673 24.0553 45.6668 25.4527 43.937 25.4527Z" fill="#1E90FF"/><path d="M68.9372 20.0552C68.9372 19.486 69.4868 19.1922 70.1615 19.1922C70.9429 19.1922 71.5342 19.5924 71.8518 20.2657L74.1752 19.0025C73.352 17.5496 71.8727 16.7699 70.1615 16.7699C67.9866 16.7699 66.1478 17.9706 66.1478 20.1176C66.1478 23.8239 71.5968 22.9818 71.5968 24.5203C71.5968 25.1311 71.0055 25.4249 70.1383 25.4249C69.0833 25.4249 68.3645 24.9206 68.0677 24.0553L65.7027 25.381C66.4632 27.0028 68.026 27.8865 70.1383 27.8865C72.3991 27.8865 74.3839 26.7922 74.3839 24.5157C74.3839 20.6405 68.9349 21.6099 68.9349 20.0505L68.9372 20.0552Z" fill="#1E90FF"/></g></svg></div>
+      </div>
+
+      <!-- Step progress dots -->
+      <div class="wiz-progress">
+        <div class="wiz-step-dot done"></div>
+        <div class="wiz-step-line done"></div>
+        <div class="wiz-step-dot active"></div>
+        <span class="wiz-label">Payment method</span>
+      </div>
+
+      <div class="page-inner">
+        <div class="page-header">
+          <div class="page-title">How will you pay?</div>
+          <div class="page-subtitle">Choose how you'll transfer funds to Harry.</div>
+        </div>
+
+        <!-- Pay through carsales — featured section -->
+        <div class="pay-section-head">
+          <span class="pay-section-title">Pay through carsales</span>
+          <span class="badge-rec">Recommended</span>
+        </div>
+
+        <!-- Bank transfer — selectable (pre-selected) -->
+        <div class="method-card selected">
+          <div class="method-icon">
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><rect x="1" y="4" width="18" height="11" rx="2" stroke="#0073E3" stroke-width="1.5"/><path d="M1 7h18" stroke="#0073E3" stroke-width="1.5"/><path d="M4 11h4M15 11h1" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round"/><path d="M3 1l14 3" stroke="#0073E3" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div class="method-name">Bank transfer</div>
+            <div class="method-detail">Funds held by carsales. Released to Harry at handover.</div>
+          </div>
+          <div class="radio-dot on"></div>
+        </div>
+
+        <!-- Other methods -->
+        <div style="height:1px;background:var(--border-default);margin:6px 16px 14px;"></div>
+        <div class="pay-section-head" style="padding-top:0">
+          <span class="pay-section-title">Other methods</span>
+        </div>
+
+        <!-- Cash -->
+        <div class="method-card disabled" onclick="nip()">
+          <div class="method-icon">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="1" y="1" width="18" height="12" rx="2" stroke="#596169" stroke-width="1.4"/><circle cx="10" cy="7" r="3" stroke="#596169" stroke-width="1.3"/><path d="M1 4h2M17 4h2M1 10h2M17 10h2" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div class="method-name" style="color:var(--grey)">Cash</div>
+            <div class="method-detail">Not available in this prototype</div>
+          </div>
+          <div class="radio-dot off"></div>
+        </div>
+
+        <!-- Finance -->
+        <div class="method-card disabled" onclick="nip()">
+          <div class="method-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="#596169" stroke-width="1.4"/><path d="M9 5v8M6 7.5C6 6.7 7.3 6 9 6s3 .7 3 1.5-1.3 1.5-3 1.5-3 .7-3 1.5 1.3 1.5 3 1.5 3-.7 3-1.5" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div class="method-name" style="color:var(--grey)">Finance</div>
+            <div class="method-detail">Not available in this prototype</div>
+          </div>
+          <div class="radio-dot off"></div>
+        </div>
+
+        <!-- Mix -->
+        <div class="method-card disabled" onclick="nip()">
+          <div class="method-icon">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3v12" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="9" r="7.5" stroke="#596169" stroke-width="1.4"/></svg>
+          </div>
+          <div style="flex:1">
+            <div class="method-name" style="color:var(--grey)">Mix</div>
+            <div class="method-detail">Not available in this prototype</div>
+          </div>
+          <div class="radio-dot off"></div>
+        </div>
+
+        <div class="info-box" style="margin-top:6px">
+          <div class="info-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#B59600" stroke-width="1.4"/><path d="M7 6v4M7 4.5v.5" stroke="#B59600" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <span>Bank transfer through carsales generates a verified record of sale for both you and Harry.</span>
+        </div>
+
+        <div class="btn-wrap" style="margin-top:20px">
+          <a href="task1.2c-deal-experience.html" class="btn-primary" style="text-decoration:none;display:block">Send deal to Harry</a>
+        </div>
+      </div>
+    </div>
+
+
+  </div><!-- /phone -->
+</div><!-- /iphone -->
+
+<div class="toast" id="toast">Not in this prototype</div>
+
+<script>
+function nip() {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.classList.add('show');
+  clearTimeout(nip._t);
+  nip._t = setTimeout(function() { t.classList.remove('show'); }, 2000);
+}
+</script>
+
+</body>
+</html>

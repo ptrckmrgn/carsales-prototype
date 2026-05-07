@@ -559,6 +559,69 @@ input[name="screen"] { display: none; }
 .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(22,25,28,0.88); color: #fff; font-family: var(--font); font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: var(--r-full); display: none; z-index: 9999; white-space: nowrap; backdrop-filter: blur(8px); }
 .toast.show { display: block; }
 
+/* ─── Deal Guide Modal ────────────────────────────────────────── */
+.dg-toggle { display: none; }
+.dg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0,0,0,0);
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+#dg-toggle:checked ~ .dg-overlay {
+  background: rgba(0,0,0,0.45);
+  pointer-events: all;
+}
+.dg-sheet {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  max-height: calc(100% - 56px);
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+#dg-toggle:checked ~ .dg-overlay .dg-sheet {
+  transform: translateY(0);
+}
+.dg-handle { width: 36px; height: 4px; background: #DFE4E8; border-radius: 2px; margin: 12px auto 0; }
+.dg-close {
+  position: absolute; right: 16px; top: 14px;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: #F2F5F7; border-radius: 50%; cursor: pointer;
+  font-family: var(--font);
+}
+.dg-header { padding: 10px 20px 16px; position: relative; }
+.dg-title { font-size: 28px; font-weight: 600; color: #33373D; letter-spacing: -0.1px; line-height: 34px; margin-top: 4px; }
+.dg-subtitle { font-size: 15px; font-weight: 500; color: #33373D; line-height: 22px; margin-top: 6px; }
+.dg-cards { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
+.dg-card {
+  border: 1px solid #DFE4E8; border-radius: 8px; padding: 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: default;
+}
+.dg-card-text { flex: 1; }
+.dg-card-title { font-size: 17px; font-weight: 600; color: #33373D; line-height: 22px; }
+.dg-card-sub { font-size: 13px; font-weight: 500; color: #596169; line-height: 18px; margin-top: 2px; }
+.dg-cta { padding: 20px 16px 8px; }
+.dg-tcs { padding: 8px 16px 24px; font-size: 11px; color: var(--fg-subtle); line-height: 16px; text-align: center; }
+.dg-trigger-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 14px;
+  border: 1.5px solid var(--dark-dodger);
+  border-radius: 12px;
+  color: var(--dark-dodger);
+  font-size: 15px; font-weight: 600; font-family: var(--font);
+  cursor: pointer;
+  background: #fff;
+  max-width: 240px;
+  margin-top: 6px;
+  user-select: none; -webkit-user-select: none;
+}
+
 /* ─── carsales App Header ─────────────────────────────────────────── */
 .cs-header {
   position: relative;
@@ -676,6 +739,7 @@ input[name="screen"] { display: none; }
 
   <!-- ══ SCREEN 2 — MOMENT OF INTENT ══════════════════════════ -->
   <div id="s2" class="screen">
+    <input type="checkbox" id="dg-toggle" class="dg-toggle">
     <div class="status-bar">
       <span class="status-time">9:41</span>
       <div class="status-icons">
@@ -735,20 +799,72 @@ input[name="screen"] { display: none; }
         <div class="chat-avatar"><svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M16 6A7 7 0 1 1 9 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
         <div class="msg-rx-content">
           <div class="meta"><span>12 Dec</span><span>·</span><span>12:47pm</span></div>
-          <div class="deal-card pulse">
-            <div class="deal-card-text">Ready to start a deal? We'll guide you step by step.</div>
-            <div class="deal-card-tcs">Vehicle eligibility criteria and <span>T&amp;Cs</span> apply</div>
-            <div class="deal-card-actions">
-              <label for="tab3" class="btn-primary">Start the deal</label>
-              <button class="btn-ghost" onclick="nip()">Learn more</button>
-            </div>
-          </div>
+          <div class="bubble">We'll guide you step by step.</div>
+          <label for="dg-toggle" class="dg-trigger-btn">
+            View deal guide
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </label>
         </div>
       </div>
     </div>
     <div class="chat-input-bar">
       <svg class="attach-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19 12.09l-8.49 8.49a5 5 0 01-7.07-7.07l8.49-8.49a3 3 0 014.24 4.24l-8.49 8.49a1 1 0 01-1.41-1.42l7.78-7.77" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <label for="tab2" class="chat-input">Start typing...</label>
+    </div>
+
+    <!-- Deal Guide Modal -->
+    <div class="dg-overlay">
+      <div class="dg-sheet">
+        <div class="dg-handle"></div>
+        <div class="dg-header">
+          <label for="dg-toggle" class="dg-close">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="#596169" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </label>
+          <div class="dg-title">Deal guide</div>
+          <div class="dg-subtitle">Get guidance on next steps to buy this car</div>
+        </div>
+        <div class="dg-cards">
+          <div class="dg-card">
+            <div class="dg-card-text">
+              <div class="dg-card-title">Verification</div>
+              <div class="dg-card-sub">Your identity · Interested buyers</div>
+            </div>
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dg-card">
+            <div class="dg-card-text">
+              <div class="dg-card-title">Test drive</div>
+              <div class="dg-card-sub">Book a time with the seller</div>
+            </div>
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dg-card">
+            <div class="dg-card-text">
+              <div class="dg-card-title">Formalise the deal</div>
+              <div class="dg-card-sub">Lock in your offer and pay a deposit</div>
+            </div>
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dg-card">
+            <div class="dg-card-text">
+              <div class="dg-card-title">Arrange payment</div>
+              <div class="dg-card-sub">Transfer funds securely through carsales</div>
+            </div>
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="dg-card">
+            <div class="dg-card-text">
+              <div class="dg-card-title">Pick up the keys</div>
+              <div class="dg-card-sub">Collect the car and transfer ownership</div>
+            </div>
+            <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="dg-cta">
+          <label for="tab3" class="btn-primary">Start the deal</label>
+        </div>
+        <div class="dg-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
+      </div>
     </div>
   </div>
 
