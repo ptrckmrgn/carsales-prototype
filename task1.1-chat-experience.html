@@ -627,18 +627,22 @@ input[name="screen"] { display: none; }
 .cs-header-logo svg { width: 76px; height: 28px; display: block; }
 
 /* ─── CTA Card Toggle (CSS-only, no JS needed for show/hide) ─────── */
-#show-card, #var-a, #var-b { display: none; }
+#show-card, #var-a, #var-b, #var-c, #var-d { display: none; }
 .cta-card-section { display: none; margin-top: 12px; padding-bottom: 8px; }
 #show-card:checked ~ .iphone .phone .cta-card-section { display: block; }
-.cta-var-b { display: none; }
+.cta-var-b, .cta-var-c, .cta-var-d { display: none; }
 #var-b:checked ~ .iphone .phone .cta-var-a { display: none; }
 #var-b:checked ~ .iphone .phone .cta-var-b { display: block; }
+#var-c:checked ~ .iphone .phone .cta-var-a { display: none; }
+#var-c:checked ~ .iphone .phone .cta-var-c { display: block; }
+#var-d:checked ~ .iphone .phone .cta-var-a { display: none; }
+#var-d:checked ~ .iphone .phone .cta-var-d { display: block; }
 
 /* Simple step bullets inside chat card */
 .cta-card-section .elev-step-dot { width: 8px; height: 8px; background: var(--dark-dodger); font-size: 0; margin-top: 6px; }
 .cta-card-section .elev-step-left { width: 20px; }
 .cta-card-section .elev-step-line { min-height: 6px; background: #DFE4E8; }
-.cta-card-section .elev-stepper { display: none; }
+.cta-var-a .elev-stepper, .cta-var-b .elev-stepper { display: none; }
 .elev-card.pulse { animation: pulse 1.8s ease-out 0.3s both; }
 </style>
 </head>
@@ -650,6 +654,8 @@ input[name="screen"] { display: none; }
 <input type="checkbox" id="show-card">
 <input type="radio" name="variant" id="var-a" checked>
 <input type="radio" name="variant" id="var-b">
+<input type="radio" name="variant" id="var-c">
+<input type="radio" name="variant" id="var-d">
 
 
 
@@ -724,7 +730,7 @@ input[name="screen"] { display: none; }
           <div class="elev-card pulse" style="padding:0; overflow:hidden;">
             <label for="var-b" style="cursor:pointer; display:block; background:linear-gradient(135deg, #0073E3 0%, #1E90FF 100%); padding:16px;">
               <div>
-                <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Your deal is ready</div>
+                <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Your draft deal is ready</div>
                 <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">We've set it up for the 2019 Mazda 3. Follow the steps when you're ready.</div>
               </div>
             </label>
@@ -755,6 +761,70 @@ input[name="screen"] { display: none; }
         <div class="cta-var-b">
           <div class="elev-card pulse" style="padding:0; overflow:hidden;">
             <label for="var-a" style="cursor:pointer; display:block; background:linear-gradient(135deg, #01295F 0%, #0073E3 100%); padding:16px;">
+              <div>
+                <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Don't buy it alone</div>
+                <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">ID checks, secure payment, and a paper trail - start to finish.</div>
+              </div>
+            </label>
+            <div style="padding:14px 16px 16px; display:flex; flex-direction:column; gap:12px;">
+              <div class="elev-stepper">
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">1</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Both IDs verified</div><div class="elev-step-sublabel">You and Harry confirmed before you meet</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">2</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Safe inspection</div><div class="elev-step-sublabel">Location agreed - bring a friend if you can</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">3</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Signed agreement</div><div class="elev-step-sublabel">Price on record - nothing to dispute later</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">4</div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Secure payment and handover</div><div class="elev-step-sublabel">No cash - every transfer recorded, rego handled</div></div>
+                </div>
+              </div>
+              <a href="task1.1a-how-it-works.html" class="btn-primary navy" style="text-decoration:none;">Stay protected</a>
+              <label for="show-card" class="btn-ghost" style="text-align:center; cursor:pointer; display:block;">Not now</label>
+            </div>
+          </div>
+        </div>
+        <div class="cta-var-c">
+          <div class="elev-card pulse" style="padding:0; overflow:hidden;">
+            <label for="var-d" style="cursor:pointer; display:block; background:linear-gradient(135deg, #0073E3 0%, #1E90FF 100%); padding:16px;">
+              <div>
+                <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Your deal is ready</div>
+                <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">We've set it up for the 2019 Mazda 3. Follow the steps when you're ready.</div>
+              </div>
+            </label>
+            <div style="padding:14px 16px 16px; display:flex; flex-direction:column; gap:12px;">
+              <div class="elev-stepper">
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">1</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Verify the car</div><div class="elev-step-sublabel">PPSR check done - no hidden debt or encumbrances</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">2</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Book the inspection</div><div class="elev-step-sublabel">Agree a time and place with Harry</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">3</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Lock in the price</div><div class="elev-step-sublabel">Written offer - nothing to dispute later</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">4</div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Pay and collect the keys</div><div class="elev-step-sublabel">Bank transfer or card - rego and paperwork handled</div></div>
+                </div>
+              </div>
+              <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none;">Open your deal</a>
+              <label for="show-card" class="btn-ghost" style="text-align:center; cursor:pointer; display:block;">Not now</label>
+            </div>
+          </div>
+        </div>
+        <div class="cta-var-d">
+          <div class="elev-card pulse" style="padding:0; overflow:hidden;">
+            <label for="var-c" style="cursor:pointer; display:block; background:linear-gradient(135deg, #01295F 0%, #0073E3 100%); padding:16px;">
               <div>
                 <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Don't hand over cash alone</div>
                 <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">ID checks, secure payment, and a paper trail - start to finish.</div>
