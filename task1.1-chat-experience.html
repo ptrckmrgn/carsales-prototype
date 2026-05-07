@@ -644,6 +644,34 @@ input[name="screen"] { display: none; }
 .cta-card-section .elev-step-line { min-height: 6px; background: #DFE4E8; }
 .cta-var-a .elev-stepper, .cta-var-b .elev-stepper { display: none; }
 .elev-card.pulse { animation: pulse 1.8s ease-out 0.3s both; }
+
+/* ─── Facilitator variant toggle ──────────────────────────────── */
+.fac-toggle {
+  display: flex;
+  background: rgba(0,0,0,0.18);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+.fac-toggle label {
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#var-a:checked ~ .fac-toggle label[for="var-a"],
+#var-b:checked ~ .fac-toggle label[for="var-a"],
+#var-c:checked ~ .fac-toggle label[for="var-c"],
+#var-d:checked ~ .fac-toggle label[for="var-c"] {
+  background: #fff;
+  color: #16191C;
+}
 </style>
 </head>
 <body>
@@ -657,6 +685,10 @@ input[name="screen"] { display: none; }
 <input type="radio" name="variant" id="var-c">
 <input type="radio" name="variant" id="var-d">
 
+<div class="fac-toggle">
+  <label for="var-a">Without steps</label>
+  <label for="var-c">With steps</label>
+</div>
 
 
 <div class="iphone">
