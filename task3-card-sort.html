@@ -247,6 +247,15 @@
   </div>
 
   <script>
+    const list = document.getElementById('list1');
+    const cards = [...list.querySelectorAll('.card')];
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      list.appendChild(cards[j]);
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    list.querySelectorAll('.card').forEach((c, i) => c.querySelector('.card-rank').textContent = i + 1);
+
     let dragSrc = null;
 
     document.getElementById('list1').querySelectorAll('.card').forEach(card => {
