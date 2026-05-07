@@ -82,7 +82,7 @@ body{font-family:var(--font);background:#CDD5DE;min-height:100vh;display:flex;fl
 
         <!-- Header -->
         <div class="page-header">
-          <div class="page-title">Test drive</div>
+          <div class="page-title">Test drive with Harry</div>
           <div class="page-subtitle">Sat 7 Dec · 10:00am · Harry Wilson</div>
         </div>
 
@@ -238,7 +238,23 @@ body{font-family:var(--font);background:#CDD5DE;min-height:100vh;display:flex;fl
         <!-- Safety tip -->
         <div style="display:flex;gap:10px;align-items:flex-start;background:#FFFBEA;border:1px solid var(--jasmine);border-radius:var(--r-default);padding:12px 14px;font-size:13px;color:var(--fg-emphasis);line-height:18px;margin:14px 16px 0">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="7" cy="7" r="6" stroke="#B59600" stroke-width="1.4"/><path d="M7 6v4M7 4.5v.5" stroke="#B59600" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <span>Stick to public areas. Bring a friend if you can, and share your location before you go.</span>
+          <div style="flex:1">
+            <span>Stick to public areas. Bring a friend if you can.</span>
+            <div style="margin-top:8px">
+              <button onclick="nip()" style="display:inline-flex;align-items:center;gap:6px;background:var(--dark-dodger);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;">
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M7 1L4 4M7 1l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10c1.5 2 9.5 2 12 0" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Share my location
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Re-engagement CTA -->
+        <div style="padding:16px 16px 0">
+          <a href="task1.2-deal-experience.html" class="btn-primary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px">
+            Continue your deal
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
 
       </div>
