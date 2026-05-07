@@ -193,7 +193,7 @@ input[name="screen"] { display: none; }
   justify-content: center;
   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
-.msg-rx-content { display: flex; flex-direction: column; gap: 3px; }
+.msg-rx-content { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
 .msg-rx .meta { font-size: 11px; font-weight: 500; color: var(--chat-meta); display: flex; gap: 4px; }
 .msg-rx .bubble {
   background: var(--bg-surface);
@@ -565,7 +565,7 @@ input[name="screen"] { display: none; }
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.10);
-  width: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -700,9 +700,6 @@ input[name="screen"] { display: none; }
         <div class="chat-avatar"><svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 0C4.58 0 1 3.58 1 8h16C17 3.58 13.42 0 9 0z" fill="white"/></svg></div>
         <div class="msg-rx-content"><div class="meta"><span>2 Dec</span><span>·</span><span>10:03am</span></div><div class="bubble">Perfect, I'll have it ready for you 👍</div></div>
       </div>
-      <div class="chat-date" style="margin-top:14px"><span>12 Dec</span><span>·</span><span>12:45pm</span></div>
-      <div class="msg-sent"><div class="meta"><span>12 Dec</span><span>·</span><span>12:45pm</span></div><div class="bubble">Really liked the car — I'd like to buy it</div><div class="read-status">Sent</div></div>
-      <div class="msg-sent"><div class="meta"><span>12 Dec</span><span>·</span><span>12:45pm</span></div><div class="bubble">How do we make this official?</div><div class="read-status">Sent</div></div>
     </div>
     <div class="chat-input-bar">
       <svg class="attach-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19 12.09l-8.49 8.49a5 5 0 01-7.07-7.07l8.49-8.49a3 3 0 014.24 4.24l-8.49 8.49a1 1 0 01-1.41-1.42l7.78-7.77" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -755,24 +752,27 @@ input[name="screen"] { display: none; }
     <div class="chat-scroll" id="chat2">
       <div class="chat-date"><span>12 Dec</span><span>·</span><span>12:45pm</span></div>
       <div class="msg-sent"><div class="bubble">Really liked the car — I'd like to buy it. How do we make this official?</div><div class="read-status">Sent</div></div>
-      <div class="msg-rx" style="margin-top:12px; align-items: flex-start;">
-        <div class="chat-avatar" style="margin-top:2px"><svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M16 6A7 7 0 1 1 9 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-        <div class="msg-rx-content">
-          <div class="meta"><span>12 Dec</span><span>·</span><span>12:47pm</span></div>
-          <div class="elev-card">
+      <div style="margin-top:12px;">
+        <div class="elev-card">
+          <label for="tab3" style="cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <div class="elev-card-hd">Here's what happens next</div>
-              <div class="elev-card-desc">We'll guide you through every step</div>
+              <div class="elev-card-hd">We handle the deal for you</div>
+              <div class="elev-card-desc">We've set things up - follow the steps when you're ready</div>
             </div>
-            <div class="elev-stepper">
+            <div style="flex-shrink:0; display:flex; gap:4px; align-items:center; padding-top:2px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#0073E3;"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#DFE4E8;"></div>
+            </div>
+          </label>
+          <div class="elev-stepper">
               <div class="elev-step">
                 <div class="elev-step-left">
                   <div class="elev-step-dot">1</div>
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Verification</div>
-                  <div class="elev-step-sublabel">Confirm your identity</div>
+                  <div class="elev-step-label">Verify the car</div>
+                  <div class="elev-step-sublabel">We've run a PPSR check - it's clean</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -781,8 +781,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Test drive</div>
-                  <div class="elev-step-sublabel">Book a time with the seller</div>
+                  <div class="elev-step-label">Book the inspection</div>
+                  <div class="elev-step-sublabel">Agree a time and place with Harry</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -791,8 +791,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Formalise the deal</div>
-                  <div class="elev-step-sublabel">Lock in your offer</div>
+                  <div class="elev-step-label">Lock in the price</div>
+                  <div class="elev-step-sublabel">Send a formal offer - nothing left to dispute</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -801,8 +801,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Arrange payment</div>
-                  <div class="elev-step-sublabel">Pay securely through carsales</div>
+                  <div class="elev-step-label">Pay your way</div>
+                  <div class="elev-step-sublabel">Bank transfer, card or cash - carsales records it</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -810,20 +810,19 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-dot">5</div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Pick up the keys</div>
-                  <div class="elev-step-sublabel">Collect the car from Harry</div>
+                  <div class="elev-step-label">Get the keys</div>
+                  <div class="elev-step-sublabel">We handle rego transfer and paperwork</div>
                 </div>
               </div>
             </div>
-            <a href="task1.2-deal-experience.html" class="btn-primary" style="text-decoration:none">Start the deal</a>
-            <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
-          </div>
+          <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none">Open your deal</a>
+          <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
         </div>
       </div>
     </div>
     <div class="chat-input-bar">
       <svg class="attach-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19 12.09l-8.49 8.49a5 5 0 01-7.07-7.07l8.49-8.49a3 3 0 014.24 4.24l-8.49 8.49a1 1 0 01-1.41-1.42l7.78-7.77" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <label for="tab3" class="chat-input">Start typing...</label>
+      <div class="chat-input" style="cursor:text;" onclick="nip()">Start typing...</div>
     </div>
   </div>
 
@@ -872,16 +871,19 @@ input[name="screen"] { display: none; }
     <div class="chat-scroll" id="chat3">
       <div class="chat-date"><span>12 Dec</span><span>·</span><span>12:45pm</span></div>
       <div class="msg-sent"><div class="bubble">Really liked the car — I'd like to buy it. How do we make this official?</div><div class="read-status">Sent</div></div>
-      <div class="msg-rx" style="margin-top:12px; align-items: flex-start;">
-        <div class="chat-avatar" style="margin-top:2px"><svg width="18" height="12" viewBox="0 0 18 12" fill="none"><path d="M16 6A7 7 0 1 1 9 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div>
-        <div class="msg-rx-content">
-          <div class="meta"><span>12 Dec</span><span>·</span><span>12:47pm</span></div>
-          <div class="elev-card">
+      <div style="margin-top:12px;">
+        <div class="elev-card">
+          <label for="tab2" style="cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
               <div class="elev-card-hd">Stay safer with carsales</div>
-              <div class="elev-card-desc">Every step is designed to protect you</div>
+              <div class="elev-card-desc">We'll guide you through the deal process</div>
             </div>
-            <div class="elev-stepper">
+            <div style="flex-shrink:0; display:flex; gap:4px; align-items:center; padding-top:2px;">
+              <div style="width:6px;height:6px;border-radius:50%;background:#DFE4E8;"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:#0073E3;"></div>
+            </div>
+          </label>
+          <div class="elev-stepper">
               <div class="elev-step">
                 <div class="elev-step-left">
                   <div class="elev-step-dot">1</div>
@@ -919,7 +921,7 @@ input[name="screen"] { display: none; }
                 </div>
                 <div class="elev-step-body">
                   <div class="elev-step-label">Arrange payment</div>
-                  <div class="elev-step-sublabel">Never pay cash — transfer securely</div>
+                  <div class="elev-step-sublabel">Never pay cash - transfer securely</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -932,15 +934,14 @@ input[name="screen"] { display: none; }
                 </div>
               </div>
             </div>
-            <a href="task1.2-deal-experience.html" class="btn-primary" style="text-decoration:none">Start the deal</a>
-            <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
-          </div>
+          <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none">Start the deal</a>
+          <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
         </div>
       </div>
     </div>
     <div class="chat-input-bar">
       <svg class="attach-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19 12.09l-8.49 8.49a5 5 0 01-7.07-7.07l8.49-8.49a3 3 0 014.24 4.24l-8.49 8.49a1 1 0 01-1.41-1.42l7.78-7.77" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <label for="tab3" class="chat-input">Start typing...</label>
+      <div class="chat-input" style="cursor:text;" onclick="nip()">Start typing...</div>
     </div>
   </div>
 

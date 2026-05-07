@@ -377,7 +377,7 @@ input[name="screen"] { display: none; }
   z-index: 1;
 }
 .step-btn.done   { background: var(--dark-dodger); color: #fff; }
-.step-btn.active { background: var(--dark-dodger); color: #fff; box-shadow: 0 0 0 5px rgba(0,115,227,0.18); }
+.step-btn.active { background: #fff; color: var(--dark-dodger); border: 2px solid var(--dark-dodger); box-shadow: 0 0 0 5px rgba(0,115,227,0.18); }
 .step-btn.idle   { background: var(--bg-surface); color: var(--grey); border: 2px solid #C8D0D8; }
 .step-connector { width: 2px; flex: 1; min-height: 16px; margin: 4px 0; }
 .step-connector.done { background: var(--dark-dodger); }
@@ -399,6 +399,10 @@ input[name="screen"] { display: none; }
 .step-label { font-size: 15px; font-weight: 600; color: var(--fg-emphasis); line-height: 22px; }
 .step-label.idle { color: var(--grey); font-weight: 500; }
 .step-sub { font-size: 12px; color: var(--grey); line-height: 17px; margin-top: 1px; }
+.addon-row { display: flex; align-items: center; gap: 12px; padding: 11px 12px; background: var(--bg-canvas); border: 1px solid var(--border-default); border-radius: var(--r-default); cursor: pointer; text-align: left; font-family: var(--font); width: 100%; }
+.addon-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.addon-title { font-size: 13px; font-weight: 600; color: var(--fg-emphasis); line-height: 18px; }
+.addon-sub { font-size: 11px; color: var(--grey); margin-top: 1px; }
 .step-action { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
 
 .step-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
@@ -639,52 +643,64 @@ input[name="screen"] { display: none; }
     <div class="deal-screen-inner">
       <div class="deal-header">
         <div class="deal-title">Almost yours.</div>
-        <div class="deal-subtitle">Here's what's left to make it official.</div>
+        <div class="deal-subtitle">A few steps between you and the keys.</div>
       </div>
       <div class="car-summary">
         <div class="car-summary-img"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
         <div class="car-summary-info"><div class="car-summary-name">2019 Mazda 3</div><div class="car-summary-price">$26,000</div></div>
       </div>
       <div class="progress-wrap">
-        <div class="progress-labels"><span>Step 2 of 4</span><span class="pct">25% complete</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:25%"></div></div>
+        <div class="progress-labels"><span>Step 3 of 4</span><span class="pct">50% complete</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
       </div>
       <div class="rich-list">
 
-        <!-- 1 — Verification (done, taps to detail sub-page) -->
+        <!-- 1 — Verified (done, taps to detail sub-page) -->
         <div class="rich-list-item">
           <a href="task1.2a-verification.html" class="rli-row" style="text-decoration:none">
             <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
             <div class="rli-content">
               <div class="rli-title">Verified</div>
-              <div class="step-tags"><span class="step-tag hi">Car &amp; seller confirmed</span><span class="step-tag cta">Your ID needed</span></div>
+              <div class="step-sub">Car, seller &amp; your ID</div>
             </div>
             <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
           </a>
         </div>
 
-        <!-- 2 — Formalise the deal (active, open by default) -->
+        <!-- 2 — Test drive (done, taps to detail sub-page) -->
+        <div class="rich-list-item">
+          <a href="task1.2-testdrive.html" class="rli-row" style="text-decoration:none">
+            <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="rli-content">
+              <div class="rli-title">Test drive</div>
+              <div class="step-sub">Sat 7 Dec, 10am</div>
+            </div>
+            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </a>
+        </div>
+
+        <!-- 3 — Formalise the deal (active, open by default) -->
         <div class="rich-list-item rli-active">
           <input type="checkbox" id="s3-fd" class="rli-toggle" checked>
           <label for="s3-fd" class="rli-row">
-            <div class="rli-leading"><div class="step-btn active">2</div></div>
+            <div class="rli-leading"><div class="step-btn active">3</div></div>
             <div class="rli-content">
               <span class="step-badge active">Current step</span>
               <div class="rli-title">Formalise the deal</div>
-              <div class="step-tags"><span class="step-tag hi">Draft a deal</span><span class="step-tag hi">Pay deposit</span></div>
+              <div class="step-sub">Set the price and send the offer</div>
             </div>
             <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
           </label>
           <div class="rli-panel">
-            <div class="rli-preview">Set the agreed price and hold the car with a deposit. Harry gets notified and you both get a carsales-verified record of sale.</div>
+            <div class="rli-preview">Lock in the price with Harry and hold the car with a deposit. You'll both have a verified record of the deal.</div>
             <div class="rli-panel-items">
               <div class="rli-panel-item">
                 <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M8 1H2a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4L8 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1v3h3M3 7h6M3 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                <div><div class="rli-panel-label">Draft a deal</div><div class="rli-panel-desc">Agree the sale price and send a formal offer to Harry. No surprises for either side.</div></div>
+                <div><div class="rli-panel-label">Lock in the price</div><div class="rli-panel-desc">Set the sale price and send a formal offer to Harry. Everything on the record — nothing left to dispute.</div></div>
               </div>
               <div class="rli-panel-item">
                 <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><rect x="3" y="6" width="6" height="7" rx="1" stroke="#596169" stroke-width="1.4"/><path d="M4 6V4.5a2 2 0 014 0V6" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><circle cx="6" cy="9.5" r="0.75" fill="#596169"/></svg></div>
-                <div><div class="rli-panel-label">Pay a deposit</div><div class="rli-panel-desc">A deposit takes the car off the market while you arrange full payment.</div></div>
+                <div><div class="rli-panel-label">Secure it with a deposit</div><div class="rli-panel-desc">Harry can't sell it to someone else while you sort full payment.</div></div>
               </div>
             </div>
             <div class="rli-panel-cta">
@@ -693,84 +709,48 @@ input[name="screen"] { display: none; }
           </div>
         </div>
 
-        <!-- 3 — Arrange payment (idle, expandable) -->
+        <!-- 4 — Finalise the deal (idle) -->
         <div class="rich-list-item">
-          <input type="checkbox" id="s3-ap" class="rli-toggle">
-          <label for="s3-ap" class="rli-row">
-            <div class="rli-leading"><div class="step-btn idle">3</div></div>
-            <div class="rli-content">
-              <div class="rli-title idle">Arrange payment</div>
-              <div class="step-tags"><span class="step-tag hi">Pay through carsales</span><span class="step-tag">Pay outside platform</span></div>
-            </div>
-            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-          </label>
-          <div class="rli-panel">
-            <div class="rli-preview">Select how you would like to pay. Get a record of the sale only when you use pay through carsales.</div>
-            <div class="pay-cards">
-
-              <!-- Option 1: pre-selected -->
-              <div class="pay-card selected">
-                <div class="pay-card-row">
-                  <div class="pay-cb checked"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                  <div style="flex:1">
-                    <div class="pay-card-title">Secure payment managed by carsales</div>
-                    <div class="pay-list">
-                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>100% free. Cancel anytime*</span></div>
-                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Instant payout at handover</span></div>
-                      <div class="pay-list-item"><div class="pay-list-icon"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5l3 3L11 1" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Over $250M safely transacted. Safer payments with ID verification.¹</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Option 2: unchecked -->
-              <div class="pay-card unselected">
-                <div class="pay-card-row">
-                  <div class="pay-cb unchecked"></div>
-                  <div style="flex:1">
-                    <div class="pay-card-title">Accept payment methods not managed by carsales</div>
-                    <div class="pay-card-sub">We cannot manage payment types made outside of the platform.</div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- 4 — Complete the deal (idle) -->
-        <div class="rich-list-item">
-          <input type="checkbox" id="s3-pk" class="rli-toggle">
-          <label for="s3-pk" class="rli-row">
+          <div class="rli-row" style="cursor:default">
             <div class="rli-leading"><div class="step-btn idle">4</div></div>
             <div class="rli-content">
-              <div class="rli-title idle">Complete the deal</div>
-              <div class="step-tags"><span class="step-tag">View agreement</span><span class="step-tag cta">Sign &amp; complete</span></div>
+              <div class="rli-title idle">Finalise the deal</div>
+              <div class="step-sub">View and sign the agreement</div>
             </div>
-            <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-          </label>
-          <div class="rli-panel">
-            <div class="rli-preview">Review and sign the purchase agreement. Harry gets paid instantly and you drive away.</div>
-            <div class="rli-panel-items">
-              <div class="rli-panel-item">
-                <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M8 1H2a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4L8 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1v3h3M3 7h6M3 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                <div><div class="rli-panel-label">View purchase agreement</div><div class="rli-panel-desc">Carsales-generated agreement with the agreed price and car details.</div></div>
-              </div>
-              <div class="rli-panel-item">
-                <div class="rli-panel-icon"><svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M1 10.5l2-2L9 2.5l1 1-6 6-2 2-2-1z" stroke="#596169" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 4l1 1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-                <div><div class="rli-panel-label">Sign &amp; complete</div><div class="rli-panel-desc">Your signature releases the funds to Harry and completes the transfer.</div></div>
-              </div>
-            </div>
-            <div class="rli-panel-cta">
-              <a href="task1.3-deal-complete.html" class="btn-primary" style="text-decoration:none">Complete the deal</a>
-            </div>
+            <div class="rli-trailing"></div>
           </div>
         </div>
+
 
       </div>
       <div class="section-sep" style="margin-top:24px"></div>
       <div class="section-label">While you wait</div>
-      <div style="padding:0 16px 8px"><button class="btn-secondary" onclick="nip()">Browse similar Mazda 3s</button></div>
+      <div style="padding:0 16px 12px;display:flex;flex-direction:column;gap:8px;">
+        <button class="addon-row" onclick="nip()">
+          <div class="addon-icon"><svg width="15" height="17" viewBox="0 0 15 17" fill="none"><path d="M7.5 1L1 4v5c0 3.6 2.7 6.9 6.5 7.5C11.3 15.9 14 12.6 14 9V4L7.5 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div style="flex:1">
+            <div class="addon-title">Get an insurance quote</div>
+            <div class="addon-sub">Covered from day one</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 1l4 4-4 4" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="addon-row" onclick="nip()">
+          <div class="addon-icon"><svg width="16" height="13" viewBox="0 0 16 13" fill="none"><rect x="1" y="3" width="14" height="9" rx="1.5" stroke="#596169" stroke-width="1.4"/><path d="M1 6h14" stroke="#596169" stroke-width="1.4"/><path d="M3 9.5h4M12 9.5h1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M2 1l12 2" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+          <div style="flex:1">
+            <div class="addon-title">Explore finance options</div>
+            <div class="addon-sub">Competitive rates from top lenders</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 1l4 4-4 4" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="addon-row" onclick="nip()">
+          <div class="addon-icon"><svg width="16" height="14" viewBox="0 0 16 14" fill="none"><rect x="1" y="1" width="14" height="12" rx="2" stroke="#596169" stroke-width="1.4"/><path d="M5 1v12M1 5h4M1 9h4" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M8 5h4M8 9h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+          <div style="flex:1">
+            <div class="addon-title">Update your toll account</div>
+            <div class="addon-sub">Add the new plates in minutes</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none"><path d="M1 1l4 4-4 4" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 

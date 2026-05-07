@@ -65,7 +65,7 @@ input[name="screen"]{display:none;}
 .rli-panel-cta{padding:8px 14px 14px;background:var(--bg-surface);display:flex;flex-direction:column;gap:6px;}
 .step-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--font);}
 .step-btn.done{background:var(--dark-dodger);color:#fff;}
-.step-btn.active{background:var(--dark-dodger);color:#fff;box-shadow:0 0 0 5px rgba(0,115,227,0.18);}
+.step-btn.active{background:#fff;color:var(--dark-dodger);border:2px solid var(--dark-dodger);box-shadow:0 0 0 5px rgba(0,115,227,0.18);}
 .step-btn.idle{background:var(--bg-surface);color:var(--grey);border:2px solid #C8D0D8;}
 .step-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r-full);margin-bottom:3px;letter-spacing:0.3px;text-transform:uppercase;}
 .step-badge.active{background:#EDF6FF;color:var(--dark-dodger);}
@@ -74,6 +74,7 @@ input[name="screen"]{display:none;}
 .step-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg-surface);color:var(--grey);border:1px solid var(--border-default);white-space:nowrap;}
 .step-tag.hi{background:#EDF6FF;color:var(--dark-dodger);border-color:rgba(0,115,227,0.2);}
 .step-tag.cta{background:#FFF3EE;color:#C2400B;border-color:rgba(255,110,82,0.25);}
+.step-sub{font-size:12px;color:var(--grey);line-height:17px;margin-top:1px;}
 .btn-primary{display:block;width:100%;padding:12px 16px;background:var(--dark-dodger);color:#fff;font-family:var(--font);font-size:13px;font-weight:600;text-align:center;border:none;border-radius:var(--r-default);cursor:pointer;line-height:18px;transition:background 0.15s;user-select:none;-webkit-user-select:none;}
 .btn-primary:hover{background:#005BB5;}
 .btn-primary.complete{background:#1A7F37;}
@@ -118,16 +119,16 @@ input[name="screen"]{display:none;}
 
       <div class="deal-screen-inner">
         <div class="deal-header">
-          <div class="deal-title">You're nearly there.</div>
-          <div class="deal-subtitle">One last step and this car is officially yours.</div>
+          <div class="deal-title">You've got the car.</div>
+          <div class="deal-subtitle">One last step — transfer the rego and it's fully in your name.</div>
         </div>
         <div class="car-summary">
           <div class="car-summary-img"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="car-summary-info"><div class="car-summary-name">2019 Mazda 3</div><div class="car-summary-price">$26,000</div></div>
         </div>
         <div class="progress-wrap">
-          <div class="progress-labels"><span>Step 4 of 4</span><span class="pct">75% complete</span></div>
-          <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
+          <div class="progress-labels"><span>Step 5 of 5</span><span class="pct">80% complete</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:80%"></div></div>
         </div>
 
         <div class="rich-list">
@@ -138,68 +139,74 @@ input[name="screen"]{display:none;}
               <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
               <div class="rli-content">
                 <div class="rli-title">Verified</div>
-                <div class="step-tags"><span class="step-tag hi">Car &amp; seller confirmed</span></div>
+                <div class="step-sub">Car, seller &amp; your ID</div>
               </div>
               <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
             </a>
           </div>
 
-          <!-- 2 — Formalise (done) -->
+          <!-- 2 — Test drive (done) -->
+          <div class="rich-list-item">
+            <div class="rli-row" style="cursor:default">
+              <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+              <div class="rli-content">
+                <div class="rli-title">Test drive</div>
+                <div class="step-sub">Sat 7 Dec, 10am</div>
+              </div>
+              <div class="rli-trailing"></div>
+            </div>
+          </div>
+
+          <!-- 3 — Formalise (done) -->
           <div class="rich-list-item">
             <div class="rli-row" style="cursor:default">
               <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
               <div class="rli-content">
                 <div class="rli-title">Deal sent to Harry</div>
-                <div class="step-tags"><span class="step-tag hi">$26,000 agreed</span><span class="step-tag hi">$500 deposit</span></div>
+                <div class="step-sub">$26,000 agreed, $500 deposit</div>
               </div>
               <div class="rli-trailing"></div>
             </div>
           </div>
 
-          <!-- 3 — Arrange payment (done) -->
+          <!-- 4 — Finalise (done) -->
           <div class="rich-list-item">
             <div class="rli-row" style="cursor:default">
               <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
               <div class="rli-content">
-                <div class="rli-title">Payment transferred</div>
-                <div class="step-tags"><span class="step-tag hi">$26,500 sent</span><span class="step-tag hi">carsales escrow</span></div>
+                <div class="rli-title">Agreement signed</div>
+                <div class="step-sub">Harry paid, sale confirmed</div>
               </div>
               <div class="rli-trailing"></div>
             </div>
           </div>
 
-          <!-- 4 — Complete the deal (active, open) -->
+          <!-- 5 — Transfer registration (active, open) -->
           <div class="rich-list-item rli-active">
-            <input type="checkbox" id="cd" class="rli-toggle" checked>
-            <label for="cd" class="rli-row">
-              <div class="rli-leading"><div class="step-btn active">4</div></div>
+            <input type="checkbox" id="tr" class="rli-toggle" checked>
+            <label for="tr" class="rli-row">
+              <div class="rli-leading"><div class="step-btn active">5</div></div>
               <div class="rli-content">
                 <span class="step-badge final">Final step</span>
-                <div class="rli-title">Complete the deal</div>
-                <div class="step-tags"><span class="step-tag hi">View agreement</span><span class="step-tag cta">Sign &amp; complete</span></div>
+                <div class="rli-title">Transfer registration</div>
+                <div class="step-sub">Make it officially yours</div>
               </div>
               <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
             </label>
             <div class="rli-panel">
-              <div class="rli-preview">You've picked up the car. Sign the purchase agreement to release Harry's payment — this makes the sale official and yours forever.</div>
+              <div class="rli-preview">The money's moved and the car is yours. Transfer the registration within 5 days to make it official — takes about 5 minutes online.</div>
               <div class="rli-panel-items">
                 <div class="rli-panel-item">
-                  <div class="rli-panel-icon"><svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M8 1H2a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V4L8 1z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1v3h3M3 7h6M3 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                  <div>
-                    <div class="rli-panel-label">View purchase agreement</div>
-                    <div class="rli-panel-desc">carsales-generated agreement with the agreed price, car details, and both parties' information.</div>
-                  </div>
+                  <div class="rli-panel-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="#596169" stroke-width="1.4"/><path d="M4 7h6M4 4.5h6M4 9.5h4" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                  <div><div class="rli-panel-label">Transfer rego online</div><div class="rli-panel-desc">Visit your state transport website to transfer the registration to your name. Takes about 5 minutes.</div></div>
                 </div>
                 <div class="rli-panel-item">
-                  <div class="rli-panel-icon"><svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M1 10.5l2-2L9 2.5l1 1-6 6-2 2-2-1z" stroke="#596169" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 4l1 1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-                  <div>
-                    <div class="rli-panel-label">Sign &amp; complete</div>
-                    <div class="rli-panel-desc">Your signature releases the funds to Harry and completes the ownership transfer.</div>
-                  </div>
+                  <div class="rli-panel-icon"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><path d="M2 6h10M8 2l4 4-4 4" stroke="#596169" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div><div class="rli-panel-label">Notify your insurer</div><div class="rli-panel-desc">Update your policy with the new rego details so you're covered from today.</div></div>
                 </div>
               </div>
               <div class="rli-panel-cta">
-                <a href="task1.3-deal-complete.html" class="btn-primary complete" style="text-decoration:none">Complete the deal</a>
+                <a href="task1.3-deal-complete.html" class="btn-primary complete" style="text-decoration:none">Done — it's officially yours</a>
               </div>
             </div>
           </div>

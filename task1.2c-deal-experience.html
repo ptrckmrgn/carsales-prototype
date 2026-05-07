@@ -65,7 +65,7 @@ input[name="screen"]{display:none;}
 .rli-panel-cta{padding:8px 14px 14px;background:var(--bg-surface);display:flex;flex-direction:column;gap:6px;}
 .step-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;font-family:var(--font);}
 .step-btn.done{background:var(--dark-dodger);color:#fff;}
-.step-btn.active{background:var(--dark-dodger);color:#fff;box-shadow:0 0 0 5px rgba(0,115,227,0.18);}
+.step-btn.active{background:#fff;color:var(--dark-dodger);border:2px solid var(--dark-dodger);box-shadow:0 0 0 5px rgba(0,115,227,0.18);}
 .step-btn.idle{background:var(--bg-surface);color:var(--grey);border:2px solid #C8D0D8;}
 .step-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:var(--r-full);margin-bottom:3px;letter-spacing:0.3px;text-transform:uppercase;}
 .step-badge.active{background:#EDF6FF;color:var(--dark-dodger);}
@@ -73,6 +73,7 @@ input[name="screen"]{display:none;}
 .step-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--bg-surface);color:var(--grey);border:1px solid var(--border-default);white-space:nowrap;}
 .step-tag.hi{background:#EDF6FF;color:var(--dark-dodger);border-color:rgba(0,115,227,0.2);}
 .step-tag.cta{background:#FFF3EE;color:#C2400B;border-color:rgba(255,110,82,0.25);}
+.step-sub{font-size:12px;color:var(--grey);line-height:17px;margin-top:1px;}
 .btn-primary{display:block;width:100%;padding:12px 16px;background:var(--dark-dodger);color:#fff;font-family:var(--font);font-size:13px;font-weight:600;text-align:center;border:none;border-radius:var(--r-default);cursor:pointer;line-height:18px;transition:background 0.15s;user-select:none;-webkit-user-select:none;}
 .btn-primary:hover{background:#005BB5;}
 .btn-secondary{display:block;width:100%;padding:12px 16px;background:transparent;color:var(--dark-dodger);font-family:var(--font);font-size:13px;font-weight:600;text-align:center;border:1.5px solid var(--dark-dodger);border-radius:var(--r-default);cursor:pointer;line-height:18px;}
@@ -116,104 +117,92 @@ input[name="screen"]{display:none;}
 
       <div class="deal-screen-inner">
         <div class="deal-header">
-          <div class="deal-title">Almost yours.</div>
-          <div class="deal-subtitle">Here's what's left to make it official.</div>
+          <div class="deal-title">Harry's accepted.</div>
+          <div class="deal-subtitle">One signature and the car is yours.</div>
         </div>
         <div class="car-summary">
           <div class="car-summary-img"><img src="https://upload.wikimedia.org/wikipedia/commons/5/56/2019_Mazda3_Sport_NAV.jpg" alt="2019 Mazda 3" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="car-summary-info"><div class="car-summary-name">2019 Mazda 3</div><div class="car-summary-price">$26,000</div></div>
         </div>
         <div class="progress-wrap">
-          <div class="progress-labels"><span>Step 3 of 4</span><span class="pct">50% complete</span></div>
-          <div class="progress-track"><div class="progress-fill" style="width:50%"></div></div>
+          <div class="progress-labels"><span>Step 4 of 4</span><span class="pct">75% complete</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
         </div>
 
         <div class="rich-list">
 
-          <!-- 1 — Verified (done, taps to detail) -->
+          <!-- 1 — Verified (done) -->
           <div class="rich-list-item">
             <a href="task1.2a-verification.html" class="rli-row" style="text-decoration:none">
               <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
               <div class="rli-content">
                 <div class="rli-title">Verified</div>
-                <div class="step-tags"><span class="step-tag hi">Car &amp; seller confirmed</span><span class="step-tag cta">Your ID needed</span></div>
+                <div class="step-sub">Car, seller &amp; your ID</div>
               </div>
               <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
             </a>
           </div>
 
-          <!-- 2 — Formalise the deal (done) -->
+          <!-- 2 — Test drive (done) -->
           <div class="rich-list-item">
-            <a href="task1.2-deal-experience.html" class="rli-row" style="text-decoration:none">
+            <div class="rli-row" style="cursor:default">
+              <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+              <div class="rli-content">
+                <div class="rli-title">Test drive</div>
+                <div class="step-sub">Sat 7 Dec, 10am</div>
+              </div>
+              <div class="rli-trailing"></div>
+            </div>
+          </div>
+
+          <!-- 3 — Formalise (done) -->
+          <div class="rich-list-item">
+            <div class="rli-row" style="cursor:default">
               <div class="rli-leading"><div class="step-btn done"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5l3.5 4L12 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
               <div class="rli-content">
                 <div class="rli-title">Deal sent to Harry</div>
-                <div class="step-tags"><span class="step-tag hi">$26,000 agreed</span><span class="step-tag hi">$500 deposit</span></div>
+                <div class="step-sub">$26,000 agreed, $500 deposit</div>
               </div>
-              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-            </a>
+              <div class="rli-trailing"></div>
+            </div>
           </div>
 
-          <!-- 3 — Arrange payment (active, open) -->
+          <!-- 4 — Finalise the deal (active, open) -->
           <div class="rich-list-item rli-active">
-            <input type="checkbox" id="ap" class="rli-toggle" checked>
-            <label for="ap" class="rli-row">
-              <div class="rli-leading"><div class="step-btn active">3</div></div>
+            <input type="checkbox" id="fd" class="rli-toggle" checked>
+            <label for="fd" class="rli-row">
+              <div class="rli-leading"><div class="step-btn active">4</div></div>
               <div class="rli-content">
                 <span class="step-badge active">Current step</span>
-                <div class="rli-title">Arrange payment</div>
-                <div class="step-tags"><span class="step-tag hi">Bank transfer</span><span class="step-tag hi">carsales escrow</span></div>
+                <div class="rli-title">Finalise the deal</div>
+                <div class="step-sub">View and sign the agreement</div>
               </div>
               <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#0073E3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
             </label>
             <div class="rli-panel">
-              <div class="rli-preview">Harry accepted your deal. Transfer funds to the carsales escrow account below — your money is held safely until you confirm pick up.</div>
+              <div class="rli-preview">Harry's accepted. Sign the purchase agreement and the money moves. The car is legally yours.</div>
               <div class="rli-panel-items">
                 <div class="rli-panel-item">
-                  <div class="rli-panel-icon"><svg width="16" height="13" viewBox="0 0 16 13" fill="none"><rect x="1" y="3" width="14" height="9" rx="1.5" stroke="#596169" stroke-width="1.4"/><path d="M1 6h14" stroke="#596169" stroke-width="1.4"/><path d="M3 9.5h4M12 9.5h1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M2 1l12 2" stroke="#596169" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-                  <div>
-                    <div class="rli-panel-label">Transfer to</div>
-                    <div class="rli-panel-desc" style="line-height:18px">carsales Escrow Account<br>BSB: 082-123 &nbsp;|&nbsp; Acc: 7291 8834<br>Reference: <strong style="color:var(--fg-emphasis)">CS-2019-84921</strong></div>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px 0;width:100%">
+                    <div style="width:38px;height:46px;background:#fff;border-radius:6px;border:1px solid var(--border-default);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M10 1H3a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V6l-5-5z" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/><path d="M10 1v5h5M4 11h8M4 14h5" stroke="#596169" stroke-width="1.4" stroke-linecap="round"/></svg>
+                    </div>
+                    <div style="flex:1">
+                      <div style="font-size:13px;font-weight:600;color:var(--fg-emphasis)">Purchase Agreement</div>
+                      <div style="font-size:11px;color:var(--grey);margin-top:2px">2019 Mazda 3 · $26,000 · Ready to sign</div>
+                    </div>
+                    <svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
                 </div>
-                <div class="rli-panel-item">
-                  <div class="rli-panel-icon"><svg width="13" height="14" viewBox="0 0 13 14" fill="none"><circle cx="6.5" cy="7" r="5.5" stroke="#596169" stroke-width="1.4"/><path d="M6.5 4.5C5.4 4.5 4.5 5.2 4.5 6.2s1 1.5 2 1.5 2 .7 2 1.5-1 1.7-2 1.7" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/><path d="M6.5 3.5v1M6.5 11v-1" stroke="#596169" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-                  <div>
-                    <div class="rli-panel-label">Amount</div>
-                    <div class="rli-panel-desc">$26,000 sale + $500 deposit = <strong style="color:var(--fg-emphasis)">$26,500</strong></div>
-                  </div>
-                </div>
-              </div>
-              <div class="warn-box">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:1px"><path d="M7 1L1 12h12L7 1z" stroke="#C2400B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 6v3M7 10.5v.5" stroke="#C2400B" stroke-width="1.4" stroke-linecap="round"/></svg>
-                <span>Only transfer to this carsales escrow account. Never send funds directly to the seller.</span>
               </div>
               <div class="rli-panel-cta">
-                <a href="task1.2d-deal-experience.html" class="btn-primary" style="text-decoration:none">I'm ready for pick up</a>
+                <a href="task1.3-deal-complete.html" class="btn-primary" style="text-decoration:none">Sign &amp; complete sale</a>
               </div>
             </div>
           </div>
 
-          <!-- 4 — Complete the deal (idle) -->
-          <div class="rich-list-item">
-            <input type="checkbox" id="cd" class="rli-toggle">
-            <label for="cd" class="rli-row">
-              <div class="rli-leading"><div class="step-btn idle">4</div></div>
-              <div class="rli-content">
-                <div class="rli-title idle">Complete the deal</div>
-                <div class="step-tags"><span class="step-tag">View agreement</span><span class="step-tag cta">Sign &amp; complete</span></div>
-              </div>
-              <div class="rli-trailing"><span class="rli-chevron"><svg width="7" height="12" viewBox="0 0 7 12" fill="none"><path d="M1 1l5 5-5 5" stroke="#C8D0D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-            </label>
-            <div class="rli-panel">
-              <div class="rli-preview">Review and sign the purchase agreement. Harry gets paid instantly and you drive away.</div>
-            </div>
-          </div>
 
         </div>
-        <div class="section-sep" style="margin-top:24px"></div>
-        <div class="section-label">While you wait</div>
-        <div style="padding:0 16px 8px"><button class="btn-secondary" onclick="nip()">Browse similar Mazda 3s</button></div>
       </div>
 
     </div>

@@ -849,6 +849,145 @@
       color: rgba(255,255,255,0.3);
     }
 
+    /* ── CARD SORT OVERLAY ───────────────────────────── */
+    .sort-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #F5F5F8;
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+    }
+
+    .sort-overlay.visible { display: flex; }
+
+    .sort-back {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4A4A6A;
+      background: #fff;
+      border: 1.5px solid #E0E0EC;
+      border-radius: 8px;
+      padding: 7px 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 201;
+      cursor: pointer;
+    }
+
+    .sort-inner {
+      width: 100%;
+      max-width: 640px;
+      padding: 72px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sort-card-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sort-card {
+      background: #fff;
+      border: 1.5px solid #E0E0EC;
+      border-radius: 12px;
+      padding: 14px 16px 14px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .sort-card:active { cursor: grabbing; }
+    .sort-card.dragging { opacity: 0.4; border-color: #0073E3; }
+    .sort-card.drag-over {
+      border-color: #0073E3;
+      box-shadow: 0 0 0 3px rgba(0,115,227,0.12);
+      transform: scale(1.01);
+    }
+
+    .sort-rank {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #EBF4FF;
+      color: #0073E3;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sort-card:first-child .sort-rank { background: #0073E3; color: #fff; }
+
+    .sort-img-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 64px;
+      overflow: hidden;
+    }
+
+    .sort-img-wrap img {
+      max-width: 100%;
+      height: 160px;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .sort-handle {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 4px;
+      flex-shrink: 0;
+      opacity: 0.35;
+    }
+
+    .sort-handle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #4A4A6A;
+      border-radius: 2px;
+    }
+
+    .sort-submit-wrap { width: 100%; margin-top: 32px; }
+
+    .sort-submit {
+      width: 100%;
+      padding: 16px;
+      background: #0073E3;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .sort-submit:hover { background: #005bb5; }
+    .sort-submit:active { transform: scale(0.98); }
+
     /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
@@ -909,7 +1048,7 @@
           </div>
           <input type="url" id="listing-url" placeholder="Paste any listing URL to get started" autocomplete="off" spellcheck="false">
           <div class="spinner" id="spinner"></div>
-          <button class="btn btn-primary" onclick="handleUrl()">Start your deal &rarr;</button>
+          <button class="btn btn-primary" onclick="openSort()">Start your deal &rarr;</button>
         </div>
 
         <div class="url-error" id="url-error">Paste a listing URL above to get started</div>
@@ -922,7 +1061,7 @@
             <div class="mock-result-title">2021 Toyota RAV4 - $32,500 on Gumtree Cars</div>
             <div class="mock-result-sub">Ready to start your deal - verification takes about 3 minutes</div>
           </div>
-          <a href="#" class="btn btn-primary btn-sm" onclick="alert('End of prototype - this is where the deal flow begins.'); return false;">Continue &rarr;</a>
+          <button class="btn btn-primary btn-sm" onclick="openSort()">Continue &rarr;</button>
         </div>
 
         <div class="hero-trust">
@@ -1229,7 +1368,7 @@
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5a4.5 4.5 0 006.364 0l2.25-2.25a4.5 4.5 0 00-6.364-6.364l-1.125 1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 7.5a4.5 4.5 0 00-6.364 0L1.886 9.75a4.5 4.5 0 006.364 6.364l1.125-1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
           <input type="url" id="listing-url-2" placeholder="Paste any listing URL to get started" autocomplete="off" spellcheck="false">
-          <button class="btn btn-primary" onclick="handleUrl2()">Start your deal &rarr;</button>
+          <button class="btn btn-primary" onclick="openSort()">Start your deal &rarr;</button>
         </div>
       </div>
       <p class="bottom-trust">
@@ -1282,6 +1421,48 @@
     </div>
   </footer>
 
+  <!-- CARD SORT OVERLAY -->
+  <div class="sort-overlay" id="sort-overlay">
+    <button class="sort-back" onclick="document.getElementById('sort-overlay').classList.remove('visible')">&#8592; Back</button>
+    <div class="sort-inner">
+      <div class="sort-card-list" id="sort-list">
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">1</div>
+          <div class="sort-img-wrap"><img src="assets/frame-1.png" alt="carsales checkout"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">2</div>
+          <div class="sort-img-wrap"><img src="assets/frame-2.png" alt="carsales pay"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">3</div>
+          <div class="sort-img-wrap"><img src="assets/frame-3.png" alt="secure checkout by carsales"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">4</div>
+          <div class="sort-img-wrap"><img src="assets/frame-4.png" alt="greenlight by carsales"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">5</div>
+          <div class="sort-img-wrap"><img src="assets/frame-5.png" alt="autoflow by carsales"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+        <div class="sort-card" draggable="true">
+          <div class="sort-rank">6</div>
+          <div class="sort-img-wrap"><img src="assets/frame-6.png" alt="pay through carsales"></div>
+          <div class="sort-handle"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <div class="sort-submit-wrap">
+        <button class="sort-submit" onclick="window.location.href='index.html'">Submit</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function handleUrl() {
       const input = document.getElementById('listing-url');
@@ -1318,8 +1499,44 @@
         input.placeholder = 'Paste a listing URL to get started';
         return;
       }
-      alert('End of prototype - this is where the deal flow begins.');
+      openSort();
     }
+
+    function openSort() {
+      document.getElementById('sort-overlay').classList.add('visible');
+      window.scrollTo({ top: 0 });
+    }
+
+    // Drag-and-drop for sort overlay
+    let sortDragSrc = null;
+    document.getElementById('sort-list').querySelectorAll('.sort-card').forEach(card => {
+      card.addEventListener('dragstart', function(e) {
+        sortDragSrc = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      card.addEventListener('dragend', function() {
+        sortDragSrc.classList.remove('dragging');
+        document.querySelectorAll('.sort-card').forEach(c => c.classList.remove('drag-over'));
+        sortDragSrc = null;
+      });
+      card.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        if (this !== sortDragSrc) this.classList.add('drag-over');
+        return false;
+      });
+      card.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+      card.addEventListener('drop', function(e) {
+        e.stopPropagation();
+        if (this === sortDragSrc) return;
+        this.classList.remove('drag-over');
+        const list = this.closest('.sort-card-list');
+        const cards = [...list.querySelectorAll('.sort-card')];
+        list.insertBefore(sortDragSrc, cards.indexOf(sortDragSrc) < cards.indexOf(this) ? this.nextSibling : this);
+        list.querySelectorAll('.sort-card').forEach((c, i) => c.querySelector('.sort-rank').textContent = i + 1);
+        return false;
+      });
+    });
 
     document.getElementById('listing-url').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') handleUrl();
