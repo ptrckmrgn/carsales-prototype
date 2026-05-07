@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feature Ranking — carsales Private Deal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E8401C;
+      --orange-light: #FFF0ED;
+      --dark: #1A1A2E;
+      --mid: #4A4A6A;
+      --light: #F5F5F8;
+      --border: #E0E0EC;
+      --white: #FFFFFF;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header */
+    .header {
+      width: 100%;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: -0.5px;
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .progress-step {
+      width: 28px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+
+    .progress-step.active { background: var(--orange); }
+
+    .progress-label {
+      font-size: 13px;
+      color: var(--mid);
+      margin-left: 4px;
+    }
+
+    /* Page */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 640px;
+      padding: 40px 24px 80px;
+    }
+
+    .page.visible { display: flex; }
+
+    .page-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: center;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--mid);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    /* Card list */
+    .card-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 16px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .card:active { cursor: grabbing; }
+
+    .card.dragging {
+      opacity: 0.4;
+      border-color: var(--orange);
+    }
+
+    .card.drag-over {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232,64,28,0.12);
+      transform: scale(1.01);
+    }
+
+    .card-rank {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--orange-light);
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .card:first-child .card-rank {
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    .card-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      width: 32px;
+      text-align: center;
+    }
+
+    .card-body { flex: 1; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--mid);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .card-handle {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 4px;
+      flex-shrink: 0;
+      opacity: 0.35;
+    }
+
+    .card-handle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--mid);
+      border-radius: 2px;
+    }
+
+    /* Hint bar */
+    .hint {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 4px;
+      margin-bottom: 4px;
+    }
+
+    .hint-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--mid);
+      opacity: 0.7;
+    }
+
+    /* Submit */
+    .submit-wrap {
+      width: 100%;
+      margin-top: 32px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-submit:hover { background: #c73215; }
+    .btn-submit:active { transform: scale(0.98); }
+
+    /* Thank you */
+    .thankyou {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .thankyou.visible { display: flex; }
+
+    .thankyou-icon { font-size: 56px; margin-bottom: 20px; }
+
+    .thankyou-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .thankyou-text {
+      font-size: 16px;
+      color: var(--mid);
+      line-height: 1.6;
+      max-width: 380px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">carsales</div>
+    <div class="progress">
+      <div class="progress-step active" id="step1"></div>
+      <div class="progress-step" id="step2"></div>
+      <span class="progress-label" id="progress-label">Question 1 of 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div class="page visible" id="page1">
+    <div class="page-eyebrow">Card Sort — Part 1</div>
+    <h1 class="page-title">Which features matter most to you?</h1>
+    <p class="page-subtitle">You're buying a car from a private seller. Drag to rank these features — most valuable at the top, least at the bottom.</p>
+
+    <div class="hint">
+      <span class="hint-label">Most valuable</span>
+      <span class="hint-label">Least valuable</span>
+    </div>
+
+    <div class="card-list" id="list1">
+      <div class="card" draggable="true">
+        <div class="card-rank">1</div>
+        <div class="card-icon">🔍</div>
+        <div class="card-body">
+          <div class="card-title">Verification of the vehicle</div>
+          <div class="card-desc">PPSR check — confirm it's not stolen, written off, or encumbered</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">2</div>
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Verification of the seller</div>
+          <div class="card-desc">Confirm the seller is who they say they are — ID verified</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">3</div>
+        <div class="card-icon">🗺️</div>
+        <div class="card-body">
+          <div class="card-title">Guided deal experience</div>
+          <div class="card-desc">Step-by-step guidance from first contact through to handover</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">4</div>
+        <div class="card-icon">💳</div>
+        <div class="card-body">
+          <div class="card-title">Secure payment through carsales</div>
+          <div class="card-desc">Protected payment held in escrow — only released when you're happy</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">5</div>
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <div class="card-title">Assistance with transfer of registration</div>
+          <div class="card-desc">Guided rego transfer — we help you get it done correctly</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">6</div>
+        <div class="card-icon">✍️</div>
+        <div class="card-body">
+          <div class="card-title">Signed proof of sale document</div>
+          <div class="card-desc">Legally-signed digital sale agreement for both parties</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">7</div>
+        <div class="card-icon">📁</div>
+        <div class="card-body">
+          <div class="card-title">Digital record of sale</div>
+          <div class="card-desc">Permanent record of the transaction you can access any time</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">8</div>
+        <div class="card-icon">🌐</div>
+        <div class="card-body">
+          <div class="card-title">Use all features on Facebook Marketplace or other platforms</div>
+          <div class="card-desc">Access the full carsales deal experience — even when the car wasn't listed on carsales</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="btn-submit" onclick="goToPage2()">Submit &rarr;</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page2">
+    <div class="page-eyebrow">Card Sort — Part 2</div>
+    <h1 class="page-title">Which would you pay for?</h1>
+    <p class="page-subtitle">Same features — now rank them by how much you'd be willing to pay. Most willing to pay at the top.</p>
+
+    <div class="hint">
+      <span class="hint-label">Would pay most</span>
+      <span class="hint-label">Would pay least</span>
+    </div>
+
+    <div class="card-list" id="list2">
+      <div class="card" draggable="true">
+        <div class="card-rank">1</div>
+        <div class="card-icon">🔍</div>
+        <div class="card-body">
+          <div class="card-title">Verification of the vehicle</div>
+          <div class="card-desc">PPSR check — confirm it's not stolen, written off, or encumbered</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">2</div>
+        <div class="card-icon">👤</div>
+        <div class="card-body">
+          <div class="card-title">Verification of the seller</div>
+          <div class="card-desc">Confirm the seller is who they say they are — ID verified</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">3</div>
+        <div class="card-icon">🗺️</div>
+        <div class="card-body">
+          <div class="card-title">Guided deal experience</div>
+          <div class="card-desc">Step-by-step guidance from first contact through to handover</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">4</div>
+        <div class="card-icon">💳</div>
+        <div class="card-body">
+          <div class="card-title">Secure payment through carsales</div>
+          <div class="card-desc">Protected payment held in escrow — only released when you're happy</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">5</div>
+        <div class="card-icon">📋</div>
+        <div class="card-body">
+          <div class="card-title">Assistance with transfer of registration</div>
+          <div class="card-desc">Guided rego transfer — we help you get it done correctly</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">6</div>
+        <div class="card-icon">✍️</div>
+        <div class="card-body">
+          <div class="card-title">Signed proof of sale document</div>
+          <div class="card-desc">Legally-signed digital sale agreement for both parties</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">7</div>
+        <div class="card-icon">📁</div>
+        <div class="card-body">
+          <div class="card-title">Digital record of sale</div>
+          <div class="card-desc">Permanent record of the transaction you can access any time</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="card-rank">8</div>
+        <div class="card-icon">🌐</div>
+        <div class="card-body">
+          <div class="card-title">Use all features on Facebook Marketplace or other platforms</div>
+          <div class="card-desc">Access the full carsales deal experience — even when the car wasn't listed on carsales</div>
+        </div>
+        <div class="card-handle"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="btn-submit" onclick="finish()">Submit</button>
+    </div>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankyou">
+    <div class="thankyou-icon">✅</div>
+    <div class="thankyou-title">Thanks for your input</div>
+    <div class="thankyou-text">Your rankings have been recorded. This helps us understand what matters most when buying a car privately.</div>
+  </div>
+
+  <script>
+    let dragSrc = null;
+
+    function initList(listId) {
+      const list = document.getElementById(listId);
+      list.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('dragstart', onDragStart);
+        card.addEventListener('dragend', onDragEnd);
+        card.addEventListener('dragover', onDragOver);
+        card.addEventListener('dragleave', onDragLeave);
+        card.addEventListener('drop', onDrop);
+      });
+    }
+
+    function onDragStart(e) {
+      dragSrc = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragEnd() {
+      dragSrc.classList.remove('dragging');
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('drag-over'));
+      dragSrc = null;
+    }
+
+    function onDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (this !== dragSrc) this.classList.add('drag-over');
+      return false;
+    }
+
+    function onDragLeave() {
+      this.classList.remove('drag-over');
+    }
+
+    function onDrop(e) {
+      e.stopPropagation();
+      if (this === dragSrc) return;
+      this.classList.remove('drag-over');
+
+      const list = this.closest('.card-list');
+      const cards = [...list.querySelectorAll('.card')];
+      const srcIdx = cards.indexOf(dragSrc);
+      const tgtIdx = cards.indexOf(this);
+
+      if (srcIdx < tgtIdx) {
+        list.insertBefore(dragSrc, this.nextSibling);
+      } else {
+        list.insertBefore(dragSrc, this);
+      }
+
+      updateRanks(list);
+      return false;
+    }
+
+    function updateRanks(list) {
+      list.querySelectorAll('.card').forEach((card, i) => {
+        card.querySelector('.card-rank').textContent = i + 1;
+      });
+    }
+
+    function goToPage2() {
+      document.getElementById('page1').classList.remove('visible');
+      document.getElementById('page2').classList.add('visible');
+      document.getElementById('step2').classList.add('active');
+      document.getElementById('progress-label').textContent = 'Question 2 of 2';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function finish() {
+      document.getElementById('page2').classList.remove('visible');
+      document.getElementById('thankyou').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    initList('list1');
+    initList('list2');
+  </script>
+</body>
+</html>

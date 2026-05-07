@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task 3 — Deal complete · Deal Guide Prototype</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #F0F0F0; display: flex; min-height: 100vh; }
+  :root {
+    --cs-orange: #E85A00; --cs-orange-light: #FFF0E8; --cs-dark: #1A1A1A; --cs-mid: #4A4A4A;
+    --cs-grey: #767676; --cs-border: #E0E0E0; --cs-bg: #F5F5F5; --cs-white: #FFFFFF;
+    --cs-green: #2E7D32; --cs-green-light: #E8F5E9; --cs-blue: #1565C0; --cs-blue-light: #E3F0FF;
+  }
+  .sidebar { width: 260px; min-width: 260px; background: var(--cs-dark); color: #fff; display: flex; flex-direction: column; padding: 24px 0; }
+  .sidebar-logo { padding: 0 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-logo span { font-size: 13px; opacity: 0.5; display: block; margin-bottom: 4px; }
+  .sidebar-logo strong { font-size: 15px; color: var(--cs-orange); }
+  .sidebar-section { padding: 20px 20px 0; }
+  .sidebar-section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; opacity: 0.4; margin-bottom: 12px; }
+  .task-label-block { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(232,90,0,0.15); border: 1px solid rgba(232,90,0,0.4); border-radius: 8px; color: #fff; font-size: 13px; margin-bottom: 4px; }
+  .task-num { width: 22px; height: 22px; border-radius: 50%; background: var(--cs-orange); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .task-nav { display: flex; gap: 8px; padding: 12px 20px 0; }
+  .task-nav a { flex: 1; text-align: center; padding: 8px 6px; border-radius: 6px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); font-size: 11px; text-decoration: none; border: 1px solid rgba(255,255,255,0.08); }
+  .task-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .facilitator-box { margin: 16px 20px 0; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; }
+  .facilitator-box h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.4; margin-bottom: 8px; }
+  .facilitator-box p { font-size: 12px; line-height: 1.6; opacity: 0.7; }
+  .screen-dots { display: flex; gap: 5px; padding: 16px 20px 0; align-items: center; }
+  .screen-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: background 0.15s; flex-shrink: 0; }
+  .screen-dot.active { background: var(--cs-orange); width: 20px; border-radius: 4px; }
+  .screen-label { font-size: 10px; opacity: 0.4; margin-left: 4px; }
+  .stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px; gap: 24px; flex-direction: column; }
+  .phone-frame { width: 375px; height: 750px; background: var(--cs-dark); border-radius: 44px; padding: 14px; box-shadow: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06); position: relative; }
+  .phone-notch { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 120px; height: 34px; background: var(--cs-dark); border-radius: 0 0 20px 20px; z-index: 10; }
+  .phone-screen { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--cs-white); position: relative; }
+  .screen { display: none; flex-direction: column; height: 100%; }
+  .screen.active { display: flex; }
+  .status-bar { height: 44px; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 20px 8px; flex-shrink: 0; }
+  .status-bar .time { font-size: 15px; font-weight: 600; color: var(--cs-dark); }
+  .status-bar .icons { display: flex; gap: 6px; align-items: center; }
+  .status-bar .icons svg { width: 16px; height: 16px; fill: var(--cs-dark); opacity: 0.8; }
+  .app-header { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 12px; flex-shrink: 0; }
+  .app-header .back { color: var(--cs-orange); font-size: 15px; }
+  .app-header .title { font-size: 17px; font-weight: 600; color: var(--cs-dark); }
+  .content { flex: 1; overflow-y: auto; padding: 0 16px; }
+  .content::-webkit-scrollbar { display: none; }
+  .heading { font-size: 20px; font-weight: 700; color: var(--cs-dark); line-height: 1.25; margin-bottom: 6px; }
+  .subheading { font-size: 15px; font-weight: 600; color: var(--cs-dark); }
+  .body-text { font-size: 14px; color: var(--cs-mid); line-height: 1.5; }
+  .caption { font-size: 12px; color: var(--cs-grey); line-height: 1.4; }
+  .section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--cs-grey); margin-bottom: 8px; }
+  .card { background: var(--cs-white); border: 1px solid var(--cs-border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .card-orange { background: var(--cs-orange-light); border-color: rgba(232,90,0,0.2); }
+  .btn-primary { display: block; width: 100%; padding: 14px; background: var(--cs-orange); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; margin-bottom: 8px; }
+  .btn-secondary { display: block; width: 100%; padding: 14px; background: transparent; color: var(--cs-orange); border: 1.5px solid var(--cs-orange); border-radius: 10px; font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; margin-bottom: 8px; }
+  .btn-ghost { display: block; width: 100%; padding: 12px; background: transparent; color: var(--cs-grey); border: none; font-size: 14px; text-align: center; cursor: pointer; }
+  .check-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--cs-border); }
+  .check-row:last-child { border-bottom: none; }
+  .check-row .icon { font-size: 18px; }
+  .check-row .label { font-size: 14px; color: var(--cs-dark); flex: 1; }
+  .check-row .result-green { font-size: 13px; font-weight: 600; color: var(--cs-green); }
+  .check-row .result-orange { font-size: 13px; font-weight: 600; color: var(--cs-orange); }
+  .car-strip { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--cs-bg); border-radius: 10px; margin-bottom: 12px; }
+  .car-thumb-placeholder { width: 52px; height: 40px; border-radius: 6px; background: linear-gradient(135deg, #B0B8C0, #8A9099); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .input-field { width: 100%; padding: 12px 14px; border: 1.5px solid var(--cs-border); border-radius: 10px; font-size: 15px; color: var(--cs-dark); margin-bottom: 12px; background: var(--cs-white); }
+  .input-label { font-size: 13px; font-weight: 600; color: var(--cs-mid); margin-bottom: 6px; }
+  .hint { font-size: 11px; color: var(--cs-grey); font-style: italic; background: rgba(0,0,0,0.04); border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; }
+  .success-ring { width: 80px; height: 80px; border-radius: 50%; background: var(--cs-green-light); display: flex; align-items: center; justify-content: center; font-size: 38px; margin: 0 auto 16px; }
+  .spacer { height: 12px; } .spacer-lg { height: 20px; }
+  .controls { display: flex; gap: 10px; margin-top: 12px; }
+  .ctrl-btn { padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
+  .ctrl-prev { background: rgba(255,255,255,0.8); color: var(--cs-mid); flex: 1; }
+  .ctrl-next { background: var(--cs-orange); color: #fff; flex: 2; }
+  .ctrl-prev:disabled, .ctrl-next:disabled { opacity: 0.3; cursor: default; }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span>Design Sprint · May 2026</span>
+    <strong>Deal Guide Prototype</strong>
+  </div>
+  <div class="sidebar-section">
+    <h3>Task</h3>
+    <div class="task-label-block">
+      <span class="task-num">3</span>
+      <span>Deal complete<br><span style="font-size:11px;opacity:0.6">Return hook · paperwork · done</span></span>
+    </div>
+  </div>
+  <div class="task-nav">
+    <a href="task1.1-chat-experience.html">← Task 1</a>
+    <a href="task1.2-deal-experience.html">← Task 2</a>
+  </div>
+  <div class="facilitator-box" id="facilitator-prompt"></div>
+  <div class="screen-dots" id="screen-dots"></div>
+</aside>
+
+<main class="stage">
+  <div style="position:relative">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+
+        <!-- Screen 1: Return hook -->
+        <div class="screen active" id="s1">
+          <div class="status-bar">
+            <span class="time">9:41</span>
+            <span class="icons">
+              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+            </span>
+          </div>
+          <div class="app-header"><span class="back">← Deals</span><span class="title">Wrap up your deal</span><span></span></div>
+          <div class="content">
+            <div class="car-strip">
+              <div class="car-thumb-placeholder">🚗</div>
+              <div><div class="subheading" style="font-size:14px">2019 Mazda CX-5 GT</div><div class="caption">With Jordan R. · $28,500</div></div>
+            </div>
+            <div class="card card-orange">
+              <p style="font-size:15px;font-weight:700;margin-bottom:6px">Did you pay for the car?</p>
+              <p class="body-text" style="font-size:13px;margin-bottom:12px">You said you'd pay by bank transfer. Once you've paid, we'll help you get the rego transferred and generate your sale documents.</p>
+              <button class="btn-primary" style="margin-bottom:6px">Yes, I've paid — wrap it up</button>
+              <button class="btn-secondary" style="background:white">Not yet</button>
+            </div>
+            <div class="spacer"></div>
+            <p class="section-title">What you get when you're done</p>
+            <div class="card">
+              <div class="check-row"><span class="icon">📄</span><span class="label">Record of sale</span><span class="result-green">Included</span></div>
+              <div class="check-row"><span class="icon">🚗</span><span class="label">Transfer of rego</span><span class="result-green">Included</span></div>
+              <div class="check-row"><span class="icon">✍️</span><span class="label">Signed sale agreement</span><span class="result-green">Included</span></div>
+            </div>
+            <div class="spacer-lg"></div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Transfer of rego form -->
+        <div class="screen" id="s2">
+          <div class="status-bar">
+            <span class="time">9:41</span>
+            <span class="icons">
+              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+            </span>
+          </div>
+          <div class="app-header"><span class="back">← Back</span><span class="title">Transfer of rego</span><span></span></div>
+          <div class="content">
+            <div class="hint">We've pre-filled this from your deal details. Confirm and submit.</div>
+            <p class="section-title">Vehicle details</p>
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="caption">Registration</span><span class="body-text">ABC123</span></div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="caption">VIN</span><span class="body-text">JM3KE4DY…</span></div>
+              <div style="display:flex;justify-content:space-between"><span class="caption">State</span><span class="body-text">VIC</span></div>
+            </div>
+            <p class="section-title">Transaction details</p>
+            <div class="card">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="caption">Sale price</span><span class="body-text">$28,500</span></div>
+              <div style="display:flex;justify-content:space-between"><span class="caption">Date of sale</span><span class="body-text">7 May 2026</span></div>
+            </div>
+            <p class="section-title">Buyer details</p>
+            <div class="input-label">Full name</div>
+            <input class="input-field" type="text" value="Alex Chen">
+            <div class="input-label">Licence number</div>
+            <input class="input-field" type="text" value="VIC1234567">
+            <div class="input-label">Address</div>
+            <input class="input-field" type="text" value="12 Park St, Richmond VIC 3121">
+            <button class="btn-primary">Submit transfer →</button>
+            <div class="spacer-lg"></div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Congrats -->
+        <div class="screen" id="s3">
+          <div class="status-bar">
+            <span class="time">9:41</span>
+            <span class="icons">
+              <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3a4.237 4.237 0 0 0-6 0zm-4-4 2 2a7.074 7.074 0 0 1 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+            </span>
+          </div>
+          <div class="app-header"><span></span><span></span><span></span></div>
+          <div class="content" style="text-align:center;padding-top:24px">
+            <div class="success-ring">🎉</div>
+            <div class="heading" style="margin-bottom:8px">Deal done!</div>
+            <p class="body-text" style="margin-bottom:24px">Everything's sorted. Your documents are ready to download.</p>
+            <div class="card" style="text-align:left">
+              <p class="section-title">Your documents</p>
+              <div class="check-row"><span class="icon">✅</span><span class="label" style="font-weight:600">Record of sale</span><span class="result-orange">Download</span></div>
+              <div class="check-row"><span class="icon">✅</span><span class="label" style="font-weight:600">Transfer of rego submitted</span><span class="result-green">Done</span></div>
+              <div class="check-row"><span class="icon">✅</span><span class="label" style="font-weight:600">Signed sale agreement</span><span class="result-orange">Download</span></div>
+            </div>
+            <div class="spacer"></div>
+            <p class="caption">The rego transfer typically takes 1-3 business days to process with VicRoads.</p>
+            <div class="spacer"></div>
+            <button class="btn-primary">Back to home</button>
+            <button class="btn-ghost">Rate your experience</button>
+            <div class="spacer-lg"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="controls" style="width:375px">
+    <button class="ctrl-btn ctrl-prev" id="btn-prev" onclick="navigate(-1)">← Prev</button>
+    <button class="ctrl-btn ctrl-next" id="btn-next" onclick="navigate(1)">Next →</button>
+  </div>
+</main>
+
+<script>
+  const screens = ['s1','s2','s3'];
+  const labels  = ['Return hook','Transfer of rego','Deal complete'];
+  const prompts = [
+    'Say: <em>"A day after the bank transfer, you open carsales and see this screen. What do you think of it?"</em> Probe: <em>"Is this enough to bring you back?"</em>',
+    'Probe: <em>"How does it feel that the form is pre-filled? Does that change whether you\'d bother completing it?"</em>',
+    'Probe: <em>"How do you feel about how this ended? What\'s most valuable here? Is there anything missing?"</em> Transition to card sort.'
+  ];
+  let current = 0;
+  function navigate(dir) { current = Math.max(0, Math.min(screens.length - 1, current + dir)); update(); }
+  function update() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screens[current]).classList.add('active');
+    document.getElementById('facilitator-prompt').innerHTML = '<h4>Facilitator — Task 3</h4><p>' + prompts[current] + '</p>';
+    const dotsEl = document.getElementById('screen-dots');
+    dotsEl.innerHTML = '';
+    screens.forEach((_, i) => {
+      const d = document.createElement('div'); d.className = 'screen-dot' + (i === current ? ' active' : '');
+      d.onclick = () => { current = i; update(); }; dotsEl.appendChild(d);
+    });
+    const lbl = document.createElement('span'); lbl.className = 'screen-label'; lbl.textContent = labels[current]; dotsEl.appendChild(lbl);
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === screens.length - 1;
+    document.getElementById('btn-next').textContent = current === screens.length - 1 ? 'End of task' : 'Next →';
+  }
+  update();
+</script>
+</body>
+</html>
