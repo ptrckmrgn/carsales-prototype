@@ -625,6 +625,19 @@ input[name="screen"] { display: none; }
 .cs-header-back svg { width: 10px; height: 18px; flex-shrink: 0; overflow: visible; }
 .cs-header-logo { display: flex; align-items: center; justify-content: center; }
 .cs-header-logo svg { width: 76px; height: 28px; display: block; }
+
+/* ─── CTA Card Toggle (CSS-only, no JS needed for show/hide) ─────── */
+#show-card, #var-a, #var-b { display: none; }
+.cta-card-section { display: none; margin-top: 12px; padding-bottom: 8px; }
+#show-card:checked ~ .iphone .phone .cta-card-section { display: block; }
+.cta-var-b { display: none; }
+#var-b:checked ~ .iphone .phone .cta-var-a { display: none; }
+#var-b:checked ~ .iphone .phone .cta-var-b { display: block; }
+
+/* Simple step bullets inside chat card */
+.cta-card-section .elev-step-dot { width: 8px; height: 8px; background: var(--dark-dodger); font-size: 0; margin-top: 6px; }
+.cta-card-section .elev-step-left { width: 20px; }
+.cta-card-section .elev-step-line { min-height: 6px; background: #DFE4E8; }
 </style>
 </head>
 <body>
@@ -632,8 +645,9 @@ input[name="screen"] { display: none; }
 
 <!-- Hidden radio inputs — CSS-only screen navigation, no JS needed -->
 <input type="radio" name="screen" id="tab1" checked>
-<input type="radio" name="screen" id="tab2">
-<input type="radio" name="screen" id="tab3">
+<input type="checkbox" id="show-card">
+<input type="radio" name="variant" id="var-a" checked>
+<input type="radio" name="variant" id="var-b">
 
 
 
@@ -695,15 +709,101 @@ input[name="screen"] { display: none; }
         <div class="msg-rx-content"><div class="meta"><span>28 Nov</span><span>·</span><span>10:15am</span></div><div class="bubble">Yes, still available! Happy to arrange an inspection 😊</div></div>
       </div>
       <div class="chat-date" style="margin-top:14px"><span>2 Dec</span><span>·</span><span>9:52am</span></div>
-      <div class="msg-sent"><div class="bubble">Saturday 10am works for me — see you then</div></div>
+      <div class="msg-sent"><div class="bubble">Does Saturday 10am work for you?</div></div>
       <div class="msg-rx">
         <div class="chat-avatar"><svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 0C4.58 0 1 3.58 1 8h16C17 3.58 13.42 0 9 0z" fill="white"/></svg></div>
         <div class="msg-rx-content"><div class="meta"><span>2 Dec</span><span>·</span><span>10:03am</span></div><div class="bubble">Perfect, I'll have it ready for you 👍</div></div>
       </div>
+      <div class="chat-date" style="margin-top:14px"><span>12 Dec</span><span>·</span><span>12:45pm</span></div>
+      <div class="msg-sent"><div class="bubble">Really liked the car — I'd like to buy it. How do we make this official?</div><div class="read-status">Sent</div></div>
+      <div class="cta-card-section">
+        <div class="cta-var-a">
+          <div class="elev-card" style="padding:0; overflow:hidden;">
+            <label for="var-b" style="cursor:pointer; display:block; background:linear-gradient(135deg, #0073E3 0%, #1E90FF 100%); padding:16px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+                <div>
+                  <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Your deal is ready</div>
+                  <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">We've set it up — offer, payment, handover. Every step guided.</div>
+                </div>
+                <div style="flex-shrink:0; display:flex; gap:4px; align-items:center; padding-top:5px;">
+                  <div style="width:7px;height:7px;border-radius:50%;background:#fff;"></div>
+                  <div style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);"></div>
+                </div>
+              </div>
+            </label>
+            <div style="padding:14px 16px 16px; display:flex; flex-direction:column; gap:12px;">
+              <div class="elev-stepper">
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">1</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Verify the car</div><div class="elev-step-sublabel">We've run a PPSR check - it's clean</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">2</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Book the inspection</div><div class="elev-step-sublabel">Agree a time and place with Harry</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">3</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Lock in the price</div><div class="elev-step-sublabel">Send a formal offer - nothing left to dispute</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">4</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Pay your way</div><div class="elev-step-sublabel">Bank transfer, card or cash - carsales records it</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">5</div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Get the keys</div><div class="elev-step-sublabel">We handle rego transfer and paperwork</div></div>
+                </div>
+              </div>
+              <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none;">Open your deal</a>
+            </div>
+          </div>
+        </div>
+        <div class="cta-var-b">
+          <div class="elev-card" style="padding:0; overflow:hidden;">
+            <label for="var-a" style="cursor:pointer; display:block; background:linear-gradient(135deg, #01295F 0%, #0073E3 100%); padding:16px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+                <div>
+                  <div style="font-size:17px; font-weight:800; color:#fff; line-height:23px; letter-spacing:-0.4px;">Don't hand over cash alone</div>
+                  <div style="font-size:13px; color:rgba(255,255,255,0.88); margin-top:4px; font-weight:500; line-height:18px;">ID checks, secure payment, and a paper trail — start to finish.</div>
+                </div>
+                <div style="flex-shrink:0; display:flex; gap:4px; align-items:center; padding-top:5px;">
+                  <div style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);"></div>
+                  <div style="width:7px;height:7px;border-radius:50%;background:#fff;"></div>
+                </div>
+              </div>
+            </label>
+            <div style="padding:14px 16px 16px; display:flex; flex-direction:column; gap:12px;">
+              <div class="elev-stepper">
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">1</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">ID verified on both sides</div><div class="elev-step-sublabel">You and Harry are confirmed before you meet</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">2</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Safe inspection</div><div class="elev-step-sublabel">Agree a location before you go</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">3</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Formal offer, in writing</div><div class="elev-step-sublabel">Price on record - nothing to dispute later</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">4</div><div class="elev-step-line"></div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Secure payment</div><div class="elev-step-sublabel">Never pay cash - every transfer recorded</div></div>
+                </div>
+                <div class="elev-step">
+                  <div class="elev-step-left"><div class="elev-step-dot">5</div></div>
+                  <div class="elev-step-body"><div class="elev-step-label">Safe handover</div><div class="elev-step-sublabel">Rego and proof of sale, handled</div></div>
+                </div>
+              </div>
+              <a href="task1.1a-how-it-works.html" class="btn-primary navy" style="text-decoration:none;">Stay protected</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="chat-input-bar">
       <svg class="attach-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M19 12.09l-8.49 8.49a5 5 0 01-7.07-7.07l8.49-8.49a3 3 0 014.24 4.24l-8.49 8.49a1 1 0 01-1.41-1.42l7.78-7.77" stroke="#596169" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <label for="tab2" class="chat-input">Start typing...</label>
+      <label for="show-card" class="chat-input">Start typing...</label>
     </div>
   </div>
 
@@ -816,7 +916,6 @@ input[name="screen"] { display: none; }
               </div>
             </div>
           <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none">Open your deal</a>
-          <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
         </div>
       </div>
     </div>
@@ -875,8 +974,8 @@ input[name="screen"] { display: none; }
         <div class="elev-card">
           <label for="tab2" style="cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <div class="elev-card-hd">Stay safer with carsales</div>
-              <div class="elev-card-desc">We'll guide you through the deal process</div>
+              <div class="elev-card-hd">Stay protected with carsales</div>
+              <div class="elev-card-desc">Verified identities, secure payment, and a paper trail</div>
             </div>
             <div style="flex-shrink:0; display:flex; gap:4px; align-items:center; padding-top:2px;">
               <div style="width:6px;height:6px;border-radius:50%;background:#DFE4E8;"></div>
@@ -890,8 +989,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Verification</div>
-                  <div class="elev-step-sublabel">Confirm identities before you meet</div>
+                  <div class="elev-step-label">ID verified on both sides</div>
+                  <div class="elev-step-sublabel">You and Harry are confirmed before you meet</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -900,8 +999,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Test drive</div>
-                  <div class="elev-step-sublabel">Book a safe public location with the seller</div>
+                  <div class="elev-step-label">Safe inspection</div>
+                  <div class="elev-step-sublabel">Agree a location before you go</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -910,8 +1009,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Formalise the deal</div>
-                  <div class="elev-step-sublabel">Lock in your offer in writing</div>
+                  <div class="elev-step-label">Formal offer, in writing</div>
+                  <div class="elev-step-sublabel">Price on record - nothing to dispute later</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -920,8 +1019,8 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-line"></div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Arrange payment</div>
-                  <div class="elev-step-sublabel">Never pay cash - transfer securely</div>
+                  <div class="elev-step-label">Secure payment</div>
+                  <div class="elev-step-sublabel">Never pay cash - every transfer recorded</div>
                 </div>
               </div>
               <div class="elev-step">
@@ -929,13 +1028,12 @@ input[name="screen"] { display: none; }
                   <div class="elev-step-dot">5</div>
                 </div>
                 <div class="elev-step-body">
-                  <div class="elev-step-label">Pick up the keys</div>
-                  <div class="elev-step-sublabel">Collect from a safe, agreed location</div>
+                  <div class="elev-step-label">Safe handover</div>
+                  <div class="elev-step-sublabel">Rego and proof of sale, handled</div>
                 </div>
               </div>
             </div>
           <a href="task1.1a-how-it-works.html" class="btn-primary" style="text-decoration:none">Start the deal</a>
-          <div class="elev-card-tcs">Vehicle eligibility criteria and T&amp;Cs apply</div>
         </div>
       </div>
     </div>
@@ -961,10 +1059,15 @@ function nip() {
 }
 
 window.addEventListener('load', function() {
-  ['chat1','chat2'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.scrollTop = el.scrollHeight;
-  });
+  var chat = document.getElementById('chat1');
+  if (chat) chat.scrollTop = chat.scrollHeight;
+});
+
+document.getElementById('show-card').addEventListener('change', function() {
+  if (this.checked) {
+    var chat = document.getElementById('chat1');
+    if (chat) setTimeout(function() { chat.scrollTop = chat.scrollHeight; }, 10);
+  }
 });
 </script>
 
