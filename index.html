@@ -6,25 +6,28 @@
   <title>Buy through carsales</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sofia+Sans+Condensed:wght@900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue: #0067CC;
-      --blue-dark: #01295F;
+      /* Torq palette */
+      --dodger: #1E90FF;       /* brand/default — hero colour */
+      --blue: #0073E3;         /* accent/default — buttons, links */
+      --blue-dark: #01295F;    /* brand/royal-blue — dark backgrounds, body text */
       --blue-light: #EBF4FF;
       --blue-mid: #1a7ee0;
-      --gold: #F8DE7E;
+      --gold: #F8DE7E;         /* brand/jasmine */
       --gold-dark: #E8C200;
+      --tomato: #FF6E52;       /* brand/tomato */
       --green: #1a9e5c;
       --green-light: #E8F8EF;
       --white: #FFFFFF;
-      --surface: #F2F5F7;
+      --surface: #F2F5F7;      /* background/surface — White Smoke */
       --border: #E0E6ED;
-      --text: #1C2B39;
-      --text-mid: #3D5166;
-      --text-subtle: #637283;
+      --text: #33373D;         /* foreground/default — Jet */
+      --text-mid: #01295F;     /* Royal Blue for supportive text */
+      --text-subtle: #596169;  /* foreground/subtle — Grey */
       --r-sm: 8px;
       --r-md: 12px;
       --r-lg: 20px;
@@ -181,14 +184,16 @@
     }
 
     .hero h1 {
-      font-size: clamp(40px, 5vw, 64px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      font-family: 'Sofia Sans Condensed', 'Manrope', system-ui, sans-serif;
+      font-size: clamp(52px, 6.5vw, 84px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
       margin-bottom: 20px;
+      text-transform: uppercase;
     }
 
-    .hero h1 span { color: var(--gold); }
+    .hero h1 span { color: var(--dodger); }
 
     .hero-sub {
       font-size: 18px;
@@ -543,7 +548,7 @@
       margin-top: 1px;
     }
 
-    .check.orange { background: #FF8C42; }
+    .check.orange { background: var(--tomato); }
 
     .check svg { width: 11px; height: 11px; }
 
@@ -844,16 +849,6 @@
       color: rgba(255,255,255,0.3);
     }
 
-    /* ── PROTOTYPE BANNER ────────────────────────────── */
-    .proto-banner {
-      background: var(--gold);
-      padding: 8px 24px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--blue-dark);
-    }
-
     /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 900px) {
       .nav-links { display: none; }
@@ -877,17 +872,12 @@
 </head>
 <body>
 
-  <!-- PROTOTYPE NOTICE -->
-  <div class="proto-banner">
-    Concept prototype - for research purposes only. Not a live product.
-  </div>
-
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">
       <!-- carsales wordmark -->
       <svg viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="carsales">
-        <text x="0" y="24" font-family="Manrope, sans-serif" font-weight="800" font-size="24" fill="#0067CC">carsales</text>
+        <text x="0" y="24" font-family="Manrope, sans-serif" font-weight="800" font-size="24" fill="#0073E3">carsales</text>
       </svg>
     </a>
     <ul class="nav-links">
@@ -915,7 +905,7 @@
 
         <div class="url-input-wrap" id="url-wrap">
           <div class="url-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5a4.5 4.5 0 006.364 0l2.25-2.25a4.5 4.5 0 00-6.364-6.364l-1.125 1.125" stroke="#637283" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 7.5a4.5 4.5 0 00-6.364 0L1.886 9.75a4.5 4.5 0 006.364 6.364l1.125-1.125" stroke="#637283" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5a4.5 4.5 0 006.364 0l2.25-2.25a4.5 4.5 0 00-6.364-6.364l-1.125 1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 7.5a4.5 4.5 0 00-6.364 0L1.886 9.75a4.5 4.5 0 006.364 6.364l1.125-1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
           <input type="url" id="listing-url" placeholder="Paste any listing URL to get started" autocomplete="off" spellcheck="false">
           <div class="spinner" id="spinner"></div>
@@ -956,7 +946,7 @@
           </div>
           <div class="pm-car-card">
             <div class="pm-car-img">
-              <svg width="32" height="24" viewBox="0 0 32 24" fill="none"><rect x="2" y="10" width="28" height="10" rx="3" fill="#0067CC" opacity="0.2"/><path d="M5 10l3-6h16l3 6" fill="#0067CC" opacity="0.4"/><circle cx="9" cy="20" r="3" fill="#01295F"/><circle cx="23" cy="20" r="3" fill="#01295F"/></svg>
+              <svg width="32" height="24" viewBox="0 0 32 24" fill="none"><rect x="2" y="10" width="28" height="10" rx="3" fill="#0073E3" opacity="0.2"/><path d="M5 10l3-6h16l3 6" fill="#0073E3" opacity="0.4"/><circle cx="9" cy="20" r="3" fill="#01295F"/><circle cx="23" cy="20" r="3" fill="#01295F"/></svg>
             </div>
             <div>
               <div class="pm-car-name">2021 Toyota RAV4</div>
@@ -991,9 +981,9 @@
               </div>
             </div>
             <div class="pm-step">
-              <div class="pm-step-dot" style="background:#E0E6ED;color:#637283;">4</div>
+              <div class="pm-step-dot" style="background:#E0E6ED;color:#596169;">4</div>
               <div>
-                <div class="pm-step-label" style="color:#637283;">Handover</div>
+                <div class="pm-step-label" style="color:#596169;">Handover</div>
                 <div class="pm-step-sub">Transfer rego &amp; get paid</div>
               </div>
             </div>
@@ -1027,7 +1017,7 @@
       <div class="vp-grid">
         <div class="vp-card">
           <div class="vp-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#EBF4FF"/><path d="M7 11l3 3 5-5" stroke="#0067CC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2C6.03 2 2 6.03 2 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#EBF4FF"/><path d="M7 11l3 3 5-5" stroke="#0073E3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <h3>Buying a car?</h3>
           <ul class="vp-list">
@@ -1055,7 +1045,7 @@
         </div>
         <div class="vp-card">
           <div class="vp-icon seller">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="6" width="16" height="12" rx="2" fill="#FFF3E0"/><path d="M7 11h8M7 14h5" stroke="#FF8C42" stroke-width="1.5" stroke-linecap="round"/><path d="M7 6V5a2 2 0 012-2h6a2 2 0 012 2v1" stroke="#FF8C42" stroke-width="1.5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="6" width="16" height="12" rx="2" fill="#FFF3E0"/><path d="M7 11h8M7 14h5" stroke="var(--tomato)" stroke-width="1.5" stroke-linecap="round"/><path d="M7 6V5a2 2 0 012-2h6a2 2 0 012 2v1" stroke="var(--tomato)" stroke-width="1.5"/></svg>
           </div>
           <h3>Selling a car?</h3>
           <ul class="vp-list">
@@ -1177,13 +1167,13 @@
         <div class="testi-card">
           <p class="testi-quote">Found the car on Facebook but used carsales to handle the deal. Couldn't have been easier - everything just happened in order and I never had to worry about the money.</p>
           <div class="testi-author">
-            <div class="testi-avatar" style="background:#0067CC;">D</div>
+            <div class="testi-avatar" style="background:#0073E3;">D</div>
             <div>
               <div class="testi-name">Debbie</div>
               <div class="testi-meta">
                 Buyer, Melbourne
                 <span class="verified-badge">
-                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0067CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0073E3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Verified
                 </span>
               </div>
@@ -1193,13 +1183,13 @@
         <div class="testi-card">
           <p class="testi-quote">The buyer sent me a deal link. Money was sitting there before I handed over the keys - instant transfer. Never going back to BSB and account number.</p>
           <div class="testi-author">
-            <div class="testi-avatar" style="background:#FF8C42;">P</div>
+            <div class="testi-avatar" style="background:var(--tomato);">P</div>
             <div>
               <div class="testi-name">Peter</div>
               <div class="testi-meta">
                 Seller, Brisbane
                 <span class="verified-badge">
-                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0067CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0073E3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Verified
                 </span>
               </div>
@@ -1215,7 +1205,7 @@
               <div class="testi-meta">
                 Buyer, Sydney
                 <span class="verified-badge">
-                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0067CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5l2 2 3.5-3" stroke="#0073E3" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Verified
                 </span>
               </div>
@@ -1236,7 +1226,7 @@
       <div class="bottom-cta-input">
         <div class="bottom-url-wrap">
           <div class="url-icon">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5a4.5 4.5 0 006.364 0l2.25-2.25a4.5 4.5 0 00-6.364-6.364l-1.125 1.125" stroke="#637283" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 7.5a4.5 4.5 0 00-6.364 0L1.886 9.75a4.5 4.5 0 006.364 6.364l1.125-1.125" stroke="#637283" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5a4.5 4.5 0 006.364 0l2.25-2.25a4.5 4.5 0 00-6.364-6.364l-1.125 1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/><path d="M10.5 7.5a4.5 4.5 0 00-6.364 0L1.886 9.75a4.5 4.5 0 006.364 6.364l1.125-1.125" stroke="#596169" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
           <input type="url" id="listing-url-2" placeholder="Paste any listing URL to get started" autocomplete="off" spellcheck="false">
           <button class="btn btn-primary" onclick="handleUrl2()">Start your deal &rarr;</button>
@@ -1288,7 +1278,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      &copy; 2026 carsales.com Ltd. Buy through carsales is a concept prototype for research purposes only. Not a live product or service.
+      &copy; 2026 carsales.com Ltd. All rights reserved. Terms of service and privacy policy apply.
     </div>
   </footer>
 
